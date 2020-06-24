@@ -1,0 +1,59 @@
+header {
+  background-color: white;
+  border-bottom: 1px solid #f4f4f4;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 15px;
+}
+header #logo {
+  width: 35px;
+  height: 35px;
+}
+header #catalog_bar {
+  display: inline-flex;
+  align-items: center;
+}
+header #catalog_bar img {
+  width: 17px;
+  height: 17px;
+}
+header #catalog_bar span {
+  margin-left: 5px;
+  color: #e60000;
+  font-family: text;
+}
+header #search_icon {
+  width: 30px;
+  height: 30px;
+}
+header #menu_icon {
+  width: 21px;
+  height: 21px;
+}
+header #catalog_bar,
+header #menu_icon {
+  margin-left: 15px;
+}
+
+@media (min-width: 425px) {
+  header {
+    padding: 0 27px;
+  }
+  header #catalog_bar,
+header #menu_icon {
+    margin-left: 20px;
+  }
+}
+@media (min-width: 768px) {
+  header {
+    padding: 0 45px;
+  }
+  header #catalog_bar,
+header #menu_icon {
+    margin-left: 30px;
+  }
+}
+
+/*# sourceMappingURL=header.css.map */

@@ -1,0 +1,17 @@
+$white: white;
+$red: #e60000;
+$grey: #4a4d4e;
+$light_grey: #f4f4f4;
+$text_grey: #333;
+$text_light_grey: #999;
+$window_bg: #0a0a0aa1;
+
+@mixin font($font) {
+  font-family: $font, Arial, Helvetica, sans-serif;
+}
+
+@mixin bg {
+  background-position: 50%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
