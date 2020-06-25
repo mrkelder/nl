@@ -4,8 +4,48 @@ body {
   overflow-x: hidden;
 }
 
+h1, h2, h3, h4, h5, h6, span, p, a {
+  color: #333;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "header", Arial, Helvetica, sans-serif;
+}
+
+span, p, a {
+  font-family: "text", Arial, Helvetica, sans-serif;
+}
+
+.greyBG {
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-color: #0a0a0aa1;
+  top: 0;
+  left: 0;
+}
+
 button {
   outline: none;
+}
+
+.closeBtn {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  border: none;
+  background-image: url("../img/cross.svg");
+  background-color: transparent;
+  background-position: 50%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+hr {
+  margin: 0;
+  border-color: #f4f4f4;
 }
 
 @font-face {

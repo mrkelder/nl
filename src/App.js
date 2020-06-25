@@ -1,4 +1,4 @@
-import React, {  useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './pages/Main'
@@ -28,12 +28,30 @@ function App() {
       localStorage.setItem('lang', 'ua');
     }
     setLang(localStorage.getItem('lang'));
-  } , []);
+    document.getElementsByTagName('html')[0].setAttribute('lang', localStorage.getItem('lang'));
+  }, []);
+
+  const changeLang = () => {
+    if (['ua', 'ru'].includes(lang)) {
+      if (lang === 'ua') {
+        setLang('ru');
+        document.getElementsByTagName('html')[0].setAttribute('lang', 'ru');
+        localStorage.setItem('lang' , 'ru');
+      }
+      else {
+        setLang('ua');
+        document.getElementsByTagName('html')[0].setAttribute('lang', 'ua');
+        localStorage.setItem('lang' , 'ua');
+      }
+
+    }
+  };
 
   return (
     <div className="App">
       <Info.Provider value={{
-        lang
+        lang,
+        changeLang
       }}>
         <CSS.Provider value={{
           colors,

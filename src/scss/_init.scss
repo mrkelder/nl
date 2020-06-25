@@ -15,3 +15,13 @@ $window_bg: #0a0a0aa1;
   background-size: contain;
   background-repeat: no-repeat;
 }
+
+@mixin crossBtn {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  border: none;
+  background-image: url("../img/cross.svg");
+  background-color: transparent;
+  @include bg;
+}

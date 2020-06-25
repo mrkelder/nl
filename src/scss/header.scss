@@ -1,6 +1,7 @@
 @import "init";
 
 header {
+  position: relative;
   background-color: $white;
   border-bottom: 1px solid $light_grey;
   height: 58px;
@@ -36,6 +37,134 @@ header {
   #catalog_bar,
   #menu_icon {
     margin-left: 15px;
+  }
+}
+#menu {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 10px 0;
+  position: absolute;
+  width: 95vw;
+  height: 100vh;
+  background-color: $white;
+  right: 0;
+  top: 0;
+  section {
+    padding: 0 8px;
+  }
+  #sec1 {
+    margin: 15px 0;
+    display: flex;
+    #user {
+      display: flex;
+      align-items: center;
+      img {
+        width: 35px;
+        height: 35px;
+      }
+      span {
+        margin-left: 5px;
+      }
+    }
+    button {
+      margin-left: auto;
+      margin-right: 0;
+      width: 30px;
+      height: 30px;
+    }
+  }
+  #sec2 {
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    #location {
+      flex: 1;
+      display: flex;
+      padding: 0 15px;
+      align-items: center;
+      span {
+        margin-left: 5px;
+      }
+      img {
+        width: 15px;
+        height: 15px;
+      }
+    }
+    #divider {
+      width: 1px;
+      background-color: $grey;
+    }
+    #lang {
+      position: relative;
+      flex: 1;
+      display: flex;
+      padding: 0 15px;
+      align-items: center;
+      justify-content: space-between;
+      img {
+        width: 15px;
+        height: 15px;
+      }
+      #langWindow {
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+        width: 100%;
+        box-sizing: border-box;
+        height: 68px;
+        position: absolute;
+        background-color: white;
+        top: 37px;
+        left: 0;
+        box-shadow: 0 3px 4px 1px #d6d6d6;
+      }
+    }
+  }
+  #sec3 {
+    .menu_link {
+      margin: 20px 0;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      img {
+        width: 25px;
+        height: 25px;
+      }
+      span {
+        margin-left: 5px;
+      }
+    }
+  }
+  #sec4 {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 50px;
+    background-color: $light_grey;
+    border: 0.5px solid $grey;
+    box-sizing: border-box;
+    border-left: none;
+    border-right: none;
+    a {
+      margin: 8px 0;
+    }
+  }
+  #sec5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    box-sizing: border-box;
+    display: flex;
+    margin: auto 0 0;
+    img {
+      width: 25px;
+      height: 25px;
+    }
+    .phone_number {
+      margin-left: 10px;
+    }
+    .callback {
+      color: $red;
+    }
   }
 }
 
