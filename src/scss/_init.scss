@@ -25,3 +25,11 @@ $window_bg: #0a0a0aa1;
   background-color: transparent;
   @include bg;
 }
+
+@mixin input {
+  border: none;
+  outline: none;
+  @include font("text");
+  font-size: 0.9rem;
+  color: $text_grey;
+}

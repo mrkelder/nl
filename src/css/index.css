@@ -4,16 +4,31 @@ body {
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6, span, p, a {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+p,
+a {
   color: #333;
   text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: "header", Arial, Helvetica, sans-serif;
 }
 
-span, p, a {
+span,
+p,
+a {
   font-family: "text", Arial, Helvetica, sans-serif;
 }
 
@@ -27,8 +42,41 @@ span, p, a {
   left: 0;
 }
 
+.underlinedInput {
+  display: flex;
+  flex-direction: column;
+}
+.underlinedInput input {
+  height: 30px;
+  border: none;
+  outline: none;
+  font-family: "text", Arial, Helvetica, sans-serif;
+  font-size: 0.9rem;
+  color: #333;
+  border-bottom: 2px solid #999;
+}
+.underlinedInput input::placeholder {
+  font-family: "text", Arial, Helvetica, sans-serif;
+  font-size: 0.9rem;
+}
+.underlinedInput span {
+  font-family: "header", Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  color: #333;
+}
+
 button {
   outline: none;
+}
+
+.redBtn {
+  cursor: pointer;
+  border: none;
+  background-color: #e60000;
+  font-family: "text", Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  color: white;
+  padding: 10px;
 }
 
 .closeBtn {
@@ -69,7 +117,7 @@ hr {
   /* Internet Explorer/Edge */
   user-select: none;
   /* Non-prefixed version, currently
-     supported by Chrome, Edge, Opera and Firefox */
+               supported by Chrome, Edge, Opera and Firefox */
 }
 
 /*# sourceMappingURL=index.css.map */

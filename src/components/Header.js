@@ -1,6 +1,7 @@
 import React, { useContext, Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
 import GreyBG from './GreyBG'
+import CallBack from './CallBack'
 import catalog from '../img/catalog.svg'
 import logo from '../img/logo.svg'
 import search from '../img/search.svg'
@@ -19,13 +20,19 @@ import '../css/header.css'
 
 const Header = () => {
   const infoContext = useContext(info);
-  const [isMenuOpen, setMenuOpen] = useState(true);
+  const [isMenuOpen, setMenuOpen] = useState(false);
   const [isLangOpen, setLangOpen] = useState(false);
+  const [isCallBackOpen, setCallBackOpen] = useState(false);
   const { lang, changeLang } = infoContext;
 
   const links = [{ name: { ua: 'На головну', ru: 'На главную' }, img: house, link: '/' }, { name: { ua: 'Порівняння товарів', ru: 'Сравнение товаров' }, img: scales, link: '/' }, { name: { ua: 'Обране', ru: 'Избранное' }, img: favorite, link: '/' }, { name: { ua: 'Кошик', ru: 'Карзина' }, img: bin, link: '/' },];
   const grey_links = [{ name: { ua: 'Доставка та оплата', ru: 'Доставка и оплата' }, link: '/' }, { name: { ua: 'Гарантія', ru: 'Гарантия' }, link: '/' }, { name: { ua: 'Акції', ru: 'Акции' }, link: '/' }, { name: { ua: 'Магазини', ru: 'Магазины' }, link: '/' }];
 
+
+  const openCallBack = () => {
+    setMenuOpen(false);
+    setCallBackOpen(true);
+  };
 
   const openMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -90,7 +97,7 @@ const Header = () => {
                   </Link>)
               }
             </section>
-            <section id="sec5">
+            <section id="sec5" onClick={openCallBack}>
               <img src={helper} alt="callcenter" />
               <span className="phone_number">0 800 40 40 40</span>
               <div style={{ flex: 1 }} />
@@ -99,6 +106,7 @@ const Header = () => {
           </nav>
         </GreyBG>
       }
+      {isCallBackOpen && <CallBack close={setCallBackOpen} input={{ placeholder: '+38(0XX) XXX-XX-XX', text: "Номер телефона" }} />}
     </Fragment>
   );
 }

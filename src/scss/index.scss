@@ -1,4 +1,4 @@
-@import 'init';
+@import "init";
 
 body {
   margin: 0;
@@ -6,20 +6,35 @@ body {
   overflow-x: hidden;
 }
 
-h1 , h2 , h3 , h4 ,h5 , h6 , span , p ,a {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+p,
+a {
   color: $text_grey;
   text-decoration: none;
 }
 
-h1 , h2 , h3 , h4 ,h5 , h6 {
-  @include font('header');
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @include font("header");
 }
 
-span , p , a{
-  @include font('text');
+span,
+p,
+a {
+  @include font("text");
 }
 
-.greyBG{
+.greyBG {
   z-index: 100;
   width: 100vw;
   height: 100vh;
@@ -29,35 +44,64 @@ span , p , a{
   left: 0;
 }
 
+.underlinedInput {
+  display: flex;
+  flex-direction: column;
+  input {
+    height: 30px;
+    @include input;
+    border-bottom: 2px solid $text_light_grey;
+    &::placeholder {
+      @include font("text");
+      font-size: 0.9rem;
+    }
+  }
+  span {
+    @include font("header");
+    font-size: 0.8rem;
+    color: $text_grey;
+  }
+}
+
 button {
   outline: none;
 }
 
-.closeBtn{
+.redBtn {
+  cursor: pointer;
+  border: none;
+  background-color: $red;
+  @include font("text");
+  font-size: 1rem;
+  color: $white;
+  padding: 10px;
+}
+
+.closeBtn {
   @include crossBtn;
 }
 
-hr{
+hr {
   margin: 0;
   border-color: $light_grey;
 }
 
 @font-face {
-  font-family: 'header';
-  src: url('../fonts/Manrope-ExtraBold.ttf');
+  font-family: "header";
+  src: url("../fonts/Manrope-ExtraBold.ttf");
 }
 
 @font-face {
-  font-family: 'text';
-  src: url('../fonts/Manrope-Regular.ttf');
+  font-family: "text";
+  src: url("../fonts/Manrope-Regular.ttf");
 }
 
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }

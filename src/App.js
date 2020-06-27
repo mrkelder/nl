@@ -36,12 +36,12 @@ function App() {
       if (lang === 'ua') {
         setLang('ru');
         document.getElementsByTagName('html')[0].setAttribute('lang', 'ru');
-        localStorage.setItem('lang' , 'ru');
+        localStorage.setItem('lang', 'ru');
       }
       else {
         setLang('ua');
         document.getElementsByTagName('html')[0].setAttribute('lang', 'ua');
-        localStorage.setItem('lang' , 'ua');
+        localStorage.setItem('lang', 'ua');
       }
 
     }
