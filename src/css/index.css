@@ -84,7 +84,6 @@ button {
   width: 25px;
   height: 25px;
   border: none;
-  background-image: url("../img/cross.svg");
   background-color: transparent;
   background-position: 50%;
   background-size: contain;
