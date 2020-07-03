@@ -63,6 +63,11 @@ a {
   }
 }
 
+.search_icon , .search_clean {
+  width: 30px;
+  height: 30px;
+}
+
 button {
   outline: none;
 }
@@ -75,6 +80,11 @@ button {
   font-size: 1rem;
   color: $white;
   padding: 10px;
+}
+
+.divider {
+  width: 1px;
+  background-color: $grey;
 }
 
 .closeBtn {

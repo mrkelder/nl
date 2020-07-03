@@ -26,10 +26,6 @@ header {
       font-family: text;
     }
   }
-  #search_icon {
-    width: 30px;
-    height: 30px;
-  }
   #menu_icon {
     width: 21px;
     height: 21px;
@@ -93,10 +89,6 @@ header {
         width: 15px;
         height: 15px;
       }
-    }
-    #divider {
-      width: 1px;
-      background-color: $grey;
     }
     #lang {
       position: relative;
@@ -231,6 +223,27 @@ header {
         background-color: transparent;
       }
     }
+  }
+}
+
+#search {
+  height: 60px;
+  align-items: center;
+  display: flex;
+  box-sizing: border-box;
+  padding: 10px 5px;
+  width: 100vw;
+  background-color: $white;
+  .underlinedInput {
+    flex: 1;
+  }
+  .divider {
+    height: 30px;
+  }
+  img {
+    width: 27px;
+    height: 27px;
+    margin: 0 8px;
   }
 }
 

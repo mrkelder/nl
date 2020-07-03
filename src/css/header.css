@@ -25,10 +25,6 @@ header #catalog_bar span {
   color: #e60000;
   font-family: text;
 }
-header #search_icon {
-  width: 30px;
-  height: 30px;
-}
 header #menu_icon {
   width: 21px;
   height: 21px;
@@ -95,10 +91,6 @@ header #menu_icon {
 #menu #sec2 #location img {
   width: 15px;
   height: 15px;
-}
-#menu #sec2 #divider {
-  width: 1px;
-  background-color: #4a4d4e;
 }
 #menu #sec2 #lang {
   position: relative;
@@ -229,6 +221,27 @@ header #menu_icon {
   border-bottom: 1px solid #4a4d4e;
   min-height: 50px;
   background-color: transparent;
+}
+
+#search {
+  height: 60px;
+  align-items: center;
+  display: flex;
+  box-sizing: border-box;
+  padding: 10px 5px;
+  width: 100vw;
+  background-color: white;
+}
+#search .underlinedInput {
+  flex: 1;
+}
+#search .divider {
+  height: 30px;
+}
+#search img {
+  width: 27px;
+  height: 27px;
+  margin: 0 8px;
 }
 
 @media (min-width: 425px) {

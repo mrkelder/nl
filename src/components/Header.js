@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import GreyBG from './GreyBG'
 import CloseBtn from './CloseBtn'
 import CallBack from './CallBack'
+import Input from './Input'
+
 import catalogIcon from '../img/catalog.svg'
 import logo from '../img/logo.svg'
 import search from '../img/search.svg'
@@ -16,6 +18,8 @@ import geo_sign from '../img/location.png'
 import arrow_sign_white from '../img/arrow_w.png'
 import arrow_sign from '../img/arrow.png'
 import helper from '../img/helper.png'
+import cross_red from '../img/crossRed.svg'
+
 import { info } from '../context'
 import '../css/header.css'
 import axios from 'axios'
@@ -27,6 +31,8 @@ const Header = () => {
   const [isCatalogOpen, setCatalogOpen] = useState(false);
   const [isLangOpen, setLangOpen] = useState(false);
   const [isCallBackOpen, setCallBackOpen] = useState(false);
+  const [isSearchOpen, setSearchOpen] = useState(false);
+  const [searchText, setSearchText] = useState('');
   const [catalog, setCatalog] = useState([]);
   const [subItems, setSubItems] = useState([]);
   const [subItemsName, setSubItemsName] = useState('none');
@@ -60,6 +66,10 @@ const Header = () => {
     setCatalogOpen(!isCatalogOpen);
   };
 
+  const changeSearchText = e => {
+    setSearchText(e);
+  };
+
   const openSubItems = e => {
     const id = e.target.getAttribute('data-id');
     const currentSubItems = catalog[catalog.findIndex(i => id === i._id)];
@@ -77,6 +87,19 @@ const Header = () => {
     closeSubItems();
   };
 
+  const openSearch = e => {
+    if (isSearchOpen) {
+      if (e.target.getAttribute('class') === 'greyBG')
+        setSearchOpen(false);
+    }
+    else {
+      setSearchOpen(true);
+    }
+  };
+
+  const SearchIcon = props => <img src={search} alt="search" className="search_icon" onClick={props.click} />;
+  const CleanSearch = () => <img src={cross_red} alt="clean_search" className="search_clean" onClick={() => { setSearchText(''); }} />;
+
   return (
     <Fragment>
       <header>
@@ -86,9 +109,24 @@ const Header = () => {
           <span className="noselect">{lang === 'ua' ? 'Каталог товарів' : 'Каталог товаров'}</span>
         </div>
         <div style={{ flex: 1 }} />
-        <img src={search} alt="search" id="search_icon" />
+        <SearchIcon click={openSearch} />
         <img src={menu} alt="menu" id="menu_icon" onClick={openMenu} />
       </header>
+      {isSearchOpen &&
+        <GreyBG click={openSearch}>
+          <div id="search">
+            <Input
+              placeholder={lang === 'ua' ? 'Введіть свій запит' : 'Введите свой запрос'}
+              value={searchText}
+              input={changeSearchText}
+              color="transparent"
+            />
+            <CleanSearch />
+            <div className="divider" />
+            <SearchIcon />
+          </div>
+        </GreyBG>
+      }
       {isCatalogOpen &&
         <GreyBG>
           <div id="catalog">
@@ -144,7 +182,7 @@ const Header = () => {
                 <img src={geo_sign} alt="geo_sign" />
                 <span>{lang === 'ua' ? 'Київ' : 'Киев'}</span>
               </div>
-              <div id="divider" />
+              <div className="divider" />
               <div id="lang" onClick={() => setLangOpen(!isLangOpen)}>
                 <span>{lang === 'ua' ? 'UA' : 'RU'}</span>
                 <img src={arrow_sign} alt="arrow_sign" />

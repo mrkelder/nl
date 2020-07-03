@@ -65,6 +65,11 @@ a {
   color: #333;
 }
 
+.search_icon, .search_clean {
+  width: 30px;
+  height: 30px;
+}
+
 button {
   outline: none;
 }
@@ -77,6 +82,11 @@ button {
   font-size: 1rem;
   color: white;
   padding: 10px;
+}
+
+.divider {
+  width: 1px;
+  background-color: #4a4d4e;
 }
 
 .closeBtn {
