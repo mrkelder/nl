@@ -15,7 +15,6 @@ import house from '../img/house.png'
 import favorite from '../img/favorite.png'
 import scales from '../img/scales.png'
 import geo_sign from '../img/location.png'
-import arrow_sign_white from '../img/arrow_w.png'
 import arrow_sign from '../img/arrow.png'
 import helper from '../img/helper.png'
 import cross_red from '../img/crossRed.svg'
@@ -32,6 +31,8 @@ const Header = () => {
   const [isLangOpen, setLangOpen] = useState(false);
   const [isCallBackOpen, setCallBackOpen] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
+  const [isCatalogUploaded, setCatalogUploaded] = useState(false);
+  const [catalogHasProblem, setCatalogHasProblem] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [catalog, setCatalog] = useState([]);
   const [subItems, setSubItems] = useState([]);
@@ -43,15 +44,23 @@ const Header = () => {
   const grey_links = [{ name: { ua: 'Доставка та оплата', ru: 'Доставка и оплата' }, link: '/' }, { name: { ua: 'Гарантія', ru: 'Гарантия' }, link: '/' }, { name: { ua: 'Акції', ru: 'Акции' }, link: '/' }, { name: { ua: 'Магазини', ru: 'Магазины' }, link: '/' }];
 
 
-  useEffect(() => {
+  const getCatalog = () => {
+    setCatalogUploaded(false);
+    setCatalogHasProblem(false);
     axios.get('http://localhost:8080/getCatalog')
       .then(info => {
         setCatalog(info.data);
       })
       .catch(err => {
-        console.error(err.message)
+        setCatalogHasProblem(true);
+        console.error(err.message);
+      })
+      .finally(() => {
+        setCatalogUploaded(true);
       });
-  }, []);
+  }
+
+  useEffect(getCatalog, []);
 
   const openCallBack = () => {
     setMenuOpen(false);
@@ -135,14 +144,25 @@ const Header = () => {
               <h3>{lang === 'ua' ? 'Каталог товарiв' : 'Каталог товаров'}</h3>
             </section>
             <section id="catalog_items">
-              {
-                catalog.map(i => (
-                  <div className="catalog_item" key={i._id} data-id={i._id} onClick={openSubItems}>
-                    <img src={`http://localhost:8080/${i.img}`} alt="catalog_item" className="itemImg" data-id={i._id} />
-                    <span data-id={i._id}>{i.name[lang]}</span>
-                    <img src={arrow_sign} alt="arrow_sign" className="arrow" data-id={i._id} />
-                  </div>
-                ))
+              {!isCatalogUploaded &&
+                <h3>Загрузка...</h3>
+              }
+              {(catalogHasProblem && isCatalogUploaded) &&
+                <div>
+                  <h3>{lang === 'ua' ? 'Вибачте, ми не змогли завантажити каталог' : 'Простите , мы не смогли загрузить каталог'}</h3>
+                  <button onClick={getCatalog}>{lang === 'ua' ? 'Спробувати знову' : 'Побробовать снова'}</button>
+                </div>
+              }
+              {(catalog.length === 0 && isCatalogUploaded && !catalogHasProblem) &&
+                <h3>{lang === 'ua' ? 'Каталог поки порожній' : 'Каталог пока пуст'}</h3>
+              }
+              {catalog.map(i => (
+                <div className="catalog_item" key={i._id} data-id={i._id} onClick={openSubItems}>
+                  <img src={`http://localhost:8080/${i.img}`} alt="catalog_item" className="itemImg" data-id={i._id} />
+                  <span data-id={i._id}>{i.name[lang]}</span>
+                  <img src={arrow_sign} alt="arrow_sign" className="arrow" data-id={i._id} />
+                </div>
+              ))
               }
             </section>
             <div id="sub_items" style={{

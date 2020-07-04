@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react'
+import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './pages/Main'
@@ -54,9 +54,9 @@ class App extends Component {
     }
   }
 
-  componentDidCatch(err , info) {
+  componentDidCatch(err, info) {
     console.log(err)
-    this.setState({hasError: true})
+    this.setState({ hasError: true })
   }
 
   render() {
