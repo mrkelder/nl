@@ -10,12 +10,15 @@ import logo from '../img/logo.svg'
 import search from '../img/search.svg'
 import menu from '../img/menu.svg'
 import no_account_logo from '../img/user.png'
+import no_account_logo_white from '../img/user_w.png'
 import bin from '../img/bin.png'
 import house from '../img/house.png'
 import favorite from '../img/favorite.png'
 import scales from '../img/scales.png'
 import geo_sign from '../img/location.png'
+import geo_sign_white from '../img/location_w.png'
 import arrow_sign from '../img/arrow.png'
+import arrow_sign_white from '../img/arrow_w.png'
 import helper from '../img/helper.png'
 import cross_red from '../img/crossRed.svg'
 
@@ -27,6 +30,7 @@ import axios from 'axios'
 const Header = () => {
   const infoContext = useContext(info);
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const [resolution, setResolution] = useState(document.getElementsByTagName('body')[0].clientWidth);
   const [isCatalogOpen, setCatalogOpen] = useState(false);
   const [isLangOpen, setLangOpen] = useState(false);
   const [isCallBackOpen, setCallBackOpen] = useState(false);
@@ -43,6 +47,9 @@ const Header = () => {
   const links = [{ name: { ua: 'На головну', ru: 'На главную' }, img: house, link: '/' }, { name: { ua: 'Порівняння товарів', ru: 'Сравнение товаров' }, img: scales, link: '/' }, { name: { ua: 'Обране', ru: 'Избранное' }, img: favorite, link: '/' }, { name: { ua: 'Кошик', ru: 'Карзина' }, img: bin, link: '/' },];
   const grey_links = [{ name: { ua: 'Доставка та оплата', ru: 'Доставка и оплата' }, link: '/' }, { name: { ua: 'Гарантія', ru: 'Гарантия' }, link: '/' }, { name: { ua: 'Акції', ru: 'Акции' }, link: '/' }, { name: { ua: 'Магазини', ru: 'Магазины' }, link: '/' }];
 
+  window.addEventListener('resize', () => {
+    setResolution(document.getElementsByTagName('body')[0].clientWidth);
+  });
 
   const getCatalog = () => {
     setCatalogUploaded(false);
@@ -112,14 +119,52 @@ const Header = () => {
   return (
     <Fragment>
       <header>
-        <Link to="/"><img src={logo} id="logo" alt="logo" /></Link>
-        <div id="catalog_bar" onClick={openCatalog}>
-          <img src={catalogIcon} alt="catalog" />
-          <span className="noselect">{lang === 'ua' ? 'Каталог товарів' : 'Каталог товаров'}</span>
-        </div>
-        <div style={{ flex: 1 }} />
-        <SearchIcon click={openSearch} />
-        <img src={menu} alt="menu" id="menu_icon" onClick={openMenu} />
+        {resolution < 1024 ?
+          <Fragment>
+            <Link to="/"><img src={logo} id="logo" alt="logo" /></Link>
+            <div id="catalog_bar" onClick={openCatalog}>
+              <img src={catalogIcon} alt="catalog" />
+              <span className="noselect">{lang === 'ua' ? 'Каталог товарів' : 'Каталог товаров'}</span>
+            </div>
+            <div style={{ flex: 1 }} />
+            <SearchIcon click={openSearch} />
+            <img src={menu} alt="menu" id="menu_icon" onClick={openMenu} />
+          </Fragment>
+          :
+          <Fragment>
+            <section id="sec1_h">
+              <div>
+                {
+                  grey_links.map((element, index) =>
+                    <Link key={index} to={element.link}>
+                      {element.name[lang]}
+                    </Link>)
+                }
+              </div>
+              <div>
+                <div id="tel_h" onClick={openCallBack}>
+                  <span>0 800 40 40 40</span>
+                  <img src={arrow_sign_white} alt="arrow" className="arrow" />
+                  <div className="sub_window">{lang === 'ua' ? 'Мы передзвоним' : 'Мы перезвоним'}</div>
+                </div>
+                <div id="city_h">
+                  <span>{lang === 'ua' ? 'Київ' : 'Киев'}</span>
+                  <img src={geo_sign_white} alt="location" className="arrow" />
+                </div>
+                <div id="lang_h" onClick={changeLang}>
+                  <span>{lang === 'ua' ? 'Укр' : 'Рус'}</span>
+                  <img src={arrow_sign_white} alt="arrow" className="arrow" />
+                  <div className="sub_window">{lang === 'ua' ? 'Рус' : 'Укр'}</div>
+                </div>
+                <div id="user_h">
+                  <img src={no_account_logo_white} alt="user_logo" className="arrow" />
+                  <span>{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
+                </div>
+              </div>
+            </section>
+          </Fragment>
+        }
+
       </header>
       {isSearchOpen &&
         <GreyBG click={openSearch}>

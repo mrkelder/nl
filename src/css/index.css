@@ -74,6 +74,10 @@ button {
   outline: none;
 }
 
+.arrow {
+  width: 15px;
+}
+
 .redBtn {
   cursor: pointer;
   border: none;

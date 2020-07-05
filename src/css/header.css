@@ -201,7 +201,6 @@ header #menu_icon {
   width: 25px;
 }
 #catalog #catalog_items .catalog_item .arrow {
-  width: 15px;
   transform: rotate(-90deg);
 }
 #catalog #sub_items {
@@ -260,6 +259,97 @@ header #menu_icon {
   header #catalog_bar,
 header #menu_icon {
     margin-left: 30px;
+  }
+}
+@media (min-width: 1024px) {
+  header {
+    padding: 0;
+    border: none;
+    height: auto;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  header section {
+    width: 100%;
+    padding: 3px 27px;
+  }
+  header #sec1_h {
+    display: flex;
+    justify-content: space-between;
+    background-color: #4a4d4e;
+  }
+  header #sec1_h > div {
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+  header #sec1_h * {
+    font-size: 0.9rem;
+    margin: 0 10px;
+    color: white;
+  }
+  header #sec1_h #tel_h .sub_window {
+    width: 117px;
+    left: -13px;
+  }
+  header #sec1_h #lang_h .sub_window {
+    left: -6px;
+  }
+  header #sec1_h #tel_h,
+header #sec1_h #lang_h {
+    position: relative;
+  }
+  header #sec1_h #tel_h:hover .arrow,
+header #sec1_h #lang_h:hover .arrow {
+    transform: rotate(0);
+  }
+  header #sec1_h #tel_h:hover .sub_window,
+header #sec1_h #lang_h:hover .sub_window {
+    display: block;
+  }
+  header #sec1_h #tel_h .arrow,
+header #sec1_h #lang_h .arrow {
+    width: 8px;
+    transform: rotate(180deg);
+  }
+  header #sec1_h #tel_h .sub_window,
+header #sec1_h #lang_h .sub_window {
+    display: none;
+    font-family: "text", Arial, Helvetica, sans-serif;
+    background-color: #4a4d4e;
+    padding: 3px 10px;
+    position: absolute;
+    opacity: 0.9;
+    top: 21px;
+  }
+  header #sec1_h #tel_h,
+header #sec1_h #city_h,
+header #sec1_h #lang_h {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  header #sec1_h #tel_h span,
+header #sec1_h #city_h span,
+header #sec1_h #lang_h span {
+    margin-right: 5px;
+  }
+  header #sec1_h #tel_h .arrow,
+header #sec1_h #city_h .arrow,
+header #sec1_h #lang_h .arrow {
+    margin: 0;
+  }
+  header #sec1_h #user_h {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  header #sec1_h #user_h span {
+    margin-left: 5px;
+  }
+  header #sec1_h #user_h .arrow {
+    width: 17px;
+    margin: 0;
   }
 }
 
