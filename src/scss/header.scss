@@ -268,92 +268,163 @@ header {
 
 @media (min-width: 1024px) {
   header {
+    flex-direction: column;
     padding: 0;
     border: none;
     height: auto;
     align-items: flex-start;
     justify-content: flex-start;
     section {
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
       width: 100%;
-      padding: 3px 27px;
+      padding: 0 27px;
     }
     #sec1_h {
-      display: flex;
-      justify-content: space-between;
+      width: 100%;
       background-color: $grey;
-      > {
-        div {
+      padding-top: 5px;
+      padding-bottom: 3px;
+      #sec1_h_wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        > {
+          div {
+            display: flex;
+            align-items: center;
+            margin: 0;
+          }
+        }
+        * {
+          font-size: 0.8rem;
+          margin: 0 10px;
+          color: $white;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+        #tel_h {
+          .sub_window {
+            left: -13px;
+            width: 104px;
+            z-index: 50;
+          }
+        }
+        #lang_h {
+          .sub_window {
+            left: -6px;
+            z-index: 50;
+          }
+        }
+        #tel_h,
+        #lang_h {
+          position: relative;
+          &:hover .arrow {
+            transform: rotate(0);
+          }
+          &:hover .sub_window {
+            display: block;
+          }
+          .arrow {
+            width: 8px;
+            transform: rotate(180deg);
+          }
+          .sub_window {
+            display: none;
+            @include font("text");
+            background-color: $grey;
+            padding: 3px 10px;
+            position: absolute;
+            opacity: 0.9;
+            top: 19px;
+          }
+        }
+        #tel_h,
+        #city_h,
+        #lang_h {
           display: flex;
           align-items: center;
-          margin: 0;
+          cursor: pointer;
+          span {
+            margin-right: 5px;
+          }
+          .arrow {
+            margin: 0;
+          }
+        }
+        #user_h {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          span {
+            margin-left: 5px;
+          }
+          .arrow {
+            width: 17px;
+            margin: 0;
+          }
         }
       }
-      * {
-        font-size: 0.9rem;
-        margin: 0 10px;
-        color: $white;
-      }
-
-      #tel_h {
-        .sub_window {
-          width: 117px;
-          left: -13px;
-        }
-      }
-
-      #lang_h {
-        .sub_window {
-          left: -6px;
-        }
-      }
-
-      #tel_h,
-      #lang_h {
-        position: relative;
-        &:hover .arrow {
-          transform: rotate(0);
-        }
-        &:hover .sub_window {
-          display: block;
-        }
-        .arrow {
-          width: 8px;
-          transform: rotate(180deg);
-        }
-        .sub_window {
-          display: none;
-          @include font("text");
-          background-color: $grey;
-          padding: 3px 10px;
-          position: absolute;
-          opacity: 0.9;
-          top: 21px;
-        }
-      }
-      #tel_h,
-      #city_h,
-      #lang_h {
+    }
+    #sec2_h {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      #sec2_h_wrapper {
         display: flex;
         align-items: center;
-        cursor: pointer;
-        span {
-          margin-right: 5px;
+        box-sizing: border-box;
+        width: 100%;
+        #logo {
+          cursor: pointer;
+          width: 40px;
+          height: 40px;
         }
-        .arrow {
-          margin: 0;
+        .catalog {
+          margin: 0 0 0 15px;
+          font-size: 1.4rem;
+          cursor: pointer;
+        }
+        .underlinedInput {
+          flex: 1;
+          margin: 0 25px;
+        }
+        .search_icon,
+        .search_clean {
+          width: 20px;
+          height: 20px;
+        }
+        .menu_icon {
+          cursor: pointer;
+          margin: 0 15px;
+          width: 35px;
+          height: 35px;
         }
       }
-
-      #user_h {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        span {
-          margin-left: 5px;
+    }
+  }
+}
+@media (min-width: 1024px) {
+  header {
+    #sec1_h {
+      #sec1_h_wrapper {
+        margin: 0 auto;
+        width: 1386px;
+      }
+    }
+    #sec2_h {
+      #sec2_h_wrapper {
+        margin: 0 auto;
+        width: 1386px;
+        .catalog {
+          margin-left: 25px;
         }
-        .arrow {
-          width: 17px;
-          margin: 0;
+        .underlinedInput {
+          margin: 0 45px;
+        }
+        .menu_icon {
+          margin: 0 25px;
         }
       }
     }

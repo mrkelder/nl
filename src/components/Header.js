@@ -20,7 +20,6 @@ import geo_sign_white from '../img/location_w.png'
 import arrow_sign from '../img/arrow.png'
 import arrow_sign_white from '../img/arrow_w.png'
 import helper from '../img/helper.png'
-import cross_red from '../img/crossRed.svg'
 
 import { info } from '../context'
 import '../css/header.css'
@@ -114,7 +113,7 @@ const Header = () => {
   };
 
   const SearchIcon = props => <img src={search} alt="search" className="search_icon" onClick={props.click} />;
-  const CleanSearch = () => <img src={cross_red} alt="clean_search" className="search_clean" onClick={() => { setSearchText(''); }} />;
+  const MenuIcon = props => <img alt="menu_icon" src={props.img} className="menu_icon" />;
 
   return (
     <Fragment>
@@ -133,39 +132,56 @@ const Header = () => {
           :
           <Fragment>
             <section id="sec1_h">
-              <div>
-                {
-                  grey_links.map((element, index) =>
-                    <Link key={index} to={element.link}>
-                      {element.name[lang]}
-                    </Link>)
-                }
+              <div id="sec1_h_wrapper">
+                <div>
+                  {
+                    grey_links.map((element, index) =>
+                      <Link key={index} to={element.link}>
+                        {element.name[lang]}
+                      </Link>)
+                  }
+                </div>
+                <div>
+                  <div id="tel_h" onClick={openCallBack}>
+                    <span className="noselect">0 800 40 40 40</span>
+                    <img src={arrow_sign_white} alt="arrow" className="arrow" />
+                    <div className="sub_window">{lang === 'ua' ? 'Мы передзвоним' : 'Мы перезвоним'}</div>
+                  </div>
+                  <div id="city_h">
+                    <span className="noselect">{lang === 'ua' ? 'Київ' : 'Киев'}</span>
+                    <img src={geo_sign_white} alt="location" className="arrow" />
+                  </div>
+                  <div id="lang_h" onClick={changeLang}>
+                    <span className="noselect">{lang === 'ua' ? 'Укр' : 'Рус'}</span>
+                    <img src={arrow_sign_white} alt="arrow" className="arrow" />
+                    <div className="sub_window">{lang === 'ua' ? 'Рус' : 'Укр'}</div>
+                  </div>
+                  <div id="user_h">
+                    <img src={no_account_logo_white} alt="user_logo" className="arrow" />
+                    <span className="noselect">{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
+                  </div>
+                </div>
               </div>
-              <div>
-                <div id="tel_h" onClick={openCallBack}>
-                  <span>0 800 40 40 40</span>
-                  <img src={arrow_sign_white} alt="arrow" className="arrow" />
-                  <div className="sub_window">{lang === 'ua' ? 'Мы передзвоним' : 'Мы перезвоним'}</div>
-                </div>
-                <div id="city_h">
-                  <span>{lang === 'ua' ? 'Київ' : 'Киев'}</span>
-                  <img src={geo_sign_white} alt="location" className="arrow" />
-                </div>
-                <div id="lang_h" onClick={changeLang}>
-                  <span>{lang === 'ua' ? 'Укр' : 'Рус'}</span>
-                  <img src={arrow_sign_white} alt="arrow" className="arrow" />
-                  <div className="sub_window">{lang === 'ua' ? 'Рус' : 'Укр'}</div>
-                </div>
-                <div id="user_h">
-                  <img src={no_account_logo_white} alt="user_logo" className="arrow" />
-                  <span>{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
-                </div>
+            </section>
+            <section id="sec2_h">
+              <div id="sec2_h_wrapper">
+                <Link to="/"><img src={logo} id="logo" alt="logo" /></Link>
+                <p className="noselect catalog">{lang === 'ua' ? 'Каталог товарів' : 'Каталог товаров'}</p>
+                <Input
+                  placeholder={lang === 'ua' ? 'Введіть свій запит' : 'Введите свой запрос'}
+                  value={searchText}
+                  input={changeSearchText}
+                  isSearch
+                />
+                <MenuIcon img={scales} />
+                <MenuIcon img={favorite} />
+                <MenuIcon img={bin} />
               </div>
             </section>
           </Fragment>
         }
-
       </header>
+
       {isSearchOpen &&
         <GreyBG click={openSearch}>
           <div id="search">
@@ -174,10 +190,8 @@ const Header = () => {
               value={searchText}
               input={changeSearchText}
               color="transparent"
+              isSearch
             />
-            <CleanSearch />
-            <div className="divider" />
-            <SearchIcon />
           </div>
         </GreyBG>
       }

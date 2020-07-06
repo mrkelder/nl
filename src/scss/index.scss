@@ -45,25 +45,46 @@ a {
 }
 
 .underlinedInput {
+  position: relative;
   display: flex;
   flex-direction: column;
-  input {
-    height: 30px;
-    @include input;
-    border-bottom: 2px solid $text_light_grey;
-    &::placeholder {
-      @include font("text");
-      font-size: 0.9rem;
-    }
-  }
   span {
     @include font("header");
     font-size: 0.8rem;
     color: $text_grey;
   }
+  .search_inp {
+    display: flex;
+    input {
+      width: 100%;
+      height: 30px;
+      @include input;
+      border-bottom: 2px solid $text_light_grey;
+      &::placeholder {
+        @include font("text");
+        font-size: 0.9rem;
+      }
+    }
+    .search_panel {
+      display: flex;
+      border-bottom: 2px solid $text_light_grey;
+      align-items: center;
+      .search_icon {
+        cursor: pointer;
+      }
+      .divider {
+        margin: 0 5px;
+        height: 15px;
+      }
+      .search_clean {
+        cursor: pointer;
+      }
+    }
+  }
 }
 
-.search_icon , .search_clean {
+.search_icon,
+.search_clean {
   width: 30px;
   height: 30px;
 }
@@ -72,7 +93,7 @@ button {
   outline: none;
 }
 
-.arrow{
+.arrow {
   width: 15px;
 }
 
