@@ -382,9 +382,73 @@ header {
           height: 40px;
         }
         .catalog {
-          margin: 0 0 0 15px;
-          font-size: 1.4rem;
-          cursor: pointer;
+          position: relative;
+          p {
+            margin: 0 0 0 15px;
+            font-size: 1.4rem;
+            cursor: pointer;
+          }
+          #catalog {
+            display: flex;
+            flex-direction: row;
+            border: 1px solid $grey;
+            width: auto;
+            height: auto;
+            top: 45px;
+            left: 17px;
+            position: absolute;
+            #catalog_menu {
+              background-color: $white;
+              min-width: 200px;
+              .catalog_item {
+                cursor: pointer;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border: none;
+                min-height: 45px;
+                background-color: transparent;
+                .itemImg {
+                  width: 24px;
+                }
+                span {
+                  text-align: center;
+                  font-size: 0.8rem;
+                }
+                .arrow {
+                  transform: rotate(-90deg);
+                }
+                .itemImg,
+                .arrow {
+                  margin: 0 10px;
+                }
+              }
+            }
+            #catalog_items {
+              display: grid;
+              grid-template-columns: repeat(3 , 1fr);
+              grid-gap: 5px;
+              max-height: 38vh;
+              overflow-y: auto;
+              box-sizing: border-box;
+              padding: 10px 25px;
+              max-width: 800px;
+              width: 60vw;
+              background-color: $light_grey;
+              .items_wrapper {
+                display: flex;
+                flex-direction: column;
+                h3{
+                  font-size: 1rem;
+                  margin: 0 0 5px 0;
+                }
+                span{
+                  font-size: .9rem;
+                }
+              }
+            }
+          }
         }
         .underlinedInput {
           flex: 1;

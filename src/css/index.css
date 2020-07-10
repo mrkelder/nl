@@ -32,6 +32,22 @@ a {
   font-family: "text", Arial, Helvetica, sans-serif;
 }
 
+.catalog_item {
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #4a4d4e;
+  min-height: 50px;
+  background-color: transparent;
+}
+.catalog_item .itemImg {
+  width: 25px;
+}
+.catalog_item .arrow {
+  transform: rotate(-90deg);
+}
+
 .greyBG {
   z-index: 100;
   width: 100vw;

@@ -382,9 +382,73 @@ header #sec1_h #sec1_h_wrapper #lang_h .arrow {
     height: 40px;
   }
   header #sec2_h #sec2_h_wrapper .catalog {
+    position: relative;
+  }
+  header #sec2_h #sec2_h_wrapper .catalog p {
     margin: 0 0 0 15px;
     font-size: 1.4rem;
     cursor: pointer;
+  }
+  header #sec2_h #sec2_h_wrapper .catalog #catalog {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #4a4d4e;
+    width: auto;
+    height: auto;
+    top: 45px;
+    left: 17px;
+    position: absolute;
+  }
+  header #sec2_h #sec2_h_wrapper .catalog #catalog #catalog_menu {
+    background-color: white;
+    min-width: 200px;
+  }
+  header #sec2_h #sec2_h_wrapper .catalog #catalog #catalog_menu .catalog_item {
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    min-height: 45px;
+    background-color: transparent;
+  }
+  header #sec2_h #sec2_h_wrapper .catalog #catalog #catalog_menu .catalog_item .itemImg {
+    width: 24px;
+  }
+  header #sec2_h #sec2_h_wrapper .catalog #catalog #catalog_menu .catalog_item span {
+    text-align: center;
+    font-size: 0.8rem;
+  }
+  header #sec2_h #sec2_h_wrapper .catalog #catalog #catalog_menu .catalog_item .arrow {
+    transform: rotate(-90deg);
+  }
+  header #sec2_h #sec2_h_wrapper .catalog #catalog #catalog_menu .catalog_item .itemImg,
+header #sec2_h #sec2_h_wrapper .catalog #catalog #catalog_menu .catalog_item .arrow {
+    margin: 0 10px;
+  }
+  header #sec2_h #sec2_h_wrapper .catalog #catalog #catalog_items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+    max-height: 38vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 10px 25px;
+    max-width: 800px;
+    width: 60vw;
+    background-color: #f4f4f4;
+  }
+  header #sec2_h #sec2_h_wrapper .catalog #catalog #catalog_items .items_wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  header #sec2_h #sec2_h_wrapper .catalog #catalog #catalog_items .items_wrapper h3 {
+    font-size: 1rem;
+    margin: 0 0 5px 0;
+  }
+  header #sec2_h #sec2_h_wrapper .catalog #catalog #catalog_items .items_wrapper span {
+    font-size: 0.9rem;
   }
   header #sec2_h #sec2_h_wrapper .underlinedInput {
     flex: 1;
