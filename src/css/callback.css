@@ -1,0 +1,32 @@
+.call_back {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  padding: 45px 15px;
+  box-sizing: border-box;
+  width: 87vw;
+  max-width: 450px;
+  height: 330px;
+  background-color: white;
+  box-shadow: 0px 2px 4px 1px #3d3d3d;
+}
+.call_back .closeBtn {
+  top: 15px;
+  right: 10px;
+  position: absolute;
+}
+.call_back h2 {
+  margin-bottom: 0;
+}
+.call_back p {
+  font-size: 0.9rem;
+}
+.call_back h2, .call_back p {
+  text-align: center;
+}
+.call_back .redBtn {
+  margin: 15px 0 0;
+}
+
+/*# sourceMappingURL=callback.css.map */
