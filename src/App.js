@@ -3,9 +3,27 @@ import { Switch, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './pages/Main'
 import NotFound from './pages/404'
-import { info as Info, css as CSS } from './context'
+import { info as Info, css as CSS, img as Img } from './context'
 import './css/index.css'
 
+import cross from './img/cross.svg'
+import crossWhite from './img/crossWhite.svg'
+import crossRed from './img/crossRed.svg'
+import catalogIcon from './img/catalog.svg'
+import logo from './img/logo.svg'
+import search from './img/search.svg'
+import menu from './img/menu.svg'
+import no_account_logo from './img/user.png'
+import no_account_logo_white from './img/user_w.png'
+import bin from './img/bin.png'
+import house from './img/house.png'
+import favorite from './img/favorite.png'
+import scales from './img/scales.png'
+import geo_sign from './img/location.png'
+import geo_sign_white from './img/location_w.png'
+import arrow_sign from './img/arrow.png'
+import arrow_sign_white from './img/arrow_w.png'
+import helper from './img/helper.png'
 
 class App extends Component {
   constructor(props) {
@@ -26,6 +44,26 @@ class App extends Component {
       fonts: {
         text: 'text , Arial, Helvetica, sans-serif',
         header: 'header , Arial, Helvetica, sans-serif'
+      },
+      images: {
+        catalogIcon,
+        logo,
+        arrow_sign,
+        arrow_sign_white,
+        helper,
+        search,
+        menu,
+        no_account_logo,
+        no_account_logo_white,
+        bin,
+        house,
+        favorite,
+        scales,
+        geo_sign,
+        geo_sign_white,
+        crossWhite,
+        cross,
+        crossRed
       }
     };
     this.changeLang = this.changeLang.bind(this);
@@ -54,7 +92,7 @@ class App extends Component {
     }
   }
 
-  componentDidCatch(err, info) {
+  componentDidCatch(err) {
     console.log(err)
     this.setState({ hasError: true })
   }
@@ -75,11 +113,13 @@ class App extends Component {
               colors,
               fonts
             }}>
-              <Header />
-              <Switch>
-                <Route path="/" exact component={Main} />
-                <Route path="/*" exact component={NotFound} />
-              </Switch>
+              <Img.Provider value={this.state.images}>
+                <Header />
+                <Switch>
+                  <Route path="/" exact component={Main} />
+                  <Route path="/*" exact component={NotFound} />
+                </Switch>
+              </Img.Provider>
             </CSS.Provider>
           </Info.Provider>
         </div>

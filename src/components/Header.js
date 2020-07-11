@@ -5,23 +5,7 @@ import CloseBtn from './CloseBtn'
 import CallBack from './CallBack'
 import Input from './Input'
 
-import catalogIcon from '../img/catalog.svg'
-import logo from '../img/logo.svg'
-import search from '../img/search.svg'
-import menu from '../img/menu.svg'
-import no_account_logo from '../img/user.png'
-import no_account_logo_white from '../img/user_w.png'
-import bin from '../img/bin.png'
-import house from '../img/house.png'
-import favorite from '../img/favorite.png'
-import scales from '../img/scales.png'
-import geo_sign from '../img/location.png'
-import geo_sign_white from '../img/location_w.png'
-import arrow_sign from '../img/arrow.png'
-import arrow_sign_white from '../img/arrow_w.png'
-import helper from '../img/helper.png'
-
-import { info, css } from '../context'
+import { info, css, img } from '../context'
 import '../css/header.css'
 import axios from 'axios'
 
@@ -29,6 +13,7 @@ import axios from 'axios'
 const Header = () => {
   const infoContext = useContext(info);
   const cssContext = useContext(css);
+  const imgContext = useContext(img);
 
   const [chosenItem, setChosenItem] = useState(null);
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -46,6 +31,7 @@ const Header = () => {
   const [subItemsLeft, setSubItemsLeft] = useState('95vw');
   const { lang, changeLang } = infoContext;
 
+  const { catalogIcon, logo, arrow_sign, arrow_sign_white, helper, search, menu, no_account_logo, no_account_logo_white, bin, house, favorite, scales, geo_sign, geo_sign_white } = imgContext;
   const links = [{ name: { ua: 'На головну', ru: 'На главную' }, img: house, link: '/' }, { name: { ua: 'Порівняння товарів', ru: 'Сравнение товаров' }, img: scales, link: '/' }, { name: { ua: 'Обране', ru: 'Избранное' }, img: favorite, link: '/' }, { name: { ua: 'Кошик', ru: 'Карзина' }, img: bin, link: '/' },];
   const grey_links = [{ name: { ua: 'Доставка та оплата', ru: 'Доставка и оплата' }, link: '/' }, { name: { ua: 'Гарантія', ru: 'Гарантия' }, link: '/' }, { name: { ua: 'Акції', ru: 'Акции' }, link: '/' }, { name: { ua: 'Магазини', ru: 'Магазины' }, link: '/' }];
   const { white, light_grey } = cssContext.colors;
@@ -83,7 +69,7 @@ const Header = () => {
     if (resolution >= 1024 && chosenItem === null && isCatalogOpen) {
       document.getElementsByClassName('catalog_item')[0].style.backgroundColor = light_grey;
     }
-    else if(resolution >= 1024 && chooseItem !== null && isCatalogOpen){
+    else if (resolution >= 1024 && chooseItem !== null && isCatalogOpen) {
       document.getElementById(chosenItem).style.backgroundColor = light_grey;
     }
   }, [isCatalogOpen]);

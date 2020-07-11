@@ -1,9 +1,11 @@
-import React, { Fragment } from 'react'
-import search from '../img/search.svg'
-import cross_red from '../img/crossRed.svg'
+import React, { Fragment , useContext } from 'react'
+import { img } from '../context'
 
 const Input = props => {
   const { type, text, placeholder, color, input, value, isSearch, submit } = props;
+
+  const imgContext = useContext(img);
+  const { search , cross_red } = imgContext;
 
   const cleanSearch = () => {
     input('');
@@ -11,6 +13,7 @@ const Input = props => {
 
   const SearchIcon = props => <img src={search} alt="search" className="search_icon" onClick={props.click} />;
   const CleanSearch = props => <img src={cross_red} alt="clean_search" className="search_clean" onClick={props.click} />;
+  
   return (
     <div className="underlinedInput">
       {text === undefined ? null : <span>{text}</span>}
