@@ -1,19 +1,20 @@
-import React, { Fragment , useContext } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { img } from '../context'
+import PropTypes from 'prop-types'
 
 const Input = props => {
   const { type, text, placeholder, color, input, value, isSearch, submit } = props;
 
   const imgContext = useContext(img);
-  const { search , cross_red } = imgContext;
+  const { search, crossRed } = imgContext;
 
   const cleanSearch = () => {
     input('');
   };
 
   const SearchIcon = props => <img src={search} alt="search" className="search_icon" onClick={props.click} />;
-  const CleanSearch = props => <img src={cross_red} alt="clean_search" className="search_clean" onClick={props.click} />;
-  
+  const CleanSearch = props => <img src={crossRed} alt="clean_search" className="search_clean" onClick={props.click} />;
+
   return (
     <div className="underlinedInput">
       {text === undefined ? null : <span>{text}</span>}
@@ -40,5 +41,16 @@ const Input = props => {
     </div>
   )
 }
+
+Input.propTypes = {
+  type: PropTypes.string,
+  text: PropTypes.string,
+  placeholder: PropTypes.string,
+  color: PropTypes.string,
+  input: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  isSearch: PropTypes.bool,
+  submit: PropTypes.func
+};
 
 export default Input

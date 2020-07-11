@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 
-const grey_bg = (props) => {
+const Grey_bg = props => {
   let style;
   if (typeof props.style === 'object') style = props.style;
   else style = {};
@@ -11,4 +12,10 @@ const grey_bg = (props) => {
   )
 };
 
-export default grey_bg
+Grey_bg.propTypes = {
+  style: PropTypes.object,
+  children: PropTypes.element,
+  click: PropTypes.func
+}
+
+export default Grey_bg

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import PropTypes from 'prop-types'
 import axios from 'axios'
 import { info, css } from '../context'
 import GreyBg from './GreyBG'
@@ -54,6 +55,14 @@ const CallBack = props => {
     </GreyBg>
   )
 }
+
+CallBack.propTypes = {
+  close: PropTypes.func.isRequired,
+  input: PropTypes.exact({
+    placeholder: PropTypes.string.isRequired,
+    text: PropTypes.string
+  })
+};
 
 export default CallBack
 

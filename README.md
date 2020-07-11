@@ -145,7 +145,7 @@ import '../css/callback.css'
 #### Props
 
 1) close - function that gives state changer
-2) input - input in the window
+2) input - information , given to the **<Input/>** component inside of **<CallBack/>**
 
 #### Properties
 
@@ -284,7 +284,7 @@ import { img } from '../context'
 
 #### Properties
 
-1) search , cross_red - images
+1) search , crossRed - images
 
 #### Methods
 

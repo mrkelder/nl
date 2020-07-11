@@ -63,16 +63,16 @@ const Header = () => {
       setSubItems(catalog[0].items);
       setSubItemsName(catalog[0].name);
     }
-  }, [catalog]);
+  }, [catalog , resolution]);
 
   useEffect(() => {
     if (resolution >= 1024 && chosenItem === null && isCatalogOpen) {
       document.getElementsByClassName('catalog_item')[0].style.backgroundColor = light_grey;
     }
-    else if (resolution >= 1024 && chooseItem !== null && isCatalogOpen) {
+    else if (resolution >= 1024 && chosenItem !== null && isCatalogOpen) {
       document.getElementById(chosenItem).style.backgroundColor = light_grey;
     }
-  }, [isCatalogOpen]);
+  }, [isCatalogOpen , chosenItem , light_grey , resolution]);
 
   const openCallBack = () => {
     setMenuOpen(false);
@@ -209,7 +209,7 @@ const Header = () => {
                         {
                           subItems.map((element, index) => (
                             <div key={index} className="items_wrapper">
-                              <Link onClick={openCatalog} key={`item_${index}`} to={element.link} className="sub_item" onClick={chooseItem}>
+                              <Link onClick={openCatalog} key={`item_${index}`} to={element.link} className="sub_item">
                                 <h3>{element.name[lang]}</h3>
                               </Link>
                               {element.companies.map(i => (

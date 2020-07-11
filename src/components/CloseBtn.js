@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
 import { img } from '../context'
 
 const CloseBtn = props => {
@@ -14,5 +15,10 @@ const CloseBtn = props => {
     <button onClick={props.click} className="closeBtn" style={{ backgroundImage: `url('${color}')` }} />
   )
 }
+
+CloseBtn.propTypes = {
+  theme: PropTypes.number,
+  click: PropTypes.func.isRequired
+};
 
 export default CloseBtn
