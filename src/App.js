@@ -115,10 +115,12 @@ class App extends Component {
             }}>
               <Img.Provider value={this.state.images}>
                 <Header />
-                <Switch>
-                  <Route path="/" exact component={Main} />
-                  <Route path="/*" exact component={NotFound} />
-                </Switch>
+                <main>
+                  <Switch>
+                    <Route path="/" exact component={Main} />
+                    <Route path="/*" exact component={NotFound} />
+                  </Switch>
+                </main>
               </Img.Provider>
             </CSS.Provider>
           </Info.Provider>

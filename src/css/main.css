@@ -1,0 +1,28 @@
+.slider {
+  width: 100%;
+  height: 50px;
+  position: relative;
+  overflow: hidden;
+}
+.slider .sliding_part {
+  display: flex;
+}
+.slider .sliding_part img {
+  width: 100vw;
+}
+.slider .slider_panel {
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  background-color: red;
+  z-index: 15;
+  opacity: 0.5;
+}
+
+@media (min-width: 1024px) {
+  .slider .sliding_part img {
+    max-height: 50vh;
+  }
+}
+
+/*# sourceMappingURL=main.css.map */

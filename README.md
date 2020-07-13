@@ -45,12 +45,18 @@ project
     │   │ Header.js - header component
     │   │ Input.js - underlined input
     │   │ RedButton.js - red button
+    │   │ Slider.js - slider
+    │   │ SlidingPart.js - sliding part HOC
     │   
-    └───css
-    │   │ index.css - css file with the fonts
-    │   │ header.css - header's styles
-    │   │ callback.css - css for call me back window
-    │   │ _init_.css - file with colors and mixins
+    └───css - css files compiled by sass
+    │   
+    └───scss
+    │   │ index.scss - scss file with the fonts and e.g.
+    │   │ header.scss - header's styles
+    │   │ callback.scss - scss for call me back window
+    │   │ _init.scss - file with colors and mixins
+    │   │ _slider.scss - slider's scss file
+    │   │ main.scss - scss file for the main page
     │
     └───fonts
     │   │ Manrope-ExtraBold.ttf - font for the headers
@@ -77,6 +83,59 @@ Contains the next contexts
   b) fonts
 3) img - images
 
+## Mixins (HOCs)
+
+### SlidingPart.js (class component)
+
+Takes place in **src/SlidingPart.js**. Gives an opportunity to make a slidable element. Takes two parametars **OriginalComponent** and **addInfo**. As the props it gives **slides** from **addInfo.slides** *(it can be whatever)* , **slidingPart** extended from **this.SlidingPartRef** , **sliderPanelRef** extended from **this.SliderPanelRef** and **this.state**.
+
+#### Imports
+
+```
+import React, { Component } from 'react'
+```
+
+#### Properties
+
+1) this.SlidingPartRef - ref to the sliding part
+2) this.SliderPanelRef - ref to the element that makes sliding part to move
+3) this.state.currentPosition - current position of the sliding part *(this.SlidingPartRef)*
+4) this.state.startPosition - starting position when you touch the screen
+5) this.state.endPosition - final position for the sliding part *(this.SlidingPartRef)* , then this coordinate will be taken for the calculating to determine current starting coordinate properly
+6) this.state.totalSlidingWidth - width of the sliding element *(compulsory to depend on it because an actual width of the this.SlidingPartRef is **NOT** real)*
+
+#### Lifecycle
+
+In **componentDidMount** it defines the total width , sets the actions while **touchstart** , **touchend** and **touchmove**. In **touchstart** listener the transition is disabled and **this.state.startPosition** gets set. **touchmove** changes **this.state.currentPosition** that moves **this.SlidingPartRef** via *transform: translate3D*. **touchend** sets transition to *'transform .2s'* and **this.state.endPosition** to the x coordinate of *translate3D*. If this value if bigger than 0 , it slides to the start. If the value is less than **-this.state.totalSlidingWidth**, it slides to the end.
+
+## Pages
+
+### 404.js
+
+Takes place in **src/pages/404.js**. Serves */\** root.
+
+### Main.js
+
+Takes place in **src/pages/App.js**. Serves */* root.
+
+#### Imports
+
+```
+import React, { Fragment, useEffect, useState } from 'react'
+import SlidingPartHOC from '../components/SlidingPart'
+import Slider from '../components/Slider'
+import axios from 'axios'
+import '../css/main.css'
+```
+
+#### Properties
+
+1) photosForSlider
+
+#### Sub components
+
+1) ActualSlider - **Slider.js** wrapped in **SlidingPart.js**
+
 ## Components
 
 ### App.js (class component)
@@ -86,14 +145,17 @@ Takes place in **src/App.js**.
 #### Imports
 
 ```
-import React, { Fragment, useState, useEffect } from 'react' // React utilities
-import { Switch, Route, Link } from 'react-router-dom' // React-router lib
-import Header from './components/Header' // Header component
-import Main from './pages/Main' // Main page
-import NotFound from './pages/404' // 404 page
-import { info as Info, colors as Colors } from './context' // Contexts
-import './css/index.css' // importing fonts
+import React, { Component } from 'react'
+import { Switch, Route } from 'react-router-dom'
+import Header from './components/Header'
+import Main from './pages/Main'
+import NotFound from './pages/404'
+import { info as Info, css as CSS, img as Img } from './context'
+import './css/index.css'
 
+import cross from './img/cross.svg'
+import crossWhite from './img/crossWhite.svg'
+import crossRed from './img/crossRed.svg'
 import catalogIcon from './img/catalog.svg'
 import logo from './img/logo.svg'
 import search from './img/search.svg'
@@ -159,6 +221,33 @@ import '../css/callback.css'
 
 1) closeWindow - closes the window by using **close** method and passing false value
 2) submitInput - sends message to the server by comparing the condition and the value
+
+### Slider.js (functional component)
+
+Takes place in **src/components/Slider.js**. Depends on **SlidingPart.js**.
+
+#### Imports
+
+`
+import React, { useEffect, Fragment, useState, useCallback, useRef } from 'react'
+import notFound from '../img/notFound.jpg'
+`
+
+#### Props
+
+1) slides
+2) currentPosition - current position of the sliding part *(this.SlidingPartRef)*
+3) slidingPart - ref to the sliding part
+4) sliderPanelRef - ref to the element that makes sliding part to move
+
+#### Properties
+
+1) sliderHeight - height of one slide. The height is taken to set the actual slider's height.
+2) imgRef - ref to the photos to set **sliderHeight**
+
+#### Methods
+
+1) SliderHeight - sets **sliderHeight**
 
 ### CloseBtn.js (functional component)
 
@@ -254,7 +343,7 @@ import axios from 'axios'
 8) chooseItem - when choosing item this function closes catalog and sub items
 9) openSearch - opens the search *(works only for mobile devices)*
 
-#### Sub Componenets
+#### Sub Componets
 
 1) SearchIcon - search icon *(takes one prop: click - click function)*
 2) MenuIcon - menu icon *(takes one prop: img - image)*
@@ -290,7 +379,7 @@ import { img } from '../context'
 
 1) cleanSearch - cleans the search up by giving **input** an argument of the empty string 
 
-#### Sub Componenets
+#### Sub Componets
 
 1) SearchIcon - search icon *(takes one prop: click - click function)*
 2) MenuIcon - menu icon *(takes one prop: img - image)*
