@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component , memo } from 'react'
 
 
 const SlidingPart = (OriginalComponent, addInfo) => {
@@ -13,8 +13,20 @@ const SlidingPart = (OriginalComponent, addInfo) => {
         currentPosition: 0, // current position of sliding element
         startPosition: 0, // starting position
         endPosition: 0, // transformed position (takes x coordinate of the final slide and then subtracts difference , actually replaces basic coordinates from 0 to some amount)
-        totalSlidingWidth: 0 // total width of the sliding part
+        totalSlidingWidth: 0, // total width of the sliding part
+        currentPositionOnScreen: 0, // current position on a screen (from 0 to current width)
+        isTouched: false, // has user touched slider at all
+        isBeingTouched: false // is slider being touched
       };
+
+      this.changeCurrentPosition = this.changeCurrentPosition.bind(this);
+    }
+
+    changeCurrentPosition(x) {
+      this.setState({
+        currentPosition: x,
+        endPosition: x
+      });
     }
 
     componentDidMount() {
@@ -28,7 +40,9 @@ const SlidingPart = (OriginalComponent, addInfo) => {
           // Touch
           this.SlidingPartRef.current.style.transition = 'none';
           this.setState({
-            startPosition: Math.floor(e.changedTouches[0].clientX)
+            startPosition: Math.floor(e.changedTouches[0].clientX),
+            isTouched: true,
+            isBeingTouched: true
           });
         }
 
@@ -39,7 +53,7 @@ const SlidingPart = (OriginalComponent, addInfo) => {
           }));
         }
 
-        this.SliderPanelRef.current.ontouchend = () => {
+        this.SliderPanelRef.current.ontouchend = e => {
           // Untouch
           this.SlidingPartRef.current.style.transition = 'transform .2s';
           const dif = parseInt(this.SlidingPartRef.current.style.transform.match(/-?\d{0,}px/)[0]); // difference
@@ -47,19 +61,23 @@ const SlidingPart = (OriginalComponent, addInfo) => {
             // In case of lest violation
             this.setState({
               currentPosition: 0,
-              endPosition: 0
+              endPosition: 0,
+              isTouched: false
             });
           }
           else if (dif < -this.state.totalSlidingWidth) {
             // In case of right violation
             this.setState(oldState => ({
               currentPosition: -oldState.totalSlidingWidth,
-              endPosition: -oldState.totalSlidingWidth
+              endPosition: -oldState.totalSlidingWidth,
+              isTouched: false
             }));
           }
           else {
             this.setState({
-              endPosition: dif
+              endPosition: dif,
+              currentPositionOnScreen: Math.floor(e.changedTouches[0].clientX),
+              isTouched: false
             });
           }
         }
@@ -72,6 +90,7 @@ const SlidingPart = (OriginalComponent, addInfo) => {
           slides={addInfo.slides}
           slidingPart={this.SlidingPartRef}
           sliderPanelRef={this.SliderPanelRef}
+          changeCurrentPosition={this.changeCurrentPosition}
           {...this.state}
         />
       );
