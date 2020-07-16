@@ -37,51 +37,105 @@ const SlidingPart = (OriginalComponent, addInfo) => {
         totalSlidingWidth: totalWidth - this.SlidingPartRef.current.children[0].clientWidth
       }, () => {
         // Callback
-        this.SliderPanelRef.current.ontouchstart = e => {
-          // Touch
-          this.SlidingPartRef.current.style.transition = 'none';
-          this.setState({
-            startPosition: Math.floor(e.changedTouches[0].clientX),
-            isTouched: true,
-            isBeingTouched: true
-          });
-        }
-
-        this.SliderPanelRef.current.ontouchmove = e => {
-          // While moving
-          this.setState(oldState => ({
-            currentPosition: (Math.floor(e.changedTouches[0].clientX) + oldState.endPosition) - oldState.startPosition
-          }));
-        }
-
-        this.SliderPanelRef.current.ontouchend = e => {
-          // Untouch
-          this.SlidingPartRef.current.style.transition = 'transform .2s';
-          const dif = parseInt(this.SlidingPartRef.current.style.transform.match(/-?\d{0,}px/)[0]); // difference
-          if (dif > 0) {
-            // In case of lest violation
+        if (this.context.resolution < 1024) {
+          // If current device's width less than 1024px
+          this.SliderPanelRef.current.ontouchstart = e => {
+            // Touch
+            this.SlidingPartRef.current.style.transition = 'none';
             this.setState({
-              currentPosition: 0,
-              endPosition: 0,
-              isTouched: false
+              startPosition: Math.floor(e.changedTouches[0].clientX),
+              isTouched: true,
+              isBeingTouched: true
             });
           }
-          else if (dif < -this.state.totalSlidingWidth) {
-            // In case of right violation
+
+          this.SliderPanelRef.current.ontouchmove = e => {
+            // While moving
             this.setState(oldState => ({
-              currentPosition: -oldState.totalSlidingWidth,
-              endPosition: -oldState.totalSlidingWidth,
-              isTouched: false
+              currentPosition: (Math.floor(e.changedTouches[0].clientX) + oldState.endPosition) - oldState.startPosition
             }));
           }
-          else {
-            this.setState({
-              endPosition: dif,
-              currentPositionOnScreen: Math.floor(e.changedTouches[0].clientX),
-              isTouched: false
-            });
+
+          this.SliderPanelRef.current.ontouchend = e => {
+            // Untouch
+            this.SlidingPartRef.current.style.transition = 'transform .2s';
+            const dif = parseInt(this.SlidingPartRef.current.style.transform.match(/-?\d{0,}px/)[0]); // difference
+            if (dif > 0) {
+              // In case of lest violation
+              this.setState({
+                currentPosition: 0,
+                endPosition: 0,
+                isTouched: false
+              });
+            }
+            else if (dif < -this.state.totalSlidingWidth) {
+              // In case of right violation
+              this.setState(oldState => ({
+                currentPosition: -oldState.totalSlidingWidth,
+                endPosition: -oldState.totalSlidingWidth,
+                isTouched: false
+              }));
+            }
+            else {
+              this.setState({
+                endPosition: dif,
+                currentPositionOnScreen: Math.floor(e.changedTouches[0].clientX),
+                isTouched: false
+              });
+            }
           }
         }
+        else {
+          // If device's width is begger or equal to 1024px
+          this.SliderPanelRef.current.onmousedown = e => {
+            // Touch
+            this.SlidingPartRef.current.style.transition = 'none';
+            this.setState({
+              startPosition: Math.floor(e.x),
+              isTouched: true,
+              isBeingTouched: true
+            });
+          }
+
+          this.SliderPanelRef.current.onmousemove = e => {
+            // While moving
+            if (this.state.isTouched) {
+              this.setState(oldState => ({
+                currentPosition: (Math.floor(e.x) + oldState.endPosition) - oldState.startPosition
+              }));
+            }
+          }
+
+          this.SliderPanelRef.current.onmouseup = e => {
+            // Untouch
+            this.SlidingPartRef.current.style.transition = 'transform .2s';
+            const dif = parseInt(this.SlidingPartRef.current.style.transform.match(/-?\d{0,}px/)[0]); // difference
+            if (dif > 0) {
+              // In case of lest violation
+              this.setState({
+                currentPosition: 0,
+                endPosition: 0,
+                isTouched: false
+              });
+            }
+            else if (dif < -this.state.totalSlidingWidth) {
+              // In case of right violation
+              this.setState(oldState => ({
+                currentPosition: -oldState.totalSlidingWidth,
+                endPosition: -oldState.totalSlidingWidth,
+                isTouched: false
+              }));
+            }
+            else {
+              this.setState({
+                endPosition: dif,
+                currentPositionOnScreen: Math.floor(e.x),
+                isTouched: false
+              });
+            }
+          }
+        }
+
       });
     }
 

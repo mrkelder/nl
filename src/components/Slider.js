@@ -73,7 +73,7 @@ const Slider = props => {
       }
       setComponentIsReady(false);
     }
-  }, [currentPositionOnScreen, oneSector, currentSlide, slides.length, isTouched, onePiece, changeCurrentPosition, isBeingTouched]);
+  }, [currentPositionOnScreen, margin,oneSector, currentSlide, slides.length, isTouched, onePiece, changeCurrentPosition, isBeingTouched]);
 
   return (
     <div className="slider" style={{ height: `${sliderHeight}px` }}>
