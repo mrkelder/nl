@@ -9,6 +9,7 @@ const Slider = props => {
   const [oneSector, setOneSector] = useState(0); // one sector of a slider
   const [currentSlide, setCurrentSlide] = useState(0); // index of the current slide
   const [componentIsReady, setComponentIsReady] = useState(false); // is component ready for updating
+  const [margin, setMargin] = useState(0); // margin from the left side
   const [radios, setRadios] = useState([]);
 
   const imgRef = useRef(null);
@@ -20,6 +21,7 @@ const Slider = props => {
 
   const SliderHeight = useCallback(() => {
     setSliderHeight(imgRef.current.height);
+    setMargin(Math.floor((document.getElementsByTagName('body')[0].clientWidth - imgRef.current.clientWidth) / 2));
   }, []);
 
   useEffect(() => {
@@ -52,16 +54,16 @@ const Slider = props => {
   useEffect(() => {
     if (!isTouched && isBeingTouched && componentIsReady) {
       switch (true) {
-        case currentPositionOnScreen <= oneSector * 1:
+        case currentPositionOnScreen <= oneSector * 1 + margin:
           if (currentSlide !== slides.length - 1) {
             setCurrentSlide(currentSlide + 1);
             changeCurrentPosition(-1 * onePiece * (currentSlide + 1));
           }
           break;
-        case (currentPositionOnScreen <= oneSector * 2) || (currentPositionOnScreen <= oneSector * 3):
+        case (currentPositionOnScreen <= oneSector * 2 + margin) || (currentPositionOnScreen <= oneSector * 3 + margin):
           changeCurrentPosition(currentSlide * -1 * onePiece);
           break;
-        case currentPositionOnScreen <= oneSector * 4:
+        case currentPositionOnScreen <= oneSector * 4 + margin:
           if (currentSlide !== 0) {
             setCurrentSlide(currentSlide - 1);
             changeCurrentPosition(-1 * onePiece * (currentSlide - 1));

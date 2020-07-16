@@ -37,3 +37,20 @@
     }
   }
 }
+
+@media (min-width: 1440px){
+  .slider{
+    max-height: 322px;
+    max-width: 1386px;
+    margin: 0 auto;
+    .slider_panel{
+      max-width: 1386px;
+    }
+    .sliding_part{
+      img{
+        max-width: 1387px;
+        max-height: 322px;
+      }
+    }
+  }
+}

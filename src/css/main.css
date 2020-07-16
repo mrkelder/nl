@@ -3,6 +3,7 @@
 }
 
 .radio_slider_img {
+  cursor: pointer;
   width: 0.8em;
   height: 0.8em;
 }
@@ -38,6 +39,20 @@
 @media (min-width: 1024px) {
   .slider .sliding_part img {
     max-height: 50vh;
+  }
+}
+@media (min-width: 1440px) {
+  .slider {
+    max-height: 322px;
+    max-width: 1386px;
+    margin: 0 auto;
+  }
+  .slider .slider_panel {
+    max-width: 1386px;
+  }
+  .slider .sliding_part img {
+    max-width: 1387px;
+    max-height: 322px;
   }
 }
 

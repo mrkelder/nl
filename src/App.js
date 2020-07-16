@@ -124,8 +124,7 @@ class App extends Component {
           <Info.Provider value={{
             lang,
             changeLang: this.changeLang,
-            resolution,
-            changeResolution: this.changeResolution
+            resolution
           }}>
             <CSS.Provider value={{
               colors,

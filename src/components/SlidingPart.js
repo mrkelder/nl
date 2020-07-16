@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import {info}
+import { info } from '../context'
 
 
 const SlidingPart = (OriginalComponent, addInfo) => {
@@ -84,6 +84,8 @@ const SlidingPart = (OriginalComponent, addInfo) => {
         }
       });
     }
+
+    static contextType = info;
 
     render() {
       return (
