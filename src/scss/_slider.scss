@@ -1,28 +1,37 @@
-.slider{
+@import "radio";
+
+.slider {
   width: 100%;
   height: 50px;
   position: relative;
   overflow: hidden;
-  .sliding_part{
+  .sliding_part {
     display: flex;
-    img{
+    img {
       width: 100vw;
     }
   }
-  .slider_panel{
+  .slider_panel {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
     width: 100vw;
     position: absolute;
     top: 0;
-    background-color: red;
     z-index: 15;
-    opacity: .5;
+    .slider_radio_panel {
+      margin: 5px;
+      .radio_slider_img{
+        margin: 0 5px;
+      }
+    }
   }
 }
 
-@media (min-width: 1024px){
-  .slider{
-    .sliding_part{
-      img{
+@media (min-width: 1024px) {
+  .slider {
+    .sliding_part {
+      img {
         max-height: 50vh;
       }
     }

@@ -1,4 +1,5 @@
-import React, { Component , memo } from 'react'
+import React, { Component } from 'react'
+// import {info}
 
 
 const SlidingPart = (OriginalComponent, addInfo) => {
