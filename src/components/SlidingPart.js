@@ -17,7 +17,7 @@ const SlidingPart = (OriginalComponent, addInfo) => {
         totalSlidingWidth: 0, // total width of the sliding part
         currentPositionOnScreen: 0, // current position on a screen (from 0 to current width)
         isTouched: false, // has user touched slider at all
-        isBeingTouched: false // is slider being touched
+        isBeingTouched: false, // is slider being touched
       };
 
       this.changeCurrentPosition = this.changeCurrentPosition.bind(this);

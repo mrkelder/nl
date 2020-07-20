@@ -10,7 +10,7 @@ const Slider = props => {
   const [currentSlide, setCurrentSlide] = useState(0); // index of the current slide
   const [componentIsReady, setComponentIsReady] = useState(false); // is component ready for updating
   const [margin, setMargin] = useState(0); // margin from the left side
-  const [radios, setRadios] = useState([]);
+  const [radios, setRadios] = useState([]); // radio buttons
 
   const imgRef = useRef(null);
 
@@ -52,7 +52,7 @@ const Slider = props => {
   }, [imgRef, SliderHeight, onePiece, slidingPart]);
 
   useEffect(() => {
-    if (!isTouched && isBeingTouched && componentIsReady) {
+    if (!isTouched && isBeingTouched && componentIsReady && ![0, 1].includes(slides.length)) {
       switch (true) {
         case currentPositionOnScreen <= oneSector * 1 + margin:
           if (currentSlide !== slides.length - 1) {
@@ -73,7 +73,7 @@ const Slider = props => {
       }
       setComponentIsReady(false);
     }
-  }, [currentPositionOnScreen, margin,oneSector, currentSlide, slides.length, isTouched, onePiece, changeCurrentPosition, isBeingTouched]);
+  }, [currentPositionOnScreen, margin, oneSector, currentSlide, slides.length, isTouched, onePiece, changeCurrentPosition, isBeingTouched]);
 
   return (
     <div className="slider" style={{ height: `${sliderHeight}px` }}>
