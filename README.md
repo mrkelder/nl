@@ -57,6 +57,7 @@ project
     │   │ _init.scss - file with colors and mixins
     │   │ _slider.scss - slider's scss file
     │   │ main.scss - scss file for the main page
+    │   │ _radio.scss - styles for the radio buttons
     │
     └───fonts
     │   │ Manrope-ExtraBold.ttf - font for the headers
@@ -93,6 +94,7 @@ Takes place in **src/SlidingPart.js**. Gives an opportunity to make a slidable e
 
 ```
 import React, { Component } from 'react'
+import { info } from '../context'
 ```
 
 #### Properties
@@ -103,10 +105,13 @@ import React, { Component } from 'react'
 4) this.state.startPosition - starting position when you touch the screen
 5) this.state.endPosition - final position for the sliding part *(this.SlidingPartRef)* , then this coordinate will be taken for the calculating to determine current starting coordinate properly
 6) this.state.totalSlidingWidth - width of the sliding element *(compulsory to depend on it because an actual width of the this.SlidingPartRef is **NOT** real)*
+7) this.state.currentPositionOnScreen - position from 0 to width of **this.SliderPanelRef**
+8) this.state.isTouched - is sliding **this.SliderPanelRef** touched
+9) this.state.isBeingTouched - is slider being touced *(used within **this.state.isTouched** in some cases)*
 
 #### Lifecycle
 
-In **componentDidMount** it defines the total width , sets the actions while **touchstart** , **touchend** and **touchmove**. In **touchstart** listener the transition is disabled and **this.state.startPosition** gets set. **touchmove** changes **this.state.currentPosition** that moves **this.SlidingPartRef** via *transform: translate3D*. **touchend** sets transition to *'transform .2s'* and **this.state.endPosition** to the x coordinate of *translate3D*. If this value if bigger than 0 , it slides to the start. If the value is less than **-this.state.totalSlidingWidth**, it slides to the end.
+In **componentDidMount** it defines the total width , sets the actions while **touchstart** (**mousedown**) , **touchend** (**mouseup**) and **touchmove** (**mousemove**). In **touchstart** (**mousedown**) listener the transition is disabled and **this.state.startPosition** gets set. **touchmove** (**mousemove**) changes **this.state.currentPosition** that moves **this.SlidingPartRef** via *transform: translate3D*. **touchend** (**mouseup**) sets transition to *'transform .2s'* and **this.state.endPosition** to the x coordinate of *translate3D*. If this value if bigger than 0 , it slides to the start. If the value is less than **-this.state.totalSlidingWidth**, it slides to the end.
 
 ## Pages
 
@@ -171,6 +176,8 @@ import geo_sign_white from './img/location_w.png'
 import arrow_sign from './img/arrow.png'
 import arrow_sign_white from './img/arrow_w.png'
 import helper from './img/helper.png'
+import radio from './img/radio.png'
+import radio_checked from './img/radio_checked.png'
 ```
 
 #### Properties
@@ -180,12 +187,42 @@ import helper from './img/helper.png'
 3) this.state.colors - the colors of the project
 4) this.state.fonts - fonts for the project
 5) this.state.images - images for the project
+6) this.state.resolution - resolution of the window
 
 #### Methods
 
-1) this.componentDidMount - sets the default language (ua)
+1) this.componentDidMount - sets the default language (ua) and sets *resize event* to change current resultion
 2) this.changeLang - changes language (can be ua or ru only)
 3) this.componentDidCatch - handles when there is a problem downstairs the tree (you can check it out by accessing this.state.hasError)
+4) this.changeResolution - changes **this.state.resolution** value on every *resize event*
+
+### Radio.js (functional component)
+
+Takes place in **src/components/Radio.js**.
+
+#### Imports
+
+```
+import React, { Fragment, useContext, useRef } from 'react'
+import { img } from '../context'
+```
+
+#### Properties
+
+1) radio - current image *(checked / unchecked)*
+2) inpRef - ref to the input
+
+#### Methods
+
+1) check - handles on click
+
+#### Props
+
+1) name
+2) id
+3) isCehcked
+4) click - function fires while clicking the input
+5) index - index of the clicked radio
 
 ### CallBack.js (functional component)
 
@@ -229,7 +266,8 @@ Takes place in **src/components/Slider.js**. Depends on **SlidingPart.js**.
 #### Imports
 
 `
-import React, { useEffect, Fragment, useState, useCallback, useRef } from 'react'
+import React, { Fragment, useRef, useEffect, useState, useCallback } from 'react'
+import Radio from './Radio'
 import notFound from '../img/notFound.jpg'
 `
 
@@ -239,15 +277,26 @@ import notFound from '../img/notFound.jpg'
 2) currentPosition - current position of the sliding part *(this.SlidingPartRef)*
 3) slidingPart - ref to the sliding part
 4) sliderPanelRef - ref to the element that makes sliding part to move
+5) changeCurrentPosition - function that changes **currentPosition**
+6) currentPositionOnScreen - position from 0 to width of **sliderPanelRef**
+7) isTouched - is slider touched
+8) isBeingTouched - is slider being touced *(used within **isTouched** in some cases)*
 
 #### Properties
 
 1) sliderHeight - height of one slide. The height is taken to set the actual slider's height.
 2) imgRef - ref to the photos to set **sliderHeight**
+3) onePiece - the width of one slide
+4) oneSector - 1/4 of **onePiece**
+5) currentSlide - an index of the current slide
+6) componentIsReady - is component ready for final slide logic
+7) margin - margin from the left side
+8) radios - radio buttons in slider
 
 #### Methods
 
 1) SliderHeight - sets **sliderHeight**
+2) becomeChecked - logic for radio buttons
 
 ### CloseBtn.js (functional component)
 
@@ -314,7 +363,7 @@ import axios from 'axios'
 
 1) chosenItem - chosen item in the catalog *(works only for desktop with the resolution more or equal than 1024px)*
 2) isMenuOpen - determines whether a menu open or not *(works only for mobile devices)*
-3) resolution - the resolution of a device
+3) resolution - **prop** that receives the resolution of the window
 4) isCatalogOpen - determines is catalog open or not
 5) isLangOpen - determines whether a language panel open or not *(works only for mobile devices)*
 6) isCallBackOpen - is call me back window open
