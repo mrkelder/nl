@@ -24,6 +24,8 @@ import geo_sign_white from './img/location_w.png'
 import arrow_sign from './img/arrow.png'
 import arrow_sign_white from './img/arrow_w.png'
 import helper from './img/helper.png'
+import radio from './img/radio.png'
+import radio_checked from './img/radio_checked.png'
 
 class App extends Component {
   constructor(props) {
@@ -32,6 +34,7 @@ class App extends Component {
     this.state = {
       lang: null,
       hasError: false,
+      resolution: document.getElementsByTagName('body')[0].clientWidth,
       colors: {
         white: '#FFF',
         red: '#e60000',
@@ -63,18 +66,31 @@ class App extends Component {
         geo_sign_white,
         crossWhite,
         cross,
-        crossRed
+        crossRed,
+        radio,
+        radio_checked
       }
     };
     this.changeLang = this.changeLang.bind(this);
+    this.changeResolution = this.changeResolution.bind(this);
   }
 
   componentDidMount() {
+    window.addEventListener('resize', () => {
+      this.changeResolution(document.getElementsByTagName('body')[0].clientWidth);
+    });
+
     if (localStorage.getItem('lang') === null) {
       localStorage.setItem('lang', 'ua');
     }
     this.setState({ lang: localStorage.getItem('lang') });
     document.getElementsByTagName('html')[0].setAttribute('lang', localStorage.getItem('lang'));
+  }
+
+  changeResolution() {
+    this.setState({
+      resolution: document.getElementsByTagName('body')[0].clientWidth
+    });
   }
 
   changeLang() {
@@ -98,7 +114,7 @@ class App extends Component {
   }
 
   render() {
-    const { lang, colors, fonts } = this.state;
+    const { lang, colors, fonts, resolution } = this.state;
     if (this.state.hasError) {
       return <p>Sorry , something went wrong. Examine an error in the console.</p>
     }
@@ -107,7 +123,8 @@ class App extends Component {
         <div className="App">
           <Info.Provider value={{
             lang,
-            changeLang: this.changeLang
+            changeLang: this.changeLang,
+            resolution
           }}>
             <CSS.Provider value={{
               colors,
@@ -115,10 +132,12 @@ class App extends Component {
             }}>
               <Img.Provider value={this.state.images}>
                 <Header />
-                <Switch>
-                  <Route path="/" exact component={Main} />
-                  <Route path="/*" exact component={NotFound} />
-                </Switch>
+                <main>
+                  <Switch>
+                    <Route path="/" exact component={Main} />
+                    <Route path="/*" exact component={NotFound} />
+                  </Switch>
+                </main>
               </Img.Provider>
             </CSS.Provider>
           </Info.Provider>

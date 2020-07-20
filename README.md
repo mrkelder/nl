@@ -45,12 +45,19 @@ project
     │   │ Header.js - header component
     │   │ Input.js - underlined input
     │   │ RedButton.js - red button
+    │   │ Slider.js - slider
+    │   │ SlidingPart.js - sliding part HOC
     │   
-    └───css
-    │   │ index.css - css file with the fonts
-    │   │ header.css - header's styles
-    │   │ callback.css - css for call me back window
-    │   │ _init_.css - file with colors and mixins
+    └───css - css files compiled by sass
+    │   
+    └───scss
+    │   │ index.scss - scss file with the fonts and e.g.
+    │   │ header.scss - header's styles
+    │   │ callback.scss - scss for call me back window
+    │   │ _init.scss - file with colors and mixins
+    │   │ _slider.scss - slider's scss file
+    │   │ main.scss - scss file for the main page
+    │   │ _radio.scss - styles for the radio buttons
     │
     └───fonts
     │   │ Manrope-ExtraBold.ttf - font for the headers
@@ -77,6 +84,63 @@ Contains the next contexts
   b) fonts
 3) img - images
 
+## Mixins (HOCs)
+
+### SlidingPart.js (class component)
+
+Takes place in **src/SlidingPart.js**. Gives an opportunity to make a slidable element. Takes two parametars **OriginalComponent** and **addInfo**. As the props it gives **slides** from **addInfo.slides** *(it can be whatever)* , **slidingPart** extended from **this.SlidingPartRef** , **sliderPanelRef** extended from **this.SliderPanelRef** and **this.state**.
+
+#### Imports
+
+```
+import React, { Component } from 'react'
+import { info } from '../context'
+```
+
+#### Properties
+
+1) this.SlidingPartRef - ref to the sliding part
+2) this.SliderPanelRef - ref to the element that makes sliding part to move
+3) this.state.currentPosition - current position of the sliding part *(this.SlidingPartRef)*
+4) this.state.startPosition - starting position when you touch the screen
+5) this.state.endPosition - final position for the sliding part *(this.SlidingPartRef)* , then this coordinate will be taken for the calculating to determine current starting coordinate properly
+6) this.state.totalSlidingWidth - width of the sliding element *(compulsory to depend on it because an actual width of the this.SlidingPartRef is **NOT** real)*
+7) this.state.currentPositionOnScreen - position from 0 to width of **this.SliderPanelRef**
+8) this.state.isTouched - is sliding **this.SliderPanelRef** touched
+9) this.state.isBeingTouched - is slider being touced *(used within **this.state.isTouched** in some cases)*
+
+#### Lifecycle
+
+In **componentDidMount** it defines the total width , sets the actions while **touchstart** (**mousedown**) , **touchend** (**mouseup**) and **touchmove** (**mousemove**). In **touchstart** (**mousedown**) listener the transition is disabled and **this.state.startPosition** gets set. **touchmove** (**mousemove**) changes **this.state.currentPosition** that moves **this.SlidingPartRef** via *transform: translate3D*. **touchend** (**mouseup**) sets transition to *'transform .2s'* and **this.state.endPosition** to the x coordinate of *translate3D*. If this value if bigger than 0 , it slides to the start. If the value is less than **-this.state.totalSlidingWidth**, it slides to the end.
+
+## Pages
+
+### 404.js
+
+Takes place in **src/pages/404.js**. Serves */\** root.
+
+### Main.js
+
+Takes place in **src/pages/App.js**. Serves */* root.
+
+#### Imports
+
+```
+import React, { Fragment, useEffect, useState } from 'react'
+import SlidingPartHOC from '../components/SlidingPart'
+import Slider from '../components/Slider'
+import axios from 'axios'
+import '../css/main.css'
+```
+
+#### Properties
+
+1) photosForSlider
+
+#### Sub components
+
+1) ActualSlider - **Slider.js** wrapped in **SlidingPart.js**
+
 ## Components
 
 ### App.js (class component)
@@ -86,14 +150,17 @@ Takes place in **src/App.js**.
 #### Imports
 
 ```
-import React, { Fragment, useState, useEffect } from 'react' // React utilities
-import { Switch, Route, Link } from 'react-router-dom' // React-router lib
-import Header from './components/Header' // Header component
-import Main from './pages/Main' // Main page
-import NotFound from './pages/404' // 404 page
-import { info as Info, colors as Colors } from './context' // Contexts
-import './css/index.css' // importing fonts
+import React, { Component } from 'react'
+import { Switch, Route } from 'react-router-dom'
+import Header from './components/Header'
+import Main from './pages/Main'
+import NotFound from './pages/404'
+import { info as Info, css as CSS, img as Img } from './context'
+import './css/index.css'
 
+import cross from './img/cross.svg'
+import crossWhite from './img/crossWhite.svg'
+import crossRed from './img/crossRed.svg'
 import catalogIcon from './img/catalog.svg'
 import logo from './img/logo.svg'
 import search from './img/search.svg'
@@ -109,6 +176,8 @@ import geo_sign_white from './img/location_w.png'
 import arrow_sign from './img/arrow.png'
 import arrow_sign_white from './img/arrow_w.png'
 import helper from './img/helper.png'
+import radio from './img/radio.png'
+import radio_checked from './img/radio_checked.png'
 ```
 
 #### Properties
@@ -118,12 +187,42 @@ import helper from './img/helper.png'
 3) this.state.colors - the colors of the project
 4) this.state.fonts - fonts for the project
 5) this.state.images - images for the project
+6) this.state.resolution - resolution of the window
 
 #### Methods
 
-1) this.componentDidMount - sets the default language (ua)
+1) this.componentDidMount - sets the default language (ua) and sets *resize event* to change current resultion
 2) this.changeLang - changes language (can be ua or ru only)
 3) this.componentDidCatch - handles when there is a problem downstairs the tree (you can check it out by accessing this.state.hasError)
+4) this.changeResolution - changes **this.state.resolution** value on every *resize event*
+
+### Radio.js (functional component)
+
+Takes place in **src/components/Radio.js**.
+
+#### Imports
+
+```
+import React, { Fragment, useContext, useRef } from 'react'
+import { img } from '../context'
+```
+
+#### Properties
+
+1) radio - current image *(checked / unchecked)*
+2) inpRef - ref to the input
+
+#### Methods
+
+1) check - handles on click
+
+#### Props
+
+1) name
+2) id
+3) isCehcked
+4) click - function fires while clicking the input
+5) index - index of the clicked radio
 
 ### CallBack.js (functional component)
 
@@ -159,6 +258,45 @@ import '../css/callback.css'
 
 1) closeWindow - closes the window by using **close** method and passing false value
 2) submitInput - sends message to the server by comparing the condition and the value
+
+### Slider.js (functional component)
+
+Takes place in **src/components/Slider.js**. Depends on **SlidingPart.js**.
+
+#### Imports
+
+`
+import React, { Fragment, useRef, useEffect, useState, useCallback } from 'react'
+import Radio from './Radio'
+import notFound from '../img/notFound.jpg'
+`
+
+#### Props
+
+1) slides
+2) currentPosition - current position of the sliding part *(this.SlidingPartRef)*
+3) slidingPart - ref to the sliding part
+4) sliderPanelRef - ref to the element that makes sliding part to move
+5) changeCurrentPosition - function that changes **currentPosition**
+6) currentPositionOnScreen - position from 0 to width of **sliderPanelRef**
+7) isTouched - is slider touched
+8) isBeingTouched - is slider being touced *(used within **isTouched** in some cases)*
+
+#### Properties
+
+1) sliderHeight - height of one slide. The height is taken to set the actual slider's height.
+2) imgRef - ref to the photos to set **sliderHeight**
+3) onePiece - the width of one slide
+4) oneSector - 1/4 of **onePiece**
+5) currentSlide - an index of the current slide
+6) componentIsReady - is component ready for final slide logic
+7) margin - margin from the left side
+8) radios - radio buttons in slider
+
+#### Methods
+
+1) SliderHeight - sets **sliderHeight**
+2) becomeChecked - logic for radio buttons
 
 ### CloseBtn.js (functional component)
 
@@ -225,7 +363,7 @@ import axios from 'axios'
 
 1) chosenItem - chosen item in the catalog *(works only for desktop with the resolution more or equal than 1024px)*
 2) isMenuOpen - determines whether a menu open or not *(works only for mobile devices)*
-3) resolution - the resolution of a device
+3) resolution - **prop** that receives the resolution of the window
 4) isCatalogOpen - determines is catalog open or not
 5) isLangOpen - determines whether a language panel open or not *(works only for mobile devices)*
 6) isCallBackOpen - is call me back window open
@@ -254,7 +392,7 @@ import axios from 'axios'
 8) chooseItem - when choosing item this function closes catalog and sub items
 9) openSearch - opens the search *(works only for mobile devices)*
 
-#### Sub Componenets
+#### Sub Componets
 
 1) SearchIcon - search icon *(takes one prop: click - click function)*
 2) MenuIcon - menu icon *(takes one prop: img - image)*
@@ -290,7 +428,7 @@ import { img } from '../context'
 
 1) cleanSearch - cleans the search up by giving **input** an argument of the empty string 
 
-#### Sub Componenets
+#### Sub Componets
 
 1) SearchIcon - search icon *(takes one prop: click - click function)*
 2) MenuIcon - menu icon *(takes one prop: img - image)*

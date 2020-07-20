@@ -1,0 +1,56 @@
+@import "radio";
+
+.slider {
+  width: 100%;
+  height: 50px;
+  position: relative;
+  overflow: hidden;
+  .sliding_part {
+    display: flex;
+    img {
+      width: 100vw;
+    }
+  }
+  .slider_panel {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    z-index: 15;
+    .slider_radio_panel {
+      margin: 5px;
+      .radio_slider_img{
+        margin: 0 5px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .slider {
+    .sliding_part {
+      img {
+        max-height: 50vh;
+      }
+    }
+  }
+}
+
+@media (min-width: 1440px){
+  .slider{
+    max-height: 322px;
+    max-width: 1386px;
+    margin: 0 auto;
+    .slider_panel{
+      max-width: 1386px;
+    }
+    .sliding_part{
+      img{
+        max-width: 1387px;
+        max-height: 322px;
+      }
+    }
+  }
+}
