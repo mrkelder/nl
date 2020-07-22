@@ -1,0 +1,17 @@
+@import "item";
+.topItems {
+  margin: 5px 0;
+  position: relative;
+  overflow: hidden;
+  .topItemsSlidingPart {
+    display: flex;
+  }
+}
+
+@media (min-width: 1440px){
+  .topItems{
+    max-width: 1386px;
+    margin: 5px auto;
+  }
+}
+

@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import SlidingPartHOC from '../components/SlidingPart'
 import Slider from '../components/Slider'
+import TopItems from '../components/TopItems'
 import axios from 'axios'
 import '../css/main.css'
 
@@ -24,6 +25,7 @@ const Main = () => {
   return (
     <Fragment>
       <ActualSlider slides={photosForSlider} />
+      <TopItems />
     </Fragment>
   )
 }
