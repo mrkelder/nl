@@ -13,6 +13,7 @@
   height: 50px;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 .slider .sliding_part {
   display: flex;
@@ -157,9 +158,10 @@
   margin: 5px 0;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 .topItems .topItemsSlidingPart {
-  display: flex;
+  display: inline-flex;
 }
 
 @media (min-width: 1440px) {

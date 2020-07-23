@@ -3,8 +3,9 @@
   margin: 5px 0;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
   .topItemsSlidingPart {
-    display: flex;
+    display: inline-flex;
   }
 }
 

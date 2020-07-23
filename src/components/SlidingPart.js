@@ -34,7 +34,18 @@ const SlidingPart = (OriginalComponent, addInfo) => {
 
     componentDidMount() {
       let totalWidth = 0;
-      for (let i of this.SlidingPartRef.current.children) totalWidth += i.clientWidth;
+      if (addInfo.isSlider) for (let i of this.SlidingPartRef.current.children) totalWidth += i.clientWidth;
+      else {
+        // PC devices
+        const sliderPart = this.SliderPanelRef.current;
+        const children = sliderPart.children[0].children;
+        const child = children[0];
+        const allowedQuantityOfItems = Math.round((sliderPart.clientWidth - 18) / child.clientWidth);
+        const balance = children.length % allowedQuantityOfItems;
+        totalWidth = Math.floor((children.length - balance) * child.clientWidth);
+        totalWidth += balance * child.clientWidth;
+        totalWidth -= (allowedQuantityOfItems - 1) * child.clientWidth - this.SlidingPartRef.current.children[0].clientWidth;
+      }
       this.setState({
         totalSlidingWidth: totalWidth - this.SlidingPartRef.current.children[0].clientWidth
       }, () => {
