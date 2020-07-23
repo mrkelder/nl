@@ -21,7 +21,7 @@ const Item = ({ name, price, rating, link, photo }) => {
   else return (
     <div className="item" to={link}>
       <img src={`http://localhost:8080/${photo}`} alt="item_photo" onMouseDown={makeUndraggble} className="noselect" />
-      <span className="name">{name}</span>
+      <span className="name noselect">{name}</span>
       <div className="itemStars">
         {
           stars.map((i, index) => <img src={star_active} key={`star_${index}`} alt="active_star" className="star noselect" onMouseDown={makeUndraggble} />)
@@ -30,7 +30,7 @@ const Item = ({ name, price, rating, link, photo }) => {
           new Array(5 - roundedPrice).fill(0).map((i, index) => <img src={star} key={`star_${index}`} alt="star" className="star noselect" onMouseDown={makeUndraggble} />)
         }
       </div>
-      <span className="price">{`${price} грн`}</span>
+      <span className="price noselect">{`${price} грн`}</span>
       <div className="topItemButtons">
         <Link to={link}>
           <RedButton text={lang === 'ua' ? 'Детальніше' : 'Подробнее'} />

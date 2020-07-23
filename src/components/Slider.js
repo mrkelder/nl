@@ -73,6 +73,7 @@ const Slider = props => {
       }
       setComponentIsReady(false);
     }
+    // eslint-disable-next-line
   }, [currentPositionOnScreen, margin, oneSector, currentSlide, slides.length, isTouched, onePiece, changeCurrentPosition, isBeingTouched]);
 
   return (

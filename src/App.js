@@ -28,6 +28,9 @@ import radio from './img/radio.png'
 import radio_checked from './img/radio_checked.png'
 import star from './img/star.png'
 import star_active from './img/star_active.png'
+import truck from './img/truck.png'
+import like from './img/like.png'
+import checked from './img/checked.png'
 
 class App extends Component {
   constructor(props) {
@@ -72,7 +75,10 @@ class App extends Component {
         radio,
         radio_checked,
         star_active,
-        star
+        star,
+        truck,
+        checked,
+        like
       }
     };
     this.changeLang = this.changeLang.bind(this);
