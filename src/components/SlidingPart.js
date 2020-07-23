@@ -18,6 +18,8 @@ const SlidingPart = (OriginalComponent, addInfo) => {
         currentPositionOnScreen: 0, // current position on a screen (from 0 to current width)
         isTouched: false, // has user touched slider at all
         isBeingTouched: false, // is slider being touched
+        positionForLeave: 0, // total position for onmouseleave event
+        canSlide: true // can the slider slide
       };
 
       this.changeCurrentPosition = this.changeCurrentPosition.bind(this);
@@ -87,19 +89,37 @@ const SlidingPart = (OriginalComponent, addInfo) => {
         }
         else {
           // If device's width is begger or equal to 1024px
+          this.SliderPanelRef.current.onmouseleave = () => {
+            if (this.state.isTouched && !!addInfo.isSlider) {
+              this.SlidingPartRef.current.style.transition = 'transform .2s';
+              this.changeCurrentPosition(this.state.positionForLeave);
+              this.setState({
+                canSlide: false
+              });
+            }
+            else if (this.state.isTouched && !addInfo.isSlider) {
+              this.changeCurrentPosition(this.state.currentPosition);
+              this.setState({
+                canSlide: false
+              });
+            }
+          }
+
           this.SliderPanelRef.current.onmousedown = e => {
             // Touch
             this.SlidingPartRef.current.style.transition = 'none';
-            this.setState({
+            this.setState(oldState => ({
+              positionForLeave: oldState.currentPosition,
               startPosition: Math.floor(e.x),
               isTouched: true,
-              isBeingTouched: true
-            });
+              isBeingTouched: true,
+              canSlide: true
+            }));
           }
 
           this.SliderPanelRef.current.onmousemove = e => {
             // While moving
-            if (this.state.isTouched) {
+            if (this.state.isTouched && this.state.canSlide) {
               this.setState(oldState => ({
                 currentPosition: (Math.floor(e.x) + oldState.endPosition) - oldState.startPosition
               }));

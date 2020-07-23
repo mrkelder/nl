@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { info, css } from '../context'
+import { info, css} from '../context'
 import GreyBg from './GreyBG'
 import CloseBtn from './CloseBtn'
 import Input from './Input'
@@ -11,7 +11,7 @@ import '../css/callback.css'
 const CallBack = props => {
   const infoContext = useContext(info);
   const cssContext = useContext(css);
-
+  
   const { close, input } = props;
   const { lang } = infoContext;
 

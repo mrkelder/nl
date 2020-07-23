@@ -16,6 +16,7 @@ const Main = () => {
 
   const ActualSlider = SlidingPartHOC(Slider, {
     slides: photosForSlider,
+    isSlider: true
   });
 
   useEffect(() => {
