@@ -19,9 +19,11 @@ const SlidingPart = (OriginalComponent, addInfo) => {
         isTouched: false, // has user touched slider at all
         isBeingTouched: false, // is slider being touched
         positionForLeave: 0, // total position for onmouseleave event
-        canSlide: true // can the slider slide
+        canSlide: true, // can the slider slide
+        componentIsReady: false // component is ready when all events are defined
       };
 
+      this.updateHOC = this.updateHOC.bind(this);
       this.changeCurrentPosition = this.changeCurrentPosition.bind(this);
     }
 
@@ -32,7 +34,7 @@ const SlidingPart = (OriginalComponent, addInfo) => {
       });
     }
 
-    componentDidMount() {
+    updateHOC() {
       let totalWidth = 0;
       if (addInfo.isSlider) for (let i of this.SlidingPartRef.current.children) totalWidth += i.clientWidth;
       else {
@@ -166,8 +168,11 @@ const SlidingPart = (OriginalComponent, addInfo) => {
             }
           }
         }
-
       });
+    }
+
+    componentDidMount() {
+      this.updateHOC();
     }
 
     static contextType = info;
@@ -180,6 +185,7 @@ const SlidingPart = (OriginalComponent, addInfo) => {
           sliderPanelRef={this.SliderPanelRef}
           changeCurrentPosition={this.changeCurrentPosition}
           {...this.state}
+          updateHOC={this.updateHOC}
         />
       );
     }

@@ -32,7 +32,7 @@ const Item = ({ name, price, rating, link, photo }) => {
       </div>
       <span className="price noselect">{`${price} грн`}</span>
       <div className="topItemButtons">
-        <Link to={link}>
+        <Link to={`/item/${link}`}>
           <RedButton text={lang === 'ua' ? 'Детальніше' : 'Подробнее'} />
         </Link>
         <img src={favorite} alt="favorite"/>
