@@ -19,13 +19,26 @@ const SlidingPart = (OriginalComponent, addInfo) => {
         isTouched: false, // has user touched slider at all
         isBeingTouched: false, // is slider being touched
         positionForLeave: 0, // total position for onmouseleave event
-        canSlide: true, // can the slider slide
-        componentIsReady: false // component is ready when all events are defined
+        canSlide: true // can the slider slide\
       };
 
       this.updateHOC = this.updateHOC.bind(this);
       this.changeCurrentPosition = this.changeCurrentPosition.bind(this);
     }
+
+    // shouldComponentUpdate() {
+    //   if (this.state.shouldItUpdate && this.props.slides !== undefined) {
+    //     console.log(true)
+    //     this.setState({
+    //       shouldItUpdate: false
+    //     });
+    //     return true;
+    //   }
+    //   else {
+    //     console.log(false)
+    //     return false;
+    //   }
+    // }
 
     changeCurrentPosition(x) {
       this.setState({
