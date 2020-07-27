@@ -47,6 +47,8 @@ project
     │   │ RedButton.js - red button
     │   │ Slider.js - slider
     │   │ SlidingPart.js - sliding part HOC
+    │   │ Item.js - item in the shop
+    │   │ TopItems.js - catalog of the most popular ones
     │   
     └───css - css files compiled by sass
     │   
@@ -111,6 +113,8 @@ import { info } from '../context'
 
 #### Lifecycle
 
+Lifecycle takes place in **updateHOC** function.
+
 In **componentDidMount** it defines the total width , sets the actions while **touchstart** (**mousedown**) , **touchend** (**mouseup**) and **touchmove** (**mousemove**). In **touchstart** (**mousedown**) listener the transition is disabled and **this.state.startPosition** gets set. **touchmove** (**mousemove**) changes **this.state.currentPosition** that moves **this.SlidingPartRef** via *transform: translate3D*. **touchend** (**mouseup**) sets transition to *'transform .2s'* and **this.state.endPosition** to the x coordinate of *translate3D*. If this value if bigger than 0 , it slides to the start. If the value is less than **-this.state.totalSlidingWidth**, it slides to the end.
 
 ## Pages
@@ -121,14 +125,17 @@ Takes place in **src/pages/404.js**. Serves */\** root.
 
 ### Main.js
 
-Takes place in **src/pages/App.js**. Serves */* root.
+Takes place in **src/pages/Main.js**. Serves */* root.
 
 #### Imports
 
 ```
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState, useContext } from 'react'
 import SlidingPartHOC from '../components/SlidingPart'
 import Slider from '../components/Slider'
+import TopItems from '../components/TopItems'
+
+import { img, info, css } from '../context'
 import axios from 'axios'
 import '../css/main.css'
 ```
@@ -136,6 +143,9 @@ import '../css/main.css'
 #### Properties
 
 1) photosForSlider
+2) red - red color
+3) text - 'text' font
+4) lang - current language
 
 #### Sub components
 
@@ -178,6 +188,11 @@ import arrow_sign_white from './img/arrow_w.png'
 import helper from './img/helper.png'
 import radio from './img/radio.png'
 import radio_checked from './img/radio_checked.png'
+import star from './img/star.png'
+import star_active from './img/star_active.png'
+import truck from './img/truck.png'
+import like from './img/like.png'
+import checked from './img/checked.png'
 ```
 
 #### Properties
@@ -204,6 +219,7 @@ Takes place in **src/components/Radio.js**.
 
 ```
 import React, { Fragment, useContext, useRef } from 'react'
+import PropTypes from 'prop-types'
 import { img } from '../context'
 ```
 
@@ -396,6 +412,66 @@ import axios from 'axios'
 
 1) SearchIcon - search icon *(takes one prop: click - click function)*
 2) MenuIcon - menu icon *(takes one prop: img - image)*
+
+### Item.js (functional component)
+
+Takes place in **src/components/Item.js**.
+
+#### Imports
+
+```
+import React, { useEffect, useContext, useState } from 'react'
+import { Link } from 'react-router-dom'
+import RedButton from './RedButton'
+import { img, info } from '../context'
+import PropTypes from 'prop-types'
+```
+
+#### Props
+
+1) name - name of the item
+2) price - price in grivnas
+3) rating - nubmer from **0** to **5** 
+4) link - link to an item *(only its **_id** is passed)*
+5) photo - link to the photo *(only the name of the file)*
+
+#### Properties
+
+1) roundedPrice - a rounded price of the item *(made for sure)*
+2) lang - current lang
+3) { star, star_active, bin, favorite } -images
+4) stars - an array that contains active stars to render them
+
+#### Methods
+
+1) makeUndraggble - makes the photos undraggble
+
+### TopItems.js (functional component)
+
+Takes place in **src/components/TopItems.js**.
+
+#### Imports
+
+```
+import React, { useState, useEffect } from 'react'
+import SlidingPart from './SlidingPart'
+import Item from './Item'
+import axios from 'axios'
+import PropTypes from 'prop-types'
+```
+
+#### Props
+
+All properties are taken from **SlidingPart.js**
+
+1) slidingPart
+2) sliderPanelRef 
+3) currentPosition 
+4) updateHOC
+
+#### Properties
+
+1) items - all items to render
 
 ### Input.js (functional component)
 

@@ -1,4 +1,5 @@
 import React, { Fragment, useContext, useRef } from 'react'
+import PropTypes from 'prop-types'
 import { img } from '../context'
 
 const Radio = ({ name, id, isCehcked, click, index }) => {
@@ -17,5 +18,12 @@ const Radio = ({ name, id, isCehcked, click, index }) => {
     </Fragment>
   )
 }
+
+Radio.propTypes = {
+  name: PropTypes.string,
+  id: PropTypes.string,
+  isCehcked: PropTypes.bool,
+  click: PropTypes.func
+};
 
 export default Radio

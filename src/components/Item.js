@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import RedButton from './RedButton'
 import { img, info } from '../context'
+import PropTypes from 'prop-types'
 
 const Item = ({ name, price, rating, link, photo }) => {
 
@@ -35,11 +36,19 @@ const Item = ({ name, price, rating, link, photo }) => {
         <Link to={`/item/${link}`}>
           <RedButton text={lang === 'ua' ? 'Детальніше' : 'Подробнее'} />
         </Link>
-        <img src={favorite} alt="favorite"/>
-        <img src={bin} alt="bin"/>
+        <img src={favorite} alt="favorite" />
+        <img src={bin} alt="bin" />
       </div>
     </div>
   )
 }
+
+Item.propTypes = {
+  name: PropTypes.string,
+  price: PropTypes.number,
+  rating: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
+  link: PropTypes.string,
+  photo: PropTypes.string
+};
 
 export default Item

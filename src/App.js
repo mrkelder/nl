@@ -89,7 +89,7 @@ class App extends Component {
     window.addEventListener('resize', () => {
       this.changeResolution(document.getElementsByTagName('body')[0].clientWidth);
     });
-
+    
     if (localStorage.getItem('lang') === null) {
       localStorage.setItem('lang', 'ua');
     }
@@ -119,8 +119,8 @@ class App extends Component {
   }
 
   componentDidCatch(err) {
-    console.log(err)
-    this.setState({ hasError: true })
+    console.log(err);
+    this.setState({ hasError: true });
   }
 
   render() {
