@@ -18,10 +18,27 @@ const SlidingPart = (OriginalComponent, addInfo) => {
         currentPositionOnScreen: 0, // current position on a screen (from 0 to current width)
         isTouched: false, // has user touched slider at all
         isBeingTouched: false, // is slider being touched
+        positionForLeave: 0, // total position for onmouseleave event
+        canSlide: true // can the slider slide\
       };
 
+      this.updateHOC = this.updateHOC.bind(this);
       this.changeCurrentPosition = this.changeCurrentPosition.bind(this);
     }
+
+    // shouldComponentUpdate() {
+    //   if (this.state.shouldItUpdate && this.props.slides !== undefined) {
+    //     console.log(true)
+    //     this.setState({
+    //       shouldItUpdate: false
+    //     });
+    //     return true;
+    //   }
+    //   else {
+    //     console.log(false)
+    //     return false;
+    //   }
+    // }
 
     changeCurrentPosition(x) {
       this.setState({
@@ -30,9 +47,20 @@ const SlidingPart = (OriginalComponent, addInfo) => {
       });
     }
 
-    componentDidMount() {
+    updateHOC() {
       let totalWidth = 0;
-      for (let i of this.SlidingPartRef.current.children) totalWidth += i.clientWidth;
+      if (addInfo.isSlider) for (let i of this.SlidingPartRef.current.children) totalWidth += i.clientWidth;
+      else {
+        // PC devices
+        const sliderPart = this.SliderPanelRef.current;
+        const children = sliderPart.children[0].children;
+        const child = children[0];
+        const allowedQuantityOfItems = Math.round((sliderPart.clientWidth - 18) / child.clientWidth);
+        const balance = children.length % allowedQuantityOfItems;
+        totalWidth = Math.floor((children.length - balance) * child.clientWidth);
+        totalWidth += balance * child.clientWidth;
+        totalWidth -= (allowedQuantityOfItems - 1) * child.clientWidth - this.SlidingPartRef.current.children[0].clientWidth;
+      }
       this.setState({
         totalSlidingWidth: totalWidth - this.SlidingPartRef.current.children[0].clientWidth
       }, () => {
@@ -87,19 +115,37 @@ const SlidingPart = (OriginalComponent, addInfo) => {
         }
         else {
           // If device's width is begger or equal to 1024px
+          this.SliderPanelRef.current.onmouseleave = () => {
+            if (this.state.isTouched && !!addInfo.isSlider) {
+              this.SlidingPartRef.current.style.transition = 'transform .2s';
+              this.changeCurrentPosition(this.state.positionForLeave);
+              this.setState({
+                canSlide: false
+              });
+            }
+            else if (this.state.isTouched && !addInfo.isSlider) {
+              this.changeCurrentPosition(this.state.currentPosition);
+              this.setState({
+                canSlide: false
+              });
+            }
+          }
+
           this.SliderPanelRef.current.onmousedown = e => {
             // Touch
             this.SlidingPartRef.current.style.transition = 'none';
-            this.setState({
+            this.setState(oldState => ({
+              positionForLeave: oldState.currentPosition,
               startPosition: Math.floor(e.x),
               isTouched: true,
-              isBeingTouched: true
-            });
+              isBeingTouched: true,
+              canSlide: true
+            }));
           }
 
           this.SliderPanelRef.current.onmousemove = e => {
             // While moving
-            if (this.state.isTouched) {
+            if (this.state.isTouched && this.state.canSlide) {
               this.setState(oldState => ({
                 currentPosition: (Math.floor(e.x) + oldState.endPosition) - oldState.startPosition
               }));
@@ -135,8 +181,11 @@ const SlidingPart = (OriginalComponent, addInfo) => {
             }
           }
         }
-
       });
+    }
+
+    componentDidMount() {
+      this.updateHOC();
     }
 
     static contextType = info;
@@ -149,6 +198,7 @@ const SlidingPart = (OriginalComponent, addInfo) => {
           sliderPanelRef={this.SliderPanelRef}
           changeCurrentPosition={this.changeCurrentPosition}
           {...this.state}
+          updateHOC={this.updateHOC}
         />
       );
     }

@@ -484,6 +484,9 @@ header #sec2_h #sec2_h_wrapper .search_clean {
   header #sec2_h #sec2_h_wrapper .menu_icon {
     margin: 0 25px;
   }
+  header #catalog {
+    z-index: 150;
+  }
 }
 
 /*# sourceMappingURL=header.css.map */

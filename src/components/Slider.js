@@ -73,6 +73,8 @@ const Slider = props => {
       }
       setComponentIsReady(false);
     }
+    // DO NOT put componentIsReady into the dependencies array
+    // eslint-disable-next-line
   }, [currentPositionOnScreen, margin, oneSector, currentSlide, slides.length, isTouched, onePiece, changeCurrentPosition, isBeingTouched]);
 
   return (

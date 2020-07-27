@@ -26,6 +26,11 @@ import arrow_sign_white from './img/arrow_w.png'
 import helper from './img/helper.png'
 import radio from './img/radio.png'
 import radio_checked from './img/radio_checked.png'
+import star from './img/star.png'
+import star_active from './img/star_active.png'
+import truck from './img/truck.png'
+import like from './img/like.png'
+import checked from './img/checked.png'
 
 class App extends Component {
   constructor(props) {
@@ -68,7 +73,12 @@ class App extends Component {
         cross,
         crossRed,
         radio,
-        radio_checked
+        radio_checked,
+        star_active,
+        star,
+        truck,
+        checked,
+        like
       }
     };
     this.changeLang = this.changeLang.bind(this);
@@ -79,7 +89,7 @@ class App extends Component {
     window.addEventListener('resize', () => {
       this.changeResolution(document.getElementsByTagName('body')[0].clientWidth);
     });
-
+    
     if (localStorage.getItem('lang') === null) {
       localStorage.setItem('lang', 'ua');
     }
@@ -109,8 +119,8 @@ class App extends Component {
   }
 
   componentDidCatch(err) {
-    console.log(err)
-    this.setState({ hasError: true })
+    console.log(err);
+    this.setState({ hasError: true });
   }
 
   render() {
