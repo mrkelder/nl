@@ -199,6 +199,15 @@
   font-size: 1.8rem;
 }
 
+#banners {
+  margin: 15px 0;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+#banners * {
+  width: 100%;
+}
+
 @media (min-width: 768px) {
   #info_about_us {
     flex-direction: row;
@@ -220,10 +229,28 @@
     margin: 0 auto 0 5px;
   }
 }
+@media (min-width: 1024px) {
+  #banners {
+    margin: 15px 10px;
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2em;
+  }
+}
 @media (min-width: 1440px) {
   #info_about_us {
     margin: 0 auto;
     max-width: 1386px;
+  }
+
+  #banners {
+    max-width: 1386px;
+    margin: 15px auto;
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 4em;
   }
 }
 

@@ -6,6 +6,7 @@ import TopItems from '../components/TopItems'
 import { img, info, css } from '../context'
 import axios from 'axios'
 import '../css/main.css'
+import { Link } from 'react-router-dom'
 
 const Main = () => {
   const { truck, checked, like } = useContext(img);
@@ -13,6 +14,7 @@ const Main = () => {
   const { text } = useContext(css).fonts;
   const { lang } = useContext(info);
   const [photosForSlider, setPhotosForSlider] = useState([]);
+  const [banners, setBanners] = useState([]);
 
   const ActualSlider = SlidingPartHOC(Slider, {
     slides: photosForSlider,
@@ -23,6 +25,16 @@ const Main = () => {
     axios.get('http://localhost:8080/getSlides')
       .then(slides => {
         setPhotosForSlider(slides.data.slides);
+      })
+      .catch(err => {
+        console.error(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/getBanners')
+      .then(banners => {
+        setBanners(banners.data);
       })
       .catch(err => {
         console.error(err.message);
@@ -53,6 +65,17 @@ const Main = () => {
         </span>
       </h2>
       <TopItems />
+      { banners.length > 0 &&
+        <div id="banners">
+          <Link to={banners[0].link}>
+            <img className="banner" src={`http://localhost:8080/${banners[0].name}`} alt="banner" />
+          </Link>
+          <Link to={banners[1].link}>
+            <img className="banner" src={`http://localhost:8080/${banners[1].name}`} alt="banner" />
+          </Link>
+        </div>
+      }
+
     </Fragment>
   )
 }
