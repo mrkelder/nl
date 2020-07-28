@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 
 const TopItems = ({ slidingPart, sliderPanelRef, currentPosition, updateHOC }) => {
   const [items, setItems] = useState([{ themes: [{ rating: 0 }] }]);
-  console.log(updateHOC)
   useEffect(() => {
     axios.get('http://localhost:8080/getTopItems').then(info => {
       setItems(info.data);
