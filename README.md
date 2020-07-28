@@ -138,6 +138,7 @@ import TopItems from '../components/TopItems'
 import { img, info, css } from '../context'
 import axios from 'axios'
 import '../css/main.css'
+import { Link } from 'react-router-dom'
 ```
 
 #### Properties
@@ -146,6 +147,8 @@ import '../css/main.css'
 2) red - red color
 3) text - 'text' font
 4) lang - current language
+5) photosForSlider
+6) banners - banners for Main.js page
 
 #### Sub components
 
