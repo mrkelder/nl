@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState, useContext } from 'react'
 import SlidingPartHOC from '../components/SlidingPart'
 import Slider from '../components/Slider'
 import TopItems from '../components/TopItems'
+import Map from '../components/Map'
 
 import { img, info, css } from '../context'
 import axios from 'axios'
@@ -12,7 +13,7 @@ const Main = () => {
   const { truck, checked, like } = useContext(img);
   const { red } = useContext(css).colors;
   const { text } = useContext(css).fonts;
-  const { lang } = useContext(info);
+  const { lang , resolution} = useContext(info);
   const [photosForSlider, setPhotosForSlider] = useState([]);
   const [banners, setBanners] = useState([]);
 
@@ -22,6 +23,7 @@ const Main = () => {
   });
 
   useEffect(() => {
+    // Fetching slides for the slider
     axios.get('http://localhost:8080/getSlides')
       .then(slides => {
         setPhotosForSlider(slides.data.slides);
@@ -32,6 +34,7 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
+    // Fetching banners
     axios.get('http://localhost:8080/getBanners')
       .then(banners => {
         setBanners(banners.data);
@@ -65,7 +68,7 @@ const Main = () => {
         </span>
       </h2>
       <TopItems />
-      { banners.length > 0 &&
+      {banners.length > 0 &&
         <div id="banners">
           <Link to={banners[0].link}>
             <img className="banner" src={`http://localhost:8080/${banners[0].name}`} alt="banner" />
@@ -75,7 +78,7 @@ const Main = () => {
           </Link>
         </div>
       }
-
+      {resolution >= 1024 && <Map />}
     </Fragment>
   )
 }

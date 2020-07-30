@@ -1,6 +1,7 @@
 @import "init";
 @import "slider";
 @import "topItems";
+@import "map";
 
 #info_about_us {
   background-color: $grey;
@@ -84,5 +85,5 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 4em;
-  } 
+  }
 }

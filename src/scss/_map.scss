@@ -1,0 +1,84 @@
+@media (min-width: 1024px) {
+  #banners {
+    margin: 15px 10px;
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2em;
+  }
+  #map {
+    overflow: hidden;
+    display: flex;
+    margin: 15px 10px;
+    box-shadow: 0px 2px 6px 1px #9d9d9dc4;
+    height: 600px;
+    #available_shops {
+      overflow-y: auto;
+      min-width: 250px;
+      height: 100%;
+      h2,
+      #map_hr {
+        margin: 15px 20px 0;
+      }
+      .shop {
+        background-color: $white;
+        width: 320px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        // margin: 20px 0 0;
+        padding: 5px 0;
+        .shop_1 {
+          display: flex;
+          align-items: center;
+          .info {
+            p {
+              margin: 5px 15px;
+              font-weight: bold;
+              color: black;
+            }
+            span {
+              margin: 5px 15px;
+              font-size: 0.9rem;
+            }
+          }
+          .arrow {
+            margin: 0 15px 0 auto;
+            right: 0;
+          }
+        }
+      }
+      .shop_2 {
+        span {
+          margin: 5px 15px;
+          font-size: .9rem;
+        }
+        ul{
+          margin: 5px 15px;
+          @include font('text');
+          color: $text_grey;
+          padding: 0;
+          list-style: none;
+          li{
+            font-size: .8rem;
+            margin: 5px 0;
+          }
+        }
+      }
+      .shop_hr {
+        margin: 0;
+      }
+    }
+    #google_map {
+      flex: 1;
+      position: relative;
+    }
+  }
+}
+
+@media (min-width: 1440px) {
+  #map {
+    margin: 15px auto;
+    max-width: 1386px;
+  }
+}
