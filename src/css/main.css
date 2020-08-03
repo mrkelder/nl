@@ -195,6 +195,12 @@
 #map #available_shops #map_hr {
     margin: 15px 20px 0;
   }
+  #map #available_shops select {
+    cursor: pointer;
+    width: 250px;
+    height: 35px;
+    margin: 10px 20px;
+  }
   #map #available_shops .shop {
     background-color: white;
     width: 320px;

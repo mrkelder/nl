@@ -9,11 +9,18 @@ function MapContainer(props) {
   const { lang, resolution } = useContext(info);
   const { text } = useContext(css).fonts;
   const [cities, setCities] = useState([]);
-  const [city, setCity] = useState('');
   const [cityIndex, setCityIndex] = useState(0);
   const [shopIndex, setShopIndex] = useState(0);
   const [focusPoint, setFocusPoint] = useState({ lat: 0, lng: 0 });
   const [points, setPoints] = useState([{ lat: 0, lng: 0 }]);
+
+  const changeCity = e => {
+    // Changes city (select , option)
+    const id = e.target.value;
+    const foundResult = cities.findIndex(i => i._id === id);
+    setCityIndex(foundResult);
+    updatePoints(cities[foundResult].shops)
+  }
 
   const changeShopIndex = (index, shops) => {
     // Changes a focused shop
@@ -57,7 +64,6 @@ function MapContainer(props) {
     axios.get('http://localhost:8080/getShops')
       .then(cities => {
         setCities(cities.data);
-        setCity(cities.data[0]._id);
         updatePoints(cities.data[0].shops);
       })
       .catch(err => {
@@ -72,6 +78,16 @@ function MapContainer(props) {
           <div id="available_shops">
             <h2 style={{ fontFamily: text }}>{lang === 'ua' ? 'Магазини' : 'Магазины'}</h2>
             <hr id="map_hr" />
+            {
+              cities.length !== 0 &&
+              <Fragment>
+                <select value={cities[cityIndex]._id} onChange={changeCity}>
+                  {
+                    cities.map(element => <option value={element._id} key={element._id}>{element.name[lang]}</option>)
+                  }
+                </select>
+              </Fragment>
+            }
             {cities.length > 0 &&
               <Fragment>
                 {
@@ -103,5 +119,5 @@ function MapContainer(props) {
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyDim40OZi70dDqQlgRUZayvUIxHy7gRujM'
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API
 })(MapContainer)

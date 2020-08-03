@@ -20,6 +20,12 @@
       #map_hr {
         margin: 15px 20px 0;
       }
+      select {
+        cursor: pointer;
+        width: 250px;
+        height: 35px;
+        margin: 10px 20px;
+      }
       .shop {
         background-color: $white;
         width: 320px;
@@ -51,16 +57,16 @@
       .shop_2 {
         span {
           margin: 5px 15px;
-          font-size: .9rem;
+          font-size: 0.9rem;
         }
-        ul{
+        ul {
           margin: 5px 15px;
-          @include font('text');
+          @include font("text");
           color: $text_grey;
           padding: 0;
           list-style: none;
-          li{
-            font-size: .8rem;
+          li {
+            font-size: 0.8rem;
             margin: 5px 0;
           }
         }
