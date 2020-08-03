@@ -134,6 +134,7 @@ import React, { Fragment, useEffect, useState, useContext } from 'react'
 import SlidingPartHOC from '../components/SlidingPart'
 import Slider from '../components/Slider'
 import TopItems from '../components/TopItems'
+import Map from '../components/Map'
 
 import { img, info, css } from '../context'
 import axios from 'axios'
@@ -149,6 +150,7 @@ import { Link } from 'react-router-dom'
 4) lang - current language
 5) photosForSlider
 6) banners - banners for Main.js page
+7) lang - language
 
 #### Sub components
 
@@ -213,6 +215,63 @@ import checked from './img/checked.png'
 2) this.changeLang - changes language (can be ua or ru only)
 3) this.componentDidCatch - handles when there is a problem downstairs the tree (you can check it out by accessing this.state.hasError)
 4) this.changeResolution - changes **this.state.resolution** value on every *resize event*
+
+### Map.js (functional component)
+
+Takes place in **src/components/Map.js**.
+
+#### Imports
+
+```
+import React, { Fragment, useContext, useState, useEffect, useCallback } from 'react'
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
+import Shop from './Shop'
+
+import { info, css } from '../context'
+import axios from 'axios'
+```
+
+#### Properties
+
+1) lang - language
+2) resolution
+3) text - plain text's font
+4) cities - all available cities 
+5) cityIndex - index of the chosen city
+6) shopIndex - index of the chosen shop
+7) focusPoint - a point for google map to focus on (focuses on picked out shop)
+8) points - all shops available in the current city
+
+#### Methods
+
+1) changeCity - changes **cityIndex** and updates **points**
+2) changeShopIndex - basically changes **shopIndex** and **focusPoint**
+3) changeShopIndex - functionality for **Shop.js** components
+
+#### Sub components
+
+1) GoogleMap - a functional component that rerenders when **focusPoint** or **points** are updated *(because a core google map does not update itself)*
+
+### Shop.js (functional component)
+
+Takes place in **src/components/Shop.js**.
+
+#### Properties
+
+1) arrow_sign
+2) { light_grey, white } - colors
+3) lang - language
+4) degrees - rotation for arrow when it's picked out
+5) timeTable - is timetable shown or not
+6) backgroundOfShop - background color of current shop item
+
+#### Props
+
+1) click - function that on click
+2) id - id of current shop *(**_id**)*
+3) days - actual timetable of working days
+4) name - name of the current shop
+5) isChecked - is this city picked out
 
 ### Radio.js (functional component)
 
