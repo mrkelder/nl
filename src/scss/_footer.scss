@@ -1,0 +1,117 @@
+footer {
+  background-color: $footer_bg;
+  padding: 15px 0;
+  #footer_wrapper {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    a,
+    span,
+    p {
+      color: $white;
+    }
+    #footer_info {
+      margin: 0 15px;
+      display: flex;
+      flex-direction: column;
+      #social_medias,
+      #payments {
+        display: flex;
+        justify-content: space-between;
+      }
+      #social_medias {
+        img {
+          width: 20px;
+        }
+      }
+      #payments {
+        margin-top: 15px;
+        img {
+          width: 30px;
+          &:first-child {
+            width: 75px;
+          }
+        }
+      }
+      #footer_tel,
+      .footer_time_table {
+        margin-top: 15px;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+      }
+      .footer_time_table {
+        width: 182px;
+      }
+      > {
+        p:not(.footer_time_table) {
+          font-size: 0.9rem;
+          margin: 5px 0;
+        }
+      }
+    }
+    .footer_section {
+      display: flex;
+      flex-direction: column;
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1.1rem;
+        padding: 15px 10px;
+        box-sizing: border-box;
+        color: $white;
+        text-align: start;
+        background-color: $footer_bg;
+        width: 100%;
+        border: none;
+        border-top: 1px solid $grey;
+        border-bottom: 1px solid $grey;
+        img {
+          width: 20px;
+        }
+      }
+      .footer_section_links {
+        flex-direction: column;
+        * {
+          background-color: #3b3c3d;
+          border: 1px solid $grey;
+          padding: 15px 10px;
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  footer {
+    padding-top: 35px;
+    #footer_wrapper {
+      justify-content: space-between;
+      flex-direction: row;
+      #footer_info {
+        max-width: 250px;
+      }
+      .footer_section {
+        h3 {
+          margin: 0;
+          margin-bottom: 5px;
+          color: $white;
+          font-size: 1.4rem;
+        }
+        a {
+          margin: 5px 0;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1440px) {
+  footer {
+    #footer_wrapper {
+      max-width: 1386px;
+      margin: auto;
+    }
+  }
+}

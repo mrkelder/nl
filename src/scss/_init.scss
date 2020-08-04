@@ -5,6 +5,7 @@ $light_grey: #f4f4f4;
 $text_grey: #333;
 $text_light_grey: #999;
 $window_bg: #0a0a0aa1;
+$footer_bg: #303233;
 
 @mixin font($font) {
   font-family: $font, Arial, Helvetica, sans-serif;
