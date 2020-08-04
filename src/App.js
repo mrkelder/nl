@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './pages/Main'
+import Footer from './components/Footer'
 import NotFound from './pages/404'
 import { info as Info, css as CSS, img as Img } from './context'
 import './css/index.css'
@@ -31,6 +32,13 @@ import star_active from './img/star_active.png'
 import truck from './img/truck.png'
 import like from './img/like.png'
 import checked from './img/checked.png'
+import fb from './img/fb.png'
+import yt from './img/yt.png'
+import insta from './img/insta.png'
+import tw from './img/tw.png'
+import visa from './img/visa.png'
+import mc from './img/mc.png'
+import vvmc from './img/vvmc.svg'
 
 class App extends Component {
   constructor(props) {
@@ -78,7 +86,14 @@ class App extends Component {
         star,
         truck,
         checked,
-        like
+        like,
+        fb,
+        yt,
+        tw,
+        insta,
+        visa,
+        mc,
+        vvmc
       }
     };
     this.changeLang = this.changeLang.bind(this);
@@ -148,6 +163,7 @@ class App extends Component {
                     <Route path="/*" exact component={NotFound} />
                   </Switch>
                 </main>
+                <Footer />
               </Img.Provider>
             </CSS.Provider>
           </Info.Provider>

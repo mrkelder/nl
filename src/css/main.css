@@ -255,6 +255,114 @@
     max-width: 1386px;
   }
 }
+footer {
+  background-color: #303233;
+  padding: 15px 0;
+}
+footer #footer_wrapper {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+footer #footer_wrapper a,
+footer #footer_wrapper span,
+footer #footer_wrapper p {
+  color: white;
+}
+footer #footer_wrapper #footer_info {
+  margin: 0 15px;
+  display: flex;
+  flex-direction: column;
+}
+footer #footer_wrapper #footer_info #social_medias,
+footer #footer_wrapper #footer_info #payments {
+  display: flex;
+  justify-content: space-between;
+}
+footer #footer_wrapper #footer_info #social_medias img {
+  width: 20px;
+}
+footer #footer_wrapper #footer_info #payments {
+  margin-top: 15px;
+}
+footer #footer_wrapper #footer_info #payments img {
+  width: 30px;
+}
+footer #footer_wrapper #footer_info #payments img:first-child {
+  width: 75px;
+}
+footer #footer_wrapper #footer_info #footer_tel,
+footer #footer_wrapper #footer_info .footer_time_table {
+  margin-top: 15px;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+footer #footer_wrapper #footer_info .footer_time_table {
+  width: 182px;
+}
+footer #footer_wrapper #footer_info > p:not(.footer_time_table) {
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+footer #footer_wrapper .footer_section {
+  display: flex;
+  flex-direction: column;
+}
+footer #footer_wrapper .footer_section button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  padding: 15px 10px;
+  box-sizing: border-box;
+  color: white;
+  text-align: start;
+  background-color: #303233;
+  width: 100%;
+  border: none;
+  border-top: 1px solid #4a4d4e;
+  border-bottom: 1px solid #4a4d4e;
+}
+footer #footer_wrapper .footer_section button img {
+  width: 20px;
+}
+footer #footer_wrapper .footer_section .footer_section_links {
+  flex-direction: column;
+}
+footer #footer_wrapper .footer_section .footer_section_links * {
+  background-color: #3b3c3d;
+  border: 1px solid #4a4d4e;
+  padding: 15px 10px;
+  font-size: 0.8rem;
+}
+
+@media (min-width: 1024px) {
+  footer {
+    padding-top: 35px;
+  }
+  footer #footer_wrapper {
+    justify-content: space-between;
+    flex-direction: row;
+  }
+  footer #footer_wrapper #footer_info {
+    max-width: 250px;
+  }
+  footer #footer_wrapper .footer_section h3 {
+    margin: 0;
+    margin-bottom: 5px;
+    color: white;
+    font-size: 1.4rem;
+  }
+  footer #footer_wrapper .footer_section a {
+    margin: 5px 0;
+  }
+}
+@media (min-width: 1440px) {
+  footer #footer_wrapper {
+    max-width: 1386px;
+    margin: auto;
+  }
+}
 #info_about_us {
   background-color: #4a4d4e;
   padding: 10px 15px;
