@@ -1,8 +1,9 @@
-import React, { Fragment, useRef, useEffect, useState, useCallback } from 'react'
+import React, { Fragment, useRef, useEffect, useState, useCallback , useContext} from 'react'
 import Radio from './Radio'
-import notFound from '../img/notFound.jpg'
+import { img } from '../context'
 
 const Slider = props => {
+  const { notFound } = useContext(img);
   const { slides, currentPosition, slidingPart, sliderPanelRef, changeCurrentPosition, currentPositionOnScreen, isTouched, isBeingTouched } = props;
   const [sliderHeight, setSliderHeight] = useState(0); // height for the slider
   const [onePiece, setOnePiece] = useState(0); // the width of one slide
