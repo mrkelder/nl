@@ -211,7 +211,7 @@ const Header = () => {
                         {
                           subItems.map((element, index) => (
                             <div key={index} className="items_wrapper">
-                              <Link onClick={openCatalog} key={`item_${index}`} to={element.link} className="sub_item">
+                              <Link onClick={openCatalog} key={`item_${index}`} to={`/shop${element.link}`} className="sub_item">
                                 <h3>{element.name[lang]}</h3>
                               </Link>
                               {element.companies.map(i => (
@@ -293,7 +293,7 @@ const Header = () => {
               <section id="sub_items_block">
                 {
                   subItems.map((element, index) => (
-                    <Link key={`item_${index}`} to={element.link} className="sub_item" onClick={chooseItem}>
+                    <Link key={`item_${index}`} to={`/shop${element.link}`} className="sub_item" onClick={chooseItem}>
                       {element.name[lang]}
                     </Link>
                   ))
