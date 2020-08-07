@@ -1,5 +1,6 @@
 import React, { useContext, Fragment, useState, useEffect } from 'react'
 import { img, css, info } from '../context'
+import PropTypes from 'prop-types'
 
 function Shop({ click, id, days, name, isChecked }) {
   const { arrow_sign } = useContext(img);
@@ -69,5 +70,18 @@ function Shop({ click, id, days, name, isChecked }) {
     </Fragment>
   )
 }
+
+Shop.propTypes = {
+  click: PropTypes.func,
+  id: PropTypes.string,
+  days: PropTypes.arrayOf(
+    PropTypes.shape({
+      day: PropTypes.objectOf(PropTypes.string.isRequired),
+      time: PropTypes.string.isRequired
+    })
+  ),
+  name: PropTypes.string,
+  isChecked: PropTypes.bool
+};
 
 export default Shop

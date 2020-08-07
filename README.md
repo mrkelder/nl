@@ -169,10 +169,12 @@ import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './pages/Main'
+import Footer from './components/Footer'
 import NotFound from './pages/404'
 import { info as Info, css as CSS, img as Img } from './context'
 import './css/index.css'
 
+import notFound from './img/notFound.jpg'
 import cross from './img/cross.svg'
 import crossWhite from './img/crossWhite.svg'
 import crossRed from './img/crossRed.svg'
@@ -198,6 +200,13 @@ import star_active from './img/star_active.png'
 import truck from './img/truck.png'
 import like from './img/like.png'
 import checked from './img/checked.png'
+import fb from './img/fb.png'
+import yt from './img/yt.png'
+import insta from './img/insta.png'
+import tw from './img/tw.png'
+import visa from './img/visa.png'
+import mc from './img/mc.png'
+import vvmc from './img/vvmc.svg'
 ```
 
 #### Properties
@@ -255,6 +264,14 @@ import axios from 'axios'
 ### Shop.js (functional component)
 
 Takes place in **src/components/Shop.js**.
+
+#### Imports
+
+```
+import React, { useContext, Fragment, useState, useEffect } from 'react'
+import { img, css, info } from '../context'
+import PropTypes from 'prop-types'
+```
 
 #### Properties
 
@@ -344,9 +361,9 @@ Takes place in **src/components/Slider.js**. Depends on **SlidingPart.js**.
 #### Imports
 
 `
-import React, { Fragment, useRef, useEffect, useState, useCallback } from 'react'
+import React, { Fragment, useRef, useEffect, useState, useCallback , useContext} from 'react'
 import Radio from './Radio'
-import notFound from '../img/notFound.jpg'
+import { img } from '../context'
 `
 
 #### Props

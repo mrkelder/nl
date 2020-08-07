@@ -7,6 +7,7 @@ import NotFound from './pages/404'
 import { info as Info, css as CSS, img as Img } from './context'
 import './css/index.css'
 
+import notFound from './img/notFound.jpg'
 import cross from './img/cross.svg'
 import crossWhite from './img/crossWhite.svg'
 import crossRed from './img/crossRed.svg'
@@ -93,7 +94,8 @@ class App extends Component {
         insta,
         visa,
         mc,
-        vvmc
+        vvmc,
+        notFound
       }
     };
     this.changeLang = this.changeLang.bind(this);

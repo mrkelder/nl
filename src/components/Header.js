@@ -36,6 +36,7 @@ const Header = () => {
   const { white, light_grey } = cssContext.colors;
 
   const getCatalog = () => {
+    // Receives the catalog of the categries
     setCatalogUploaded(false);
     setCatalogHasProblem(false);
     axios.get('http://localhost:8080/getCatalog')
@@ -54,6 +55,7 @@ const Header = () => {
   useEffect(getCatalog, []);
 
   useEffect(() => {
+    // Renders subItems of the first category of the catalog (when you first opens it)
     if (resolution >= 1024 && catalog.length !== 0) {
       setSubItems(catalog[0].items);
       setSubItemsName(catalog[0].name);
@@ -61,6 +63,7 @@ const Header = () => {
   }, [catalog , resolution]);
 
   useEffect(() => {
+    // Makes fiest element of the catalog picked out (when you first opens it)
     if (resolution >= 1024 && chosenItem === null && isCatalogOpen) {
       document.getElementsByClassName('catalog_item')[0].style.backgroundColor = light_grey;
     }
@@ -70,6 +73,7 @@ const Header = () => {
   }, [isCatalogOpen , chosenItem , light_grey , resolution]);
 
   const openCallBack = () => {
+    // Opens call me back window
     setMenuOpen(false);
     setCallBackOpen(true);
   };
@@ -83,10 +87,12 @@ const Header = () => {
   };
 
   const changeSearchText = e => {
+    // Changes search's value
     setSearchText(e);
   };
 
   const openSubItems = e => {
+    // Opens subItems of the picked out category
     const id = e.target.getAttribute('data-id');
     const currentSubItems = catalog[catalog.findIndex(i => id === i._id)];
     setSubItems(currentSubItems.items);
@@ -102,6 +108,7 @@ const Header = () => {
   };
 
   const closeSubItems = () => {
+    // Slides subItems to the right (work only in mobile devices)
     setSubItemsLeft('95vw');
   };
 
