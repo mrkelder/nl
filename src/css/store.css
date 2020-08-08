@@ -1,0 +1,37 @@
+#store {
+  padding: 10px 15px;
+}
+#store #bread_crumbs a {
+  font-size: 0.9rem;
+}
+
+@media (min-width: 768px) {
+  #store {
+    padding: 10px 45px;
+  }
+}
+@media (min-width: 1024px) {
+  #store {
+    padding: 10px 27px;
+  }
+  #store #bread_crumbs {
+    display: flex;
+    align-items: center;
+  }
+  #store #bread_crumbs a {
+    font-size: 0.9rem;
+  }
+  #store #bread_crumbs .arrow {
+    margin: 0 5px;
+    transform: rotate(-90deg);
+    width: 12px;
+  }
+}
+@media (min-width: 1440px) {
+  #store {
+    max-width: 1386px;
+    margin: 10px auto;
+  }
+}
+
+/*# sourceMappingURL=store.css.map */

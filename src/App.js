@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './pages/Main'
+import Store from './pages/Store'
 import Footer from './components/Footer'
 import NotFound from './pages/404'
 import { info as Info, css as CSS, img as Img } from './context'
@@ -106,7 +107,7 @@ class App extends Component {
     window.addEventListener('resize', () => {
       this.changeResolution(document.getElementsByTagName('body')[0].clientWidth);
     });
-    
+
     if (localStorage.getItem('lang') === null) {
       localStorage.setItem('lang', 'ua');
     }
@@ -162,6 +163,8 @@ class App extends Component {
                 <main>
                   <Switch>
                     <Route path="/" exact component={Main} />
+                    <Route path="/shop" exact render={() => <Redirect to="/" />} />
+                    <Route path="/shop/:category" exact component={Store} />
                     <Route path="/*" exact component={NotFound} />
                   </Switch>
                 </main>
