@@ -3,7 +3,7 @@ import { img } from '../context'
 import PropTypes from 'prop-types'
 
 const Input = props => {
-  const { type, text, placeholder, color, input, value, isSearch, submit } = props;
+  const { type, text, placeholder, color, input, value, isSearch, submit, id } = props;
 
   const imgContext = useContext(img);
   const { search, crossRed } = imgContext;
@@ -20,6 +20,7 @@ const Input = props => {
       {text === undefined ? null : <span>{text}</span>}
       <div className="search_inp">
         <input
+          id={id}
           value={value}
           type={type === undefined ? 'text' : type}
           placeholder={placeholder === undefined ? '' : placeholder}
@@ -48,7 +49,10 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   color: PropTypes.string,
   input: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.number.isRequired
+  ]),
   isSearch: PropTypes.bool,
   submit: PropTypes.func
 };
