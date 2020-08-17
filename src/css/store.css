@@ -144,55 +144,60 @@
     display: flex;
   }
   #store #store_shop #side_filter {
-    width: 85vw;
-    height: 100vh;
-    background-color: white;
+    position: relative;
     width: 250px;
+    background-color: white;
   }
-  #store #store_shop #side_filter .propertyCheckbox {
+  #store #store_shop #side_filter #sticky_wrapper {
+    top: 0;
+    position: sticky;
+  }
+  #store #store_shop #side_filter #sticky_wrapper .propertyCheckbox {
     display: flex;
     align-items: center;
   }
-  #store #store_shop #side_filter .propertyCheckbox span {
+  #store #store_shop #side_filter #sticky_wrapper .propertyCheckbox span {
+    cursor: pointer;
     margin-left: 5px;
   }
-  #store #store_shop #side_filter #brands .brand {
+  #store #store_shop #side_filter #sticky_wrapper #brands .brand {
     display: flex;
     align-items: center;
   }
-  #store #store_shop #side_filter #brands .brand span {
+  #store #store_shop #side_filter #sticky_wrapper #brands .brand span {
     font-size: 0.9rem;
     margin-left: 5px;
   }
-  #store #store_shop #side_filter #store_prices {
+  #store #store_shop #side_filter #sticky_wrapper #store_prices {
     display: flex;
     flex-direction: column;
   }
-  #store #store_shop #side_filter #store_prices #store_price_inputs {
+  #store #store_shop #side_filter #sticky_wrapper #store_prices #store_price_inputs {
     display: flex;
     align-items: center;
   }
-  #store #store_shop #side_filter #store_prices #store_price_inputs .underlinedInput {
+  #store #store_shop #side_filter #sticky_wrapper #store_prices #store_price_inputs .underlinedInput {
     flex: 1;
   }
-  #store #store_shop #side_filter #store_prices #store_price_inputs .underlinedInput input {
+  #store #store_shop #side_filter #sticky_wrapper #store_prices #store_price_inputs .underlinedInput input {
     background-color: transparent;
     text-align: center;
     font-size: 0.8rem;
   }
-  #store #store_shop #side_filter #store_prices #store_price_inputs hr {
+  #store #store_shop #side_filter #sticky_wrapper #store_prices #store_price_inputs hr {
     width: 20px;
     height: 1px;
     margin: 0 15px;
     background-color: #4a4d4e;
   }
-  #store #store_shop #side_filter #store_prices #store_price_inputs span {
+  #store #store_shop #side_filter #sticky_wrapper #store_prices #store_price_inputs span {
     font-size: 0.9rem;
     margin-left: 15px;
   }
   #store #store_shop #store_catalog {
     flex: 1;
     background-color: green;
+    height: 200vh;
   }
 }
 @media (min-width: 1440px) {

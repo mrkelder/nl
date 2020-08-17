@@ -114,57 +114,62 @@
       margin-top: 15px;
       display: flex;
       #side_filter {
-        width: 85vw;
-        height: 100vh;
+        position: relative;
+        width: 250px;
         background-color: $white;
-        .propertyCheckbox {
-          display: flex;
-          align-items: center;
-          span {
-            margin-left: 5px;
-          }
-        }
-        #brands {
-          .brand {
+        #sticky_wrapper {
+          top: 0;
+          position: sticky;
+          .propertyCheckbox {
             display: flex;
             align-items: center;
             span {
-              font-size: 0.9rem;
+              cursor: pointer;
               margin-left: 5px;
             }
           }
-        }
-        #store_prices {
-          display: flex;
-          flex-direction: column;
-          #store_price_inputs {
-            display: flex;
-            align-items: center;
-            .underlinedInput {
-              flex: 1;
-              input {
-                background-color: transparent;
-                text-align: center;
-                font-size: 0.8rem;
+          #brands {
+            .brand {
+              display: flex;
+              align-items: center;
+              span {
+                font-size: 0.9rem;
+                margin-left: 5px;
               }
             }
-            hr {
-              width: 20px;
-              height: 1px;
-              margin: 0 15px;
-              background-color: $grey;
-            }
-            span {
-              font-size: 0.9rem;
-              margin-left: 15px;
+          }
+          #store_prices {
+            display: flex;
+            flex-direction: column;
+            #store_price_inputs {
+              display: flex;
+              align-items: center;
+              .underlinedInput {
+                flex: 1;
+                input {
+                  background-color: transparent;
+                  text-align: center;
+                  font-size: 0.8rem;
+                }
+              }
+              hr {
+                width: 20px;
+                height: 1px;
+                margin: 0 15px;
+                background-color: $grey;
+              }
+              span {
+                font-size: 0.9rem;
+                margin-left: 15px;
+              }
             }
           }
         }
-        width: 250px;
       }
       #store_catalog {
         flex: 1;
         background-color: green;
+        height: 200vh;
       }
     }
   }
