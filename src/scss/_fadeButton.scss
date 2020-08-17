@@ -1,0 +1,35 @@
+.fade_button {
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid $grey;
+  padding: 15px 10px;
+  .store_property {
+    cursor: pointer;
+  }
+  .fb_first {
+    display: flex;
+    justify-content: space-between;
+    .arrow_btn {
+      width: 20px;
+    }
+    p {
+      margin: 0;
+    }
+  }
+  .fd_second {
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fade_button {
+    .fb_first {
+      .arrow_btn {
+        width: 15px;
+        height: 15px;
+      }
+    }
+  }
+}

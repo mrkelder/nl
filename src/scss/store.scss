@@ -1,10 +1,90 @@
 @import "init";
+@import "fadeButton";
+@import "redCheckbox";
 
 #store {
+  display: flex;
+  flex-direction: column;
   padding: 10px 15px;
   #bread_crumbs {
     a {
       font-size: 0.9rem;
+    }
+  }
+  #filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .redBtn {
+      width: 100%;
+      font-size: 0.9rem;
+      height: 42px;
+    }
+  }
+}
+
+.greyBG {
+  #store_heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid $grey;
+    img {
+      width: 20px;
+      margin-right: 10px;
+    }
+    .closeBtn {
+      left: 5px;
+      position: absolute;
+    }
+  }
+  #side_filter {
+    width: 85vw;
+    height: 100vh;
+    background-color: $white;
+    .propertyCheckbox {
+      display: flex;
+      align-items: center;
+      span {
+        margin-left: 5px;
+      }
+    }
+    #brands {
+      .brand {
+        display: flex;
+        align-items: center;
+        span {
+          font-size: 0.9rem;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+  #store_prices {
+    display: flex;
+    flex-direction: column;
+    #store_price_inputs {
+      display: flex;
+      align-items: center;
+      .underlinedInput {
+        flex: 1;
+        input {
+          background-color: transparent;
+          text-align: center;
+          font-size: 0.8rem;
+        }
+      }
+      hr {
+        width: 20px;
+        height: 1px;
+        margin: 0 15px;
+        background-color: $grey;
+      }
+      span {
+        font-size: 0.9rem;
+        margin-left: 15px;
+      }
     }
   }
 }
@@ -28,6 +108,63 @@
         margin: 0 5px;
         transform: rotate(-90deg);
         width: 12px;
+      }
+    }
+    #store_shop {
+      margin-top: 15px;
+      display: flex;
+      #side_filter {
+        width: 85vw;
+        height: 100vh;
+        background-color: $white;
+        .propertyCheckbox {
+          display: flex;
+          align-items: center;
+          span {
+            margin-left: 5px;
+          }
+        }
+        #brands {
+          .brand {
+            display: flex;
+            align-items: center;
+            span {
+              font-size: 0.9rem;
+              margin-left: 5px;
+            }
+          }
+        }
+        #store_prices {
+          display: flex;
+          flex-direction: column;
+          #store_price_inputs {
+            display: flex;
+            align-items: center;
+            .underlinedInput {
+              flex: 1;
+              input {
+                background-color: transparent;
+                text-align: center;
+                font-size: 0.8rem;
+              }
+            }
+            hr {
+              width: 20px;
+              height: 1px;
+              margin: 0 15px;
+              background-color: $grey;
+            }
+            span {
+              font-size: 0.9rem;
+              margin-left: 15px;
+            }
+          }
+        }
+        width: 250px;
+      }
+      #store_catalog {
+        flex: 1;
+        background-color: green;
       }
     }
   }

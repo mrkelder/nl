@@ -8,6 +8,7 @@ import NotFound from './pages/404'
 import { info as Info, css as CSS, img as Img } from './context'
 import './css/index.css'
 
+import filter from './img/filter.png'
 import notFound from './img/notFound.jpg'
 import cross from './img/cross.svg'
 import crossWhite from './img/crossWhite.svg'
@@ -96,7 +97,8 @@ class App extends Component {
         visa,
         mc,
         vvmc,
-        notFound
+        notFound,
+        filter
       }
     };
     this.changeLang = this.changeLang.bind(this);
@@ -164,7 +166,14 @@ class App extends Component {
                   <Switch>
                     <Route path="/" exact component={Main} />
                     <Route path="/shop" exact render={() => <Redirect to="/" />} />
-                    <Route path="/shop/:category" exact component={Store} />
+                    <Route path="/shop/:category" exact render={props =>
+                      <Info.Consumer>
+                        {infoContext =>
+                          <Img.Consumer>
+                            {imgContext => <Store img={imgContext} info={infoContext} {...props} />}
+                          </Img.Consumer>}
+                      </Info.Consumer>
+                    } />
                     <Route path="/*" exact component={NotFound} />
                   </Switch>
                 </main>

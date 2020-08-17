@@ -1,8 +1,121 @@
+.fade_button {
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #4a4d4e;
+  padding: 15px 10px;
+}
+.fade_button .store_property {
+  cursor: pointer;
+}
+.fade_button .fb_first {
+  display: flex;
+  justify-content: space-between;
+}
+.fade_button .fb_first .arrow_btn {
+  width: 20px;
+}
+.fade_button .fb_first p {
+  margin: 0;
+}
+.fade_button .fd_second {
+  margin-top: 10px;
+}
+
+@media (min-width: 1024px) {
+  .fade_button .fb_first .arrow_btn {
+    width: 15px;
+    height: 15px;
+  }
+}
+.redCheckbox img {
+  width: 15px;
+  height: 15px;
+}
+.redCheckbox input {
+  display: none;
+}
+
 #store {
+  display: flex;
+  flex-direction: column;
   padding: 10px 15px;
 }
 #store #bread_crumbs a {
   font-size: 0.9rem;
+}
+#store #filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#store #filter .redBtn {
+  width: 100%;
+  font-size: 0.9rem;
+  height: 42px;
+}
+
+.greyBG #store_heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-bottom: 1px solid #4a4d4e;
+}
+.greyBG #store_heading img {
+  width: 20px;
+  margin-right: 10px;
+}
+.greyBG #store_heading .closeBtn {
+  left: 5px;
+  position: absolute;
+}
+.greyBG #side_filter {
+  width: 85vw;
+  height: 100vh;
+  background-color: white;
+}
+.greyBG #side_filter .propertyCheckbox {
+  display: flex;
+  align-items: center;
+}
+.greyBG #side_filter .propertyCheckbox span {
+  margin-left: 5px;
+}
+.greyBG #side_filter #brands .brand {
+  display: flex;
+  align-items: center;
+}
+.greyBG #side_filter #brands .brand span {
+  font-size: 0.9rem;
+  margin-left: 5px;
+}
+.greyBG #store_prices {
+  display: flex;
+  flex-direction: column;
+}
+.greyBG #store_prices #store_price_inputs {
+  display: flex;
+  align-items: center;
+}
+.greyBG #store_prices #store_price_inputs .underlinedInput {
+  flex: 1;
+}
+.greyBG #store_prices #store_price_inputs .underlinedInput input {
+  background-color: transparent;
+  text-align: center;
+  font-size: 0.8rem;
+}
+.greyBG #store_prices #store_price_inputs hr {
+  width: 20px;
+  height: 1px;
+  margin: 0 15px;
+  background-color: #4a4d4e;
+}
+.greyBG #store_prices #store_price_inputs span {
+  font-size: 0.9rem;
+  margin-left: 15px;
 }
 
 @media (min-width: 768px) {
@@ -25,6 +138,61 @@
     margin: 0 5px;
     transform: rotate(-90deg);
     width: 12px;
+  }
+  #store #store_shop {
+    margin-top: 15px;
+    display: flex;
+  }
+  #store #store_shop #side_filter {
+    width: 85vw;
+    height: 100vh;
+    background-color: white;
+    width: 250px;
+  }
+  #store #store_shop #side_filter .propertyCheckbox {
+    display: flex;
+    align-items: center;
+  }
+  #store #store_shop #side_filter .propertyCheckbox span {
+    margin-left: 5px;
+  }
+  #store #store_shop #side_filter #brands .brand {
+    display: flex;
+    align-items: center;
+  }
+  #store #store_shop #side_filter #brands .brand span {
+    font-size: 0.9rem;
+    margin-left: 5px;
+  }
+  #store #store_shop #side_filter #store_prices {
+    display: flex;
+    flex-direction: column;
+  }
+  #store #store_shop #side_filter #store_prices #store_price_inputs {
+    display: flex;
+    align-items: center;
+  }
+  #store #store_shop #side_filter #store_prices #store_price_inputs .underlinedInput {
+    flex: 1;
+  }
+  #store #store_shop #side_filter #store_prices #store_price_inputs .underlinedInput input {
+    background-color: transparent;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+  #store #store_shop #side_filter #store_prices #store_price_inputs hr {
+    width: 20px;
+    height: 1px;
+    margin: 0 15px;
+    background-color: #4a4d4e;
+  }
+  #store #store_shop #side_filter #store_prices #store_price_inputs span {
+    font-size: 0.9rem;
+    margin-left: 15px;
+  }
+  #store #store_shop #store_catalog {
+    flex: 1;
+    background-color: green;
   }
 }
 @media (min-width: 1440px) {
