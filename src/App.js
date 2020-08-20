@@ -42,6 +42,7 @@ import tw from './img/tw.png'
 import visa from './img/visa.png'
 import mc from './img/mc.png'
 import vvmc from './img/vvmc.svg'
+import trippleDots from './img/trippleDots.png'
 
 class App extends Component {
   constructor(props) {
@@ -65,6 +66,7 @@ class App extends Component {
         header: 'header , Arial, Helvetica, sans-serif'
       },
       images: {
+        trippleDots,
         catalogIcon,
         logo,
         arrow_sign,
@@ -167,12 +169,17 @@ class App extends Component {
                     <Route path="/" exact component={Main} />
                     <Route path="/shop" exact render={() => <Redirect to="/" />} />
                     <Route path="/shop/:category" exact render={props =>
-                      <Info.Consumer>
-                        {infoContext =>
-                          <Img.Consumer>
-                            {imgContext => <Store img={imgContext} info={infoContext} {...props} />}
-                          </Img.Consumer>}
-                      </Info.Consumer>
+                      <CSS.Consumer>
+                        {cssContext =>
+                          <Info.Consumer>
+                            {infoContext =>
+                              <Img.Consumer>
+                                {imgContext => <Store img={imgContext} info={infoContext} css={cssContext} {...props} />}
+                              </Img.Consumer>}
+                          </Info.Consumer>
+                        }
+                      </CSS.Consumer>
+
                     } />
                     <Route path="/*" exact component={NotFound} />
                   </Switch>

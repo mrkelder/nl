@@ -5,8 +5,15 @@ import FadeButton from '../components/FadeButton'
 import RedCheckbox from '../components/RedCheckbox'
 import CloseBtn from '../components/CloseBtn'
 import Input from '../components/Input'
+import Item from '../components/Item'
 import axios from 'axios'
 
+import store1 from '../img/store1.png'
+import store1_a from '../img/store1_a.png'
+import store2 from '../img/store2.png'
+import store2_a from '../img/store2_a.png'
+import store3 from '../img/store3.png'
+import store3_a from '../img/store3_a.png'
 import { Link } from 'react-router-dom'
 import '../css/store.css'
 
@@ -25,7 +32,9 @@ class Store extends Component {
       amountOfIncoming: 1,
       items: [],
       properties: [],
-      addedProperties: []
+      addedProperties: [],
+      storeItemSize: 2,
+      listSequence: 1
     }
 
     this.pickMaxPrice = this.pickMaxPrice.bind(this);
@@ -34,6 +43,9 @@ class Store extends Component {
     this.pickCompany = this.pickCompany.bind(this);
     this.updateNameOfCategory = this.updatePage.bind(this);
     this.addProperty = this.addProperty.bind(this);
+    this.changeSequenceOfList = this.changeSequenceOfList.bind(this);
+    this.cahngeStoreItemSize = this.cahngeStoreItemSize.bind(this);
+    this.doesPropertyExist = this.doesPropertyExist.bind(this);
   }
 
   componentDidUpdate() {
@@ -46,6 +58,36 @@ class Store extends Component {
   componentDidMount() {
     const propCategory = this.props.match.params.category;
     this.updatePage(propCategory);
+  }
+
+  changeSequenceOfList(e) {
+    this.setState({
+      listSequence: Number(e.target.value)
+    });
+  }
+
+  cahngeStoreItemSize(e) {
+    this.setState({
+      storeItemSize: Number(e.target.getAttribute('data-size'))
+    })
+  }
+
+  doesPropertyExist(property) {
+    let canBePicked = false;
+    for (let i of this.state.addedProperties) {
+      if (i.name === property.name && i.value === property.value) {
+        // If objects are the same
+        canBePicked = true;
+        break;
+      }
+      if ((i.name !== property.name && i.value !== property.value)
+        || (i.name === property.name && i.value !== property.value)
+        || (i.name !== property.name && i.value === property.value)) {
+        // If objects are different
+        canBePicked = false;
+      }
+    }
+    return canBePicked;
   }
 
   addProperty(property) {
@@ -118,7 +160,6 @@ class Store extends Component {
                 }, () => {
                   axios.get('http://localhost:8080/getProperties', { params: { category: propCategory } })
                     .then(({ data }) => {
-                      console.log(data)
                       this.setState({ properties: data });
                     });
                 });
@@ -219,7 +260,7 @@ class Store extends Component {
                           {
                             this.state.companies.map(i =>
                               <div key={i._id} className="brand">
-                                <RedCheckbox id={`brands_${i._id}`} value={i._id} click={this.pickCompany} />
+                                <RedCheckbox isChecked={this.state.pickedCompanies.includes(i._id) ? true : false} id={`brands_${i._id}`} value={i._id} click={this.pickCompany} />
                                 <label htmlFor={`brands_${i._id}`} >
                                   <span>{i.name}</span>
                                 </label>
@@ -247,7 +288,7 @@ class Store extends Component {
                               {
                                 i.values.map(value =>
                                   <div key={`${i.name}_${index}_${value}_checkbox`} className="propertyCheckbox">
-                                    <RedCheckbox id={`${i.name}_${index}_${value}_checkbox`} value={{ name: i.name, value }} click={this.addProperty} />
+                                    <RedCheckbox isChecked={this.doesPropertyExist({ name: i.name, value })} id={`${i.name}_${index}_${value}_checkbox`} value={{ name: i.name, value }} click={this.addProperty} />
                                     <label htmlFor={`${i.name}_${index}_${value}_checkbox`} >
                                       <span>{value}</span>
                                     </label>
@@ -262,6 +303,26 @@ class Store extends Component {
                   </div>
                 </GreyBG>
               }
+              <div id="store_catalog">
+                <div id="store_options">
+                  <select value={this.state.listSequence} onChange={this.changeSequenceOfList}>
+                    <option value={1}>{this.props.info.lang === 'ua' ? 'Популярнi' : 'Популярные'}</option>
+                    <option value={2}>{this.props.info.lang === 'ua' ? 'Cпочатку дорогі' : 'Сначала дорогие'}</option>
+                    <option value={3}>{this.props.info.lang === 'ua' ? 'Cпочатку дешеві' : 'Сначала дешевые'}</option>
+                  </select>
+                  <div id="store_size">
+                    <img src={this.state.storeItemSize === 1 ? store1_a : store1} alt="store_item_size" data-size="1" onClick={this.cahngeStoreItemSize} />
+                    <img src={this.state.storeItemSize === 2 ? store2_a : store2} alt="store_item_size" data-size="2" onClick={this.cahngeStoreItemSize} />
+                    <img src={this.state.storeItemSize === 3 ? store3_a : store3} alt="store_item_size" data-size="3" onClick={this.cahngeStoreItemSize} />
+                  </div>
+                </div>
+                <hr />
+                <div id="store_items" style={this.state.storeItemSize === 1 || this.state.storeItemSize === 3 ? { flexDirection: 'column' } : { flexDirection: 'row' }}>
+                  {
+                    this.state.items.map(i => <Item style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i.id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
+                  }
+                </div>
+              </div>
             </div>
           }
           {this.props.info.resolution >= 1024 &&
@@ -274,7 +335,7 @@ class Store extends Component {
                         {
                           this.state.companies.map(i =>
                             <div key={i._id} className="brand">
-                              <RedCheckbox id={`brands_${i._id}`} value={i._id} click={this.pickCompany} />
+                              <RedCheckbox isChecked={this.state.pickedCompanies.includes(i._id) ? true : false} id={`brands_${i._id}`} value={i._id} click={this.pickCompany} />
                               <label htmlFor={`brands_${i._id}`}>
                                 <span className="noselect store_property">{i.name}</span>
                               </label>
@@ -302,7 +363,7 @@ class Store extends Component {
                             {
                               i.values.map(value =>
                                 <div key={`${i.name}_${index}_${value}_checkbox`} className="propertyCheckbox">
-                                  <RedCheckbox id={`${i.name}_${index}_${value}_checkbox`} value={{ name: i.name, value }} click={this.addProperty} />
+                                  <RedCheckbox isChecked={this.doesPropertyExist({ name: i.name, value })} id={`${i.name}_${index}_${value}_checkbox`} value={{ name: i.name, value }} click={this.addProperty} />
                                   <label htmlFor={`${i.name}_${index}_${value}_checkbox`} >
                                     <span>{value}</span>
                                   </label>
@@ -317,6 +378,7 @@ class Store extends Component {
                 </div>
               </div>
               <div id="store_catalog">
+                <h1 style={{ fontFamily: this.props.css.fonts.text }}>{this.state.nameOfCategory}</h1>
               </div>
             </div>
           }

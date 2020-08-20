@@ -55,6 +55,31 @@
   font-size: 0.9rem;
   height: 42px;
 }
+#store #store_catalog {
+  width: 100%;
+}
+#store #store_catalog #store_options {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+#store #store_catalog #store_options #store_size {
+  display: flex;
+}
+#store #store_catalog #store_options #store_size img {
+  margin: 5px;
+  width: 20px;
+}
+#store #store_catalog #store_options select {
+  outline: none;
+}
+#store #store_catalog hr {
+  margin: 5px 0;
+}
+#store #store_catalog #store_items {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .greyBG #store_heading {
   display: flex;
@@ -196,8 +221,13 @@
   }
   #store #store_shop #store_catalog {
     flex: 1;
-    background-color: green;
     height: 200vh;
+  }
+  #store #store_shop #store_catalog h1 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 2.5rem;
   }
 }
 @media (min-width: 1440px) {

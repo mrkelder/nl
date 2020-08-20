@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import SlidingPart from './SlidingPart'
 import Item from './Item'
 import axios from 'axios'
 import PropTypes from 'prop-types'
+import { info } from '../context'
 
 const TopItems = ({ slidingPart, sliderPanelRef, currentPosition, updateHOC }) => {
   const [items, setItems] = useState([{ themes: [{ rating: 0 }] }]);
+  const { resolution } = useContext(info);
   useEffect(() => {
     axios.get('http://localhost:8080/getTopItems').then(info => {
       setItems(info.data);
@@ -24,6 +26,7 @@ const TopItems = ({ slidingPart, sliderPanelRef, currentPosition, updateHOC }) =
               price={item.themes[0].price}
               rating={item.themes[0].rating}
               link={item._id}
+              style={resolution < 1024 ? 1 : 2}
               photo={item.themes[0].main_photo}
             />
           )
