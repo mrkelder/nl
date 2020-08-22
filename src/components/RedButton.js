@@ -2,10 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const RedButton = props => {
-  const { text , click } = props;
-  return (
-    <button className="redBtn" onClick={click}>{text}</button>
-  )
+  const { text, click } = props;
+  return <button className="redBtn" onClick={click}>{text}</button>;
 }
 
 RedButton.propTypes = {

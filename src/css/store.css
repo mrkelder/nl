@@ -56,6 +56,7 @@
   height: 42px;
 }
 #store #store_catalog {
+  padding: 0 15px;
   width: 100%;
 }
 #store #store_catalog #store_options {
@@ -67,10 +68,12 @@
   display: flex;
 }
 #store #store_catalog #store_options #store_size img {
+  cursor: pointer;
   margin: 5px;
   width: 20px;
 }
 #store #store_catalog #store_options select {
+  cursor: pointer;
   outline: none;
 }
 #store #store_catalog hr {
@@ -79,6 +82,7 @@
 #store #store_catalog #store_items {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .greyBG #store_heading {
@@ -221,7 +225,6 @@
   }
   #store #store_shop #store_catalog {
     flex: 1;
-    height: 200vh;
   }
   #store #store_shop #store_catalog h1 {
     margin-top: 0;

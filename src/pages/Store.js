@@ -33,9 +33,9 @@ class Store extends Component {
       items: [],
       properties: [],
       addedProperties: [],
-      storeItemSize: 2,
+      storeItemSize: 3,
       listSequence: 1
-    }
+    };
 
     this.pickMaxPrice = this.pickMaxPrice.bind(this);
     this.pickMinPrice = this.pickMinPrice.bind(this);
@@ -317,9 +317,9 @@ class Store extends Component {
                   </div>
                 </div>
                 <hr />
-                <div id="store_items" style={this.state.storeItemSize === 1 || this.state.storeItemSize === 3 ? { flexDirection: 'column' } : { flexDirection: 'row' }}>
+                <div id="store_items" style={this.state.storeItemSize === 1 || this.state.storeItemSize === 3 ? { flexDirection: 'column' } : { flexDirection: 'row', justifyContent: 'center' }}>
                   {
-                    this.state.items.map(i => <Item style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i.id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
+                    this.state.items.map(i => <Item style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
                   }
                 </div>
               </div>
@@ -378,7 +378,27 @@ class Store extends Component {
                 </div>
               </div>
               <div id="store_catalog">
-                <h1 style={{ fontFamily: this.props.css.fonts.text }}>{this.state.nameOfCategory}</h1>
+                <h1 id="store_title" style={{ fontFamily: this.props.css.fonts.text }}>{this.state.nameOfCategory}</h1>
+                <div id="store_catalog_shop">
+                  <div id="store_options">
+                    <select value={this.state.listSequence} onChange={this.changeSequenceOfList}>
+                      <option value={1}>{this.props.info.lang === 'ua' ? 'Популярнi' : 'Популярные'}</option>
+                      <option value={2}>{this.props.info.lang === 'ua' ? 'Cпочатку дорогі' : 'Сначала дорогие'}</option>
+                      <option value={3}>{this.props.info.lang === 'ua' ? 'Cпочатку дешеві' : 'Сначала дешевые'}</option>
+                    </select>
+                    <div id="store_size">
+                      <img src={this.state.storeItemSize === 1 ? store1_a : store1} alt="store_item_size" data-size="1" onClick={this.cahngeStoreItemSize} />
+                      <img src={this.state.storeItemSize === 2 ? store2_a : store2} alt="store_item_size" data-size="2" onClick={this.cahngeStoreItemSize} />
+                      <img src={this.state.storeItemSize === 3 ? store3_a : store3} alt="store_item_size" data-size="3" onClick={this.cahngeStoreItemSize} />
+                    </div>
+                  </div>
+                  <hr />
+                  <div id="store_items" style={this.state.storeItemSize === 3 ? { flexDirection: 'column' } : { flexDirection: 'row' }}>
+                    {
+                      this.state.items.map(i => <Item properties={i.properties} style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
+                    }
+                  </div>
+                </div>
               </div>
             </div>
           }

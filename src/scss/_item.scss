@@ -2,7 +2,7 @@
   box-shadow: 0px 0px 2px 1px #62626259;
   box-sizing: border-box;
   padding: 10px;
-  margin: 0 5px;
+  margin: 5px;
   min-width: 280px;
   display: flex;
   flex-direction: column;
@@ -67,11 +67,12 @@
     width: auto;
     height: 96px;
     margin: auto;
+    margin-top: 0;
     margin-bottom: 5px;
   }
   .name {
     font-size: 0.9rem;
-    word-break: break-all;
+    word-break: break-word;
   }
   .itemStars {
     margin: 7px 0;
@@ -170,6 +171,62 @@
   }
 }
 
+.item3 {
+  box-shadow: 0px 0px 2px 1px #62626259;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 0 5px;
+  min-width: 280px;
+  display: flex;
+  background-color: $white;
+  img {
+    width: 50px;
+    margin-right: 15px;
+  }
+  .item3SideInfo {
+    display: flex;
+    flex-direction: column;
+    .name {
+      font-size: 0.9rem;
+      word-break: break-all;
+    }
+    .price {
+      color: $red;
+      font-size: 0.8rem;
+    }
+  }
+  .itemStars {
+    margin: 7px 0;
+    height: 15px;
+    .star {
+      width: 15px;
+      height: 15px;
+    }
+  }
+  .topItemButtons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    a {
+      margin: auto;
+      margin-left: 0;
+      padding: 0;
+      margin: 5px 0;
+      .redBtn {
+        position: relative;
+        z-index: 60;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    img {
+      cursor: pointer;
+      margin: 0 15px;
+      width: 25px;
+      height: 25px;
+    }
+  }
+}
 @media (min-width: 425px) {
   .item1 {
     min-width: 320px;
@@ -186,17 +243,23 @@
     }
   }
   .item2 {
-    min-width: 320px;
-    min-height: 400px;
+    width: 190px;
+  }
+  .item3 {
     img {
-      width: auto;
-      margin-top: 0;
-      height: 250px;
+      width: 75px;
     }
-    .topItemButtons {
-      img {
-        width: 35px;
-        height: 35px;
+  }
+}
+
+@media (min-width: 768px) {
+  .item3 {
+    .item3SideInfo {
+      .name {
+        font-size: 1.1rem;
+      }
+      .price {
+        font-size: 0.9rem;
       }
     }
   }
@@ -204,8 +267,46 @@
 
 @media (min-width: 1024px) {
   .item1 {
+    box-sizing: content-box;
+    padding: 25px 10px;
     margin: 10px;
-    min-width: 280px;
+    width: 300px;
+    min-height: 0;
+    > {
+      img {
+        width: auto;
+      }
+      .name {
+        margin-top: 5px;
+        font-size: 1.2rem;
+      }
+      .itemStars {
+        .star {
+          width: 15px;
+          height: 15px;
+        }
+      }
+      .topItemButtons {
+        margin-top: 7px;
+        height: 50px;
+        a {
+          .redBtn {
+            width: 150px;
+            font-size: 0.9rem;
+          }
+        }
+        img {
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+  }
+  .item2 {
+    box-shadow: 0px 0px 2px 1px #62626259;
+    border: none;
+    margin: 10px;
+    width: 200px;
     min-height: 0;
     height: auto;
     img {
@@ -235,35 +336,83 @@
       }
     }
   }
-  .item2 {
-    margin: 10px;
-    min-width: 280px;
-    min-height: 0;
-    height: auto;
-    img {
-      height: 180px;
+  .item3 {
+    margin: 5px 0;
+    height: 250px;
+    padding: 0;
+    justify-content: space-between;
+    .item3Img {
+      margin: 25px 10px;
+      width: 190px;
+      height: auto;
+      @include bg;
     }
-    .name {
-      margin-top: 5px;
-      font-size: 0.9rem;
-    }
-    .itemStars {
-      .star {
-        width: 10px;
-        height: 10px;
+    .item3Info {
+      margin: 25px 0;
+      padding-left: 15px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      span {
+        font-size: 1.2rem;
       }
-    }
-    .topItemButtons {
-      margin-top: 7px;
-      height: 50px;
-      a {
-        .redBtn {
-          font-size: 0.8rem;
+      .item3Properties {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        li {
+          @include font("text");
+          color: $text_grey;
+          font-size: 0.85rem;
+          margin: 3px 0;
+          div {
+            .star {
+              margin-right: 0;
+            }
+          }
         }
       }
-      img {
-        width: 25px;
-        height: 25px;
+    }
+    .item3Panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: $light_grey;
+      height: 100%;
+      padding: 15px 25px;
+      box-sizing: border-box;
+      .price {
+        color: $red;
+        font-size: 1.2rem;
+      }
+      .redBtn {
+        width: 200px;
+        height: 40px;
+        font-size: 0.9rem;
+        margin: 15px 0;
+      }
+      .item3MenuButtons {
+        margin: 0 auto;
+        width: 180px;
+        display: flex;
+        justify-content: space-between;
+        .item3MenuButton {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          cursor: pointer;
+          img {
+            margin: 0;
+            width: 25px;
+          }
+          span {
+            font-size: 0.85rem;
+            text-decoration: underline;
+          }
+        }
       }
     }
   }
