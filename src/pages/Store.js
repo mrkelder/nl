@@ -47,6 +47,7 @@ class Store extends Component {
     this.changeSequenceOfList = this.changeSequenceOfList.bind(this);
     this.cahngeStoreItemSize = this.cahngeStoreItemSize.bind(this);
     this.doesPropertyExist = this.doesPropertyExist.bind(this);
+    this.changePriceCategory = this.changePriceCategory.bind(this);
   }
 
   componentDidUpdate() {
@@ -204,12 +205,12 @@ class Store extends Component {
         // If the price is lover or eqaul to the lowest price range then make it higher
         this.setState({
           maxPrice: Number(this.state.minPrice) + 1
-        });
+        }, this.changePriceCategory);
       }
       else {
         this.setState({
           maxPrice: Number(value)
-        });
+        }, this.changePriceCategory);
       }
     }
   }
@@ -224,14 +225,26 @@ class Store extends Component {
         // If the price is higher or eqaul to the highest price range then make it lower
         this.setState({
           minPrice: Number(this.state.maxPrice) - 1
-        });
+        }, this.changePriceCategory);
       }
       else {
         this.setState({
           minPrice: Number(value)
-        });
+        }, this.changePriceCategory);
       }
     }
+  }
+
+  changePriceCategory() {
+    // Must be used when maxPrice and minPrice are ready for work
+    const allItems = this.state.items;
+    const { maxPrice, minPrice } = this.state;
+
+    const newItems = allItems.filter(i => Number(i.themes[0].price.split(' ').join('')) <= maxPrice && Number(i.themes[0].price.split(' ').join('')) >= minPrice);
+
+    this.setState({
+      readyItems: newItems
+    });
   }
 
   render() {
