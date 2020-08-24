@@ -31,9 +31,10 @@ class Store extends Component {
       propCategory: '',
       amountOfIncoming: 1,
       items: [],
+      readyItems: [],
       properties: [],
       addedProperties: [],
-      storeItemSize: 3,
+      storeItemSize: 2,
       listSequence: 1
     };
 
@@ -156,7 +157,8 @@ class Store extends Component {
             axios.get('http://localhost:8080/getItems', { params: { itemsCategory: propCategory, amountOfIncoming: this.state.amountOfIncoming } })
               .then(({ data }) => {
                 this.setState({
-                  items: data
+                  items: data,
+                  readyItems: data
                 }, () => {
                   axios.get('http://localhost:8080/getProperties', { params: { category: propCategory } })
                     .then(({ data }) => {
@@ -180,6 +182,12 @@ class Store extends Component {
         arr.push(value);
       }
       return ({ pickedCompanies: arr });
+    }, () => {
+      const allItems = this.state.items;
+      const newItems = allItems.filter(i => this.state.pickedCompanies.includes(i.brand));
+      this.setState({
+        readyItems: newItems.length === 0 ? allItems : newItems
+      });
     });
   }
 
@@ -319,7 +327,7 @@ class Store extends Component {
                 <hr />
                 <div id="store_items" style={this.state.storeItemSize === 1 || this.state.storeItemSize === 3 ? { flexDirection: 'column' } : { flexDirection: 'row', justifyContent: 'center' }}>
                   {
-                    this.state.items.map(i => <Item style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
+                    this.state.readyItems.map(i => <Item key={i._id} style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
                   }
                 </div>
               </div>
@@ -395,7 +403,7 @@ class Store extends Component {
                   <hr />
                   <div id="store_items" style={this.state.storeItemSize === 3 ? { flexDirection: 'column' } : { flexDirection: 'row' }}>
                     {
-                      this.state.items.map(i => <Item properties={i.properties} style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
+                      this.state.readyItems.map(i => <Item key={i._id} properties={i.properties} style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
                     }
                   </div>
                 </div>
