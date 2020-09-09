@@ -13,7 +13,7 @@ const CallBack = props => {
   const cssContext = useContext(css);
 
   const { close, input } = props;
-  const { lang } = infoContext;
+  const { lang  , domain} = infoContext;
 
   const { text_light_grey, red } = cssContext.colors;
   const [inputColor, setInputColor] = useState(text_light_grey);
@@ -29,7 +29,7 @@ const CallBack = props => {
       try {
         setInputText('');
         setInputColor(text_light_grey);
-        const text = await axios.get('http://localhost:8080/callMeBack', { params: { number: inputText } });
+        const text = await axios.get(`http://${domain}/callMeBack`, { params: { number: inputText } });
         alert(text.data);
         close(false);
       }

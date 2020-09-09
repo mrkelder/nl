@@ -6,7 +6,7 @@ body {
   overflow-x: hidden;
 }
 
-main{
+main {
   min-height: 100vh;
 }
 
@@ -118,6 +118,9 @@ button {
 }
 
 .redBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   border: none;
   background-color: $red;

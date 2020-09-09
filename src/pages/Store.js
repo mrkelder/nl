@@ -5,10 +5,20 @@ import FadeButton from '../components/FadeButton'
 import RedCheckbox from '../components/RedCheckbox'
 import CloseBtn from '../components/CloseBtn'
 import Input from '../components/Input'
+import Item from '../components/Item'
+import NotFound from '../components/404'
+import PageChanger from '../components/PageChanger'
 import axios from 'axios'
 
+import store1 from '../img/store1.png'
+import store1_a from '../img/store1_a.png'
+import store2 from '../img/store2.png'
+import store2_a from '../img/store2_a.png'
+import store3 from '../img/store3.png'
+import store3_a from '../img/store3_a.png'
 import { Link } from 'react-router-dom'
 import '../css/store.css'
+import { info } from '../context'
 
 class Store extends Component {
   constructor(props) {
@@ -22,11 +32,15 @@ class Store extends Component {
       maxPrice: 999999,
       pickedCompanies: [],
       propCategory: '',
-      amountOfIncoming: 1,
-      items: [],
+      amountOfIncoming: 10,
+      readyItems: [],
       properties: [],
-      addedProperties: []
-    }
+      addedProperties: [],
+      storeItemSize: 2,
+      listSequence: 1,
+      amountOfWholeCatalog: 0,
+      indexOfCurrentPage: 1
+    };
 
     this.pickMaxPrice = this.pickMaxPrice.bind(this);
     this.pickMinPrice = this.pickMinPrice.bind(this);
@@ -34,7 +48,15 @@ class Store extends Component {
     this.pickCompany = this.pickCompany.bind(this);
     this.updateNameOfCategory = this.updatePage.bind(this);
     this.addProperty = this.addProperty.bind(this);
+    this.changeSequenceOfList = this.changeSequenceOfList.bind(this);
+    this.cahngeStoreItemSize = this.cahngeStoreItemSize.bind(this);
+    this.doesPropertyExist = this.doesPropertyExist.bind(this);
+    this.changePriceCategory = this.changePriceCategory.bind(this);
+    this.remakeItems = this.remakeItems.bind(this);
+    this.changePageViaPanel = this.changePageViaPanel.bind(this);
   }
+
+  static contextType = info;
 
   componentDidUpdate() {
     const propCategory = this.props.match.params.category;
@@ -43,9 +65,69 @@ class Store extends Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const propCategory = this.props.match.params.category;
-    this.updatePage(propCategory);
+    const query = this.props.location.search.match(/[\w\d]+/ig);
+
+    const availableCompanies = await (await axios.get(`http://${this.context.domain}/getCompaniesForStore`, { params: { category: propCategory } })).data;
+
+    const allCompanies = availableCompanies.map(i => i._id);
+
+    if (query !== null && allCompanies.includes(query[1])) this.setState({ pickedCompanies: [query[1]] }, () => { this.updatePage(propCategory) });
+    else this.updatePage(propCategory);
+
+  }
+
+  changeSequenceOfList(e) {
+    this.setState({
+      listSequence: Number(e.target.value)
+    }, () => {
+      this.remakeItems();
+    });
+  }
+
+  cahngeStoreItemSize(e) {
+    this.setState({
+      storeItemSize: Number(e.target.getAttribute('data-size'))
+    })
+  }
+
+  async remakeItems() {
+    const { maxPrice, minPrice, addedProperties, pickedCompanies, listSequence } = this.state;
+    const allItems = await axios.get('http://localhost:8080/getItems', { params: { itemsCategory: this.state.propCategory } });
+    const newItems = await axios.get('http://localhost:8080/getItems', { params: { itemsCategory: this.state.propCategory, extraInfo: { properties: addedProperties, maxPrice, minPrice, pickedCompanies, sequence: listSequence } } });
+
+    this.setState({
+      readyItems: newItems.data.length === 0 ? (this.state.addedProperties.length === 0 ? allItems.data : []) : newItems.data.slice((this.state.amountOfIncoming * this.state.indexOfCurrentPage) - this.state.amountOfIncoming, this.state.amountOfIncoming * this.state.indexOfCurrentPage),
+      amountOfWholeCatalog: newItems.data.length
+    });
+  }
+
+  changePageViaPanel(index) {
+    this.setState({
+      indexOfCurrentPage: index
+    }, () => {
+      const propCategory = this.props.match.params.category;
+      this.updatePage(propCategory);
+    });
+  }
+
+  doesPropertyExist(property, original) {
+    let canBePicked = false;
+    for (let i of original) {
+      if (i.name === property.name && i.value === property.value) {
+        // If objects are the same
+        canBePicked = true;
+        break;
+      }
+      if ((i.name !== property.name && i.value !== property.value)
+        || (i.name === property.name && i.value !== property.value)
+        || (i.name !== property.name && i.value === property.value)) {
+        // If objects are different
+        canBePicked = false;
+      }
+    }
+    return canBePicked;
   }
 
   addProperty(property) {
@@ -85,6 +167,8 @@ class Store extends Component {
         arr.splice(index, 1);
         return { addedProperties: arr };
       }
+    }, () => {
+      this.remakeItems();
     });
   }
 
@@ -111,18 +195,27 @@ class Store extends Component {
           .then(info => {
             // Retrieves companies
             this.setState({ companies: info.data });
-            axios.get('http://localhost:8080/getItems', { params: { itemsCategory: propCategory, amountOfIncoming: this.state.amountOfIncoming } })
-              .then(({ data }) => {
-                this.setState({
-                  items: data
-                }, () => {
-                  axios.get('http://localhost:8080/getProperties', { params: { category: propCategory } })
-                    .then(({ data }) => {
-                      console.log(data)
-                      this.setState({ properties: data });
-                    });
-                });
+            let readyPromise;
+            if (this.state.pickedCompanies.length > 0) readyPromise = axios.get('http://localhost:8080/getItems', { params: { itemsCategory: propCategory, amountOfIncoming: this.state.amountOfIncoming * this.state.indexOfCurrentPage, extraInfo: { pickedCompanies: this.state.pickedCompanies , status: 1 } } });
+            else readyPromise = axios.get('http://localhost:8080/getItems', { params: { itemsCategory: propCategory, amountOfIncoming: this.state.amountOfIncoming * this.state.indexOfCurrentPage } });
+            readyPromise.then(({ data }) => {
+              // Sorts items for showing (e.g. this is third page of items we show the range from 20 to 30 items)
+              const readyItems = data.slice((this.state.amountOfIncoming * this.state.indexOfCurrentPage) - this.state.amountOfIncoming, this.state.amountOfIncoming * this.state.indexOfCurrentPage);
+              this.setState({
+                readyItems
+              }, () => {
+                axios.get('http://localhost:8080/getProperties', { params: { category: propCategory } })
+                  .then(({ data }) => {
+                    this.setState({ properties: data });
+                    axios.get('http://localhost:8080/getItems', { params: { itemsCategory: propCategory, amountOfIncoming: 0 } })
+                      .then(({ data }) => {
+                        this.setState({
+                          amountOfWholeCatalog: data.length
+                        });
+                      });
+                  });
               });
+            });
           });
       });
     });
@@ -139,6 +232,8 @@ class Store extends Component {
         arr.push(value);
       }
       return ({ pickedCompanies: arr });
+    }, () => {
+      this.remakeItems();
     });
   }
 
@@ -155,12 +250,12 @@ class Store extends Component {
         // If the price is lover or eqaul to the lowest price range then make it higher
         this.setState({
           maxPrice: Number(this.state.minPrice) + 1
-        });
+        }, this.changePriceCategory);
       }
       else {
         this.setState({
           maxPrice: Number(value)
-        });
+        }, this.changePriceCategory);
       }
     }
   }
@@ -175,14 +270,18 @@ class Store extends Component {
         // If the price is higher or eqaul to the highest price range then make it lower
         this.setState({
           minPrice: Number(this.state.maxPrice) - 1
-        });
+        }, this.changePriceCategory);
       }
       else {
         this.setState({
           minPrice: Number(value)
-        });
+        }, this.changePriceCategory);
       }
     }
+  }
+
+  changePriceCategory() {
+    this.remakeItems();
   }
 
   render() {
@@ -219,7 +318,7 @@ class Store extends Component {
                           {
                             this.state.companies.map(i =>
                               <div key={i._id} className="brand">
-                                <RedCheckbox id={`brands_${i._id}`} value={i._id} click={this.pickCompany} />
+                                <RedCheckbox isChecked={this.state.pickedCompanies.includes(i._id) ? true : false} id={`brands_${i._id}`} value={i._id} click={this.pickCompany} />
                                 <label htmlFor={`brands_${i._id}`} >
                                   <span>{i.name}</span>
                                 </label>
@@ -247,7 +346,7 @@ class Store extends Component {
                               {
                                 i.values.map(value =>
                                   <div key={`${i.name}_${index}_${value}_checkbox`} className="propertyCheckbox">
-                                    <RedCheckbox id={`${i.name}_${index}_${value}_checkbox`} value={{ name: i.name, value }} click={this.addProperty} />
+                                    <RedCheckbox isChecked={this.doesPropertyExist({ name: i.name, value }, this.state.addedProperties)} id={`${i.name}_${index}_${value}_checkbox`} value={{ name: i.name, value }} click={this.addProperty} />
                                     <label htmlFor={`${i.name}_${index}_${value}_checkbox`} >
                                       <span>{value}</span>
                                     </label>
@@ -262,6 +361,27 @@ class Store extends Component {
                   </div>
                 </GreyBG>
               }
+              <div id="store_catalog">
+                <div id="store_options">
+                  <select value={this.state.listSequence} onChange={this.changeSequenceOfList}>
+                    <option value={1}>{this.props.info.lang === 'ua' ? 'Популярнi' : 'Популярные'}</option>
+                    <option value={2}>{this.props.info.lang === 'ua' ? 'Cпочатку дорогі' : 'Сначала дорогие'}</option>
+                    <option value={3}>{this.props.info.lang === 'ua' ? 'Cпочатку дешеві' : 'Сначала дешевые'}</option>
+                  </select>
+                  <div id="store_size">
+                    <img src={this.state.storeItemSize === 1 ? store1_a : store1} alt="store_item_size" data-size="1" onClick={this.cahngeStoreItemSize} />
+                    <img src={this.state.storeItemSize === 2 ? store2_a : store2} alt="store_item_size" data-size="2" onClick={this.cahngeStoreItemSize} />
+                    <img src={this.state.storeItemSize === 3 ? store3_a : store3} alt="store_item_size" data-size="3" onClick={this.cahngeStoreItemSize} />
+                  </div>
+                </div>
+                <hr />
+                <div id="store_items" style={this.state.storeItemSize === 1 || this.state.storeItemSize === 3 ? { flexDirection: 'column' } : { flexDirection: 'row', justifyContent: 'center' }}>
+                  {
+                    this.state.readyItems.map(i => <Item key={i._id} style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
+                  }
+                </div>
+              </div>
+              <PageChanger click={this.changePageViaPanel} currentPage={this.state.indexOfCurrentPage} amountOfIncoming={this.state.amountOfWholeCatalog} divideBy={this.state.amountOfIncoming} />
             </div>
           }
           {this.props.info.resolution >= 1024 &&
@@ -274,7 +394,7 @@ class Store extends Component {
                         {
                           this.state.companies.map(i =>
                             <div key={i._id} className="brand">
-                              <RedCheckbox id={`brands_${i._id}`} value={i._id} click={this.pickCompany} />
+                              <RedCheckbox isChecked={this.state.pickedCompanies.includes(i._id) ? true : false} id={`brands_${i._id}`} value={i._id} click={this.pickCompany} />
                               <label htmlFor={`brands_${i._id}`}>
                                 <span className="noselect store_property">{i.name}</span>
                               </label>
@@ -302,7 +422,7 @@ class Store extends Component {
                             {
                               i.values.map(value =>
                                 <div key={`${i.name}_${index}_${value}_checkbox`} className="propertyCheckbox">
-                                  <RedCheckbox id={`${i.name}_${index}_${value}_checkbox`} value={{ name: i.name, value }} click={this.addProperty} />
+                                  <RedCheckbox isChecked={this.doesPropertyExist({ name: i.name, value }, this.state.addedProperties)} id={`${i.name}_${index}_${value}_checkbox`} value={{ name: i.name, value }} click={this.addProperty} />
                                   <label htmlFor={`${i.name}_${index}_${value}_checkbox`} >
                                     <span>{value}</span>
                                   </label>
@@ -317,15 +437,35 @@ class Store extends Component {
                 </div>
               </div>
               <div id="store_catalog">
+                <h1 id="store_title" style={{ fontFamily: this.props.css.fonts.text }}>{this.state.nameOfCategory}</h1>
+                <div id="store_catalog_shop">
+                  <div id="store_options">
+                    <select value={this.state.listSequence} onChange={this.changeSequenceOfList}>
+                      <option value={1}>{this.props.info.lang === 'ua' ? 'Популярнi' : 'Популярные'}</option>
+                      <option value={2}>{this.props.info.lang === 'ua' ? 'Cпочатку дорогі' : 'Сначала дорогие'}</option>
+                      <option value={3}>{this.props.info.lang === 'ua' ? 'Cпочатку дешеві' : 'Сначала дешевые'}</option>
+                    </select>
+                    <div id="store_size">
+                      <img src={this.state.storeItemSize === 1 ? store1_a : store1} alt="store_item_size" data-size="1" onClick={this.cahngeStoreItemSize} />
+                      <img src={this.state.storeItemSize === 2 ? store2_a : store2} alt="store_item_size" data-size="2" onClick={this.cahngeStoreItemSize} />
+                      <img src={this.state.storeItemSize === 3 ? store3_a : store3} alt="store_item_size" data-size="3" onClick={this.cahngeStoreItemSize} />
+                    </div>
+                  </div>
+                  <hr />
+                  <div id="store_items" style={this.state.storeItemSize === 3 ? { flexDirection: 'column' } : { flexDirection: 'row' }}>
+                    {
+                      this.state.readyItems.map(i => <Item key={i._id} properties={i.properties} style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
+                    }
+                  </div>
+                </div>
+                <PageChanger click={this.changePageViaPanel} currentPage={this.state.indexOfCurrentPage} amountOfIncoming={this.state.amountOfWholeCatalog} divideBy={this.state.amountOfIncoming} />
               </div>
             </div>
           }
         </div>
       );
     }
-    else {
-      return <h1>404</h1>;
-    }
+    else return <NotFound errorMessage={{ ua: 'Вибачте, але ми не змогли знайти такої категорії', ru: 'Простите , но мы не смогли найти такой категории' }} />
   }
 }
 

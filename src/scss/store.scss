@@ -1,6 +1,7 @@
 @import "init";
 @import "fadeButton";
 @import "redCheckbox";
+@import "pageChanger";
 
 #store {
   display: flex;
@@ -19,6 +20,36 @@
       width: 100%;
       font-size: 0.9rem;
       height: 42px;
+    }
+  }
+  #store_catalog {
+    padding: 0 15px;
+    width: 100%;
+    #store_options {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      #store_size {
+        display: flex;
+        img {
+          cursor: pointer;
+          margin: 5px;
+          width: 20px;
+        }
+      }
+      select {
+        cursor: pointer;
+        outline: none;
+      }
+    }
+    hr {
+      margin: 5px 0;
+    }
+    #store_items{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      // flex-direction is controlled by Store.js component
     }
   }
 }
@@ -168,8 +199,12 @@
       }
       #store_catalog {
         flex: 1;
-        background-color: green;
-        height: 200vh;
+        h1 {
+          margin-top: 0;
+          margin-bottom: 5px;
+          text-align: center;
+          font-size: 2.5rem;
+        }
       }
     }
   }

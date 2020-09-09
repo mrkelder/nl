@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { img, css } from '../context'
+import PropTypes from 'prop-types'
 
 function FadeButton({ text, isOpened, children }) {
 
@@ -24,6 +25,12 @@ function FadeButton({ text, isOpened, children }) {
       }
     </div>
   )
+}
+
+FadeButton.propTypes = {
+  text: PropTypes.string,
+  isOpened: PropTypes.bool,
+  children: PropTypes.array
 }
 
 export default FadeButton
