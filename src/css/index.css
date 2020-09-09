@@ -120,6 +120,9 @@ button {
 }
 
 .redBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   border: none;
   background-color: #e60000;

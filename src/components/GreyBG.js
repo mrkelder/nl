@@ -34,16 +34,6 @@ class Grey_bg extends Component {
   }
 }
 
-// const Grey_bg = props => {
-//   let style;
-//   if (typeof props.style === 'object') style = props.style;
-//   else style = {};
-//   return ReactDOM.createPortal(
-//     <div className="greyBG" onClick={props.click} style={style}>{props.children}</div>,
-//     document.getElementById('portal')
-//   )
-// };
-
 Grey_bg.propTypes = {
   style: PropTypes.object,
   children: PropTypes.element,

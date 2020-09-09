@@ -7,13 +7,13 @@ import { info } from '../context'
 
 const TopItems = ({ slidingPart, sliderPanelRef, currentPosition, updateHOC }) => {
   const [items, setItems] = useState([{ themes: [{ rating: 0 }] }]);
-  const { resolution } = useContext(info);
+  const { resolution, domain } = useContext(info);
   useEffect(() => {
-    axios.get('http://localhost:8080/getTopItems').then(info => {
+    axios.get(`http://${domain}/getTopItems`).then(info => {
       setItems(info.data);
       updateHOC();
     });
-  }, [updateHOC]);
+  }, [updateHOC , domain]);
 
   return (
     <div className="topItems" ref={sliderPanelRef}>

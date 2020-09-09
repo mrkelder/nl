@@ -23,6 +23,7 @@ project
 │   .gitignore
 │   package.json
 │   package-lock.json
+│   .env
 │
 └───node_modules
 │
@@ -49,6 +50,14 @@ project
     │   │ SlidingPart.js - sliding part HOC
     │   │ Item.js - item in the shop
     │   │ TopItems.js - catalog of the most popular ones
+    │   │ 404.js - not found component
+    │   │ FadeButton.js - button with fading in/out part
+    │   │ Shop.js - item in google map fade button
+    │   │ RedCheckbox.js - checkbox
+    │   │ Map.js - google map with ability to pick out cities and certain shops
+    │   │ PageChanger.js - panel with two side arrows and buttons with numbers
+    │   │ Footer.js - footer
+    │   │ Radio.js - radio button
     │   
     └───css - css files compiled by sass
     │   
@@ -68,7 +77,7 @@ project
     └───img - static images
     │
     └───pages
-        │ 404.js - not found page (/*)
+        │ Store.js - store (/shop/*)
         │ Main.js - index page (/)
 
 ```
@@ -122,6 +131,20 @@ In **componentDidMount** it defines the total width , sets the actions while **t
 ### 404.js
 
 Takes place in **src/pages/404.js**. Serves */\** root.
+
+#### Imports
+
+```
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { info, img } from '../context'
+```
+
+#### Properties
+
+1) lang
+2) pageNotFoundFace - some easter egg :)
+3) errorMessage - error message related to the current case
 
 ### Main.js
 
@@ -327,6 +350,7 @@ Takes place in **src/components/CallBack.js**.
 
 ```
 import React, { useContext, useState } from 'react'
+import PropTypes from 'prop-types'
 import axios from 'axios'
 import { info, css } from '../context'
 import GreyBg from './GreyBG'
@@ -348,6 +372,7 @@ import '../css/callback.css'
 3) inputColor - the color of the line underlining the input
 4) inputText - text of the input
 5) condition - the condition that allows to send message to the server
+6) domain - domain of the server
 
 #### Methods
 
@@ -376,6 +401,7 @@ import { img } from '../context'
 6) currentPositionOnScreen - position from 0 to width of **sliderPanelRef**
 7) isTouched - is slider touched
 8) isBeingTouched - is slider being touced *(used within **isTouched** in some cases)*
+9) domain - domain of the server
 
 #### Properties
 
@@ -393,6 +419,34 @@ import { img } from '../context'
 1) SliderHeight - sets **sliderHeight**
 2) becomeChecked - logic for radio buttons
 
+### FadeButton.js (functional component)
+
+Takes place in **src/components/FadeButton.js**.
+
+#### Imports
+
+```
+import React, { useState, useContext } from 'react'
+import { img, css } from '../context'
+import PropTypes from 'prop-types'
+```
+
+#### Methods
+
+1) openAdditoinalContent - shows some content that's hidden (or opened) by default
+
+#### Properties
+
+1) arrow_sign , light_grey , white - colors
+2) isButtonOpened
+
+#### Props
+
+1) text
+2) isOpened
+3) children - elements that are hidden (or opened) by default 
+text, isOpened, children 
+
 ### CloseBtn.js (functional component)
 
 Takes place in **src/components/CloseBtn.js**.
@@ -401,6 +455,7 @@ Takes place in **src/components/CloseBtn.js**.
 
 ```
 import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
 import { img } from '../context'
 ```
 
@@ -413,7 +468,7 @@ import { img } from '../context'
 
 1) crossWhite, cross - images
 
-### GreyBG.js (functional component)
+### GreyBG.js (class component)
 
 Takes place in **src/components/GreyBG.js**.
 *Renders in a portal*
@@ -421,8 +476,9 @@ Takes place in **src/components/GreyBG.js**.
 #### Imports
 
 ```
-import React from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 ```
 
 #### Props
@@ -474,6 +530,7 @@ import axios from 'axios'
 16) changeLang - function that changes the language
 17) links - links for the menu and first section of the pc header
 18) grey_links - another pair of links *(works only for mobile devices)*
+19) domain - server's domain
 
 #### Methods
 
@@ -532,11 +589,12 @@ Takes place in **src/components/TopItems.js**.
 #### Imports
 
 ```
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import SlidingPart from './SlidingPart'
 import Item from './Item'
 import axios from 'axios'
 import PropTypes from 'prop-types'
+import { info } from '../context'
 ```
 
 #### Props
@@ -551,6 +609,33 @@ All properties are taken from **SlidingPart.js**
 #### Properties
 
 1) items - all items to render
+2) domain - domain of the server
+
+### PageChanger.js (functional component)
+
+Takes place in **src/components/PageChanger.js**.
+
+#### Imports
+
+```
+import React, { useState, Fragment, useContext, useEffect } from 'react'
+import RedButton from './RedButton'
+import { info } from '../context'
+```
+
+#### Properties
+
+1) resolution
+2) pickedProperty - index of 
+3) difference = pickedProperty - allowedAmount
+4) allowedAmount
+5) elementsPerShow - elements per page
+6) elementsArray - how many buttons can exist
+
+#### Methods
+
+1) rightArrow - function for the right arrow
+2) leftArrow - function for the left arrow
 
 ### Input.js (functional component)
 
@@ -560,8 +645,9 @@ Takes place in **src/components/Input.js**.
 #### Imports
 
 ```
-import React, { Fragment , useContext } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { img } from '../context'
+import PropTypes from 'prop-types'
 ```
 
 #### Props
@@ -595,10 +681,41 @@ Takes place in **src/components/RedButton.js**.
 #### Imports
 
 ```
-import React from 'react'
+import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
+import { css } from '../context'
 ```
 
 #### Props
 
 1) text - text of the button
 2) click - onClick function
+3) customStyle - number of the style
+
+#### Properties
+
+1) red, white, light_grey, grey - colors
+2) btnStyle - object of the styles
+
+### RedCheckbox.js 
+
+Takes place in **src/components/RedCheckbox.js**.
+
+#### Imports
+
+```
+import React, { useState } from 'react'
+import checked_img from '../img/checkbox_checked.png'
+import unchecked_img from '../img/checkbox.png'
+```
+
+#### Props
+
+1) isChecked
+2) id
+3) value
+4) click
+
+#### Properties
+
+1) checked

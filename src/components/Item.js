@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 const Item = ({ name, price, rating, link, photo, style, properties }) => {
 
   const roundedPrice = Math.round(rating);
-  const { resolution, lang } = useContext(info);
+  const { resolution, lang , domain} = useContext(info);
 
   const { star, star_active, bin, favorite, trippleDots, scales, crossWhite } = useContext(img);
   const [stars, setStars] = useState([]);
@@ -27,7 +27,7 @@ const Item = ({ name, price, rating, link, photo, style, properties }) => {
   else return (
     <div className={`item${style}`}>
       {!(resolution >= 1024 && style === 3) &&
-        <img src={`http://localhost:8080/${photo}`} alt="item_photo" onMouseDown={makeUndraggble} className="noselect" />
+        <img src={`http://${domain}/${photo}`} alt="item_photo" onMouseDown={makeUndraggble} className="noselect" />
       }
       {style === 3 && resolution < 1024 &&
         <div className="item3SideInfo">
@@ -92,7 +92,7 @@ const Item = ({ name, price, rating, link, photo, style, properties }) => {
       }
       {resolution >= 1024 && style === 3 &&
         <Fragment>
-          <div className="item3Img" style={{ backgroundImage: `url('http://localhost:8080/${photo}')` }} />
+          <div className="item3Img" style={{ backgroundImage: `url('http://${domain}/${photo}')` }} />
           <div className="item3Info">
             <Link to={`/item/${link}`}>
               <span className="name noselect">{[...name].length >= 21 ? `${[...name].slice(0, 18).join('')}...` : name}</span>
