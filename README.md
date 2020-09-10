@@ -193,7 +193,7 @@ import { Switch, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './pages/Main'
 import Footer from './components/Footer'
-import NotFound from './pages/404'
+import NotFound from './components/404'
 import { info as Info, css as CSS, img as Img } from './context'
 import './css/index.css'
 
@@ -230,6 +230,8 @@ import tw from './img/tw.png'
 import visa from './img/visa.png'
 import mc from './img/mc.png'
 import vvmc from './img/vvmc.svg'
+import trippleDots from './img/trippleDots.png'
+import pageNotFoundFace from './img/404.png'
 ```
 
 #### Properties
@@ -240,6 +242,7 @@ import vvmc from './img/vvmc.svg'
 4) this.state.fonts - fonts for the project
 5) this.state.images - images for the project
 6) this.state.resolution - resolution of the window
+7) this.state.domain - domain of the server
 
 #### Methods
 
@@ -273,6 +276,7 @@ import axios from 'axios'
 6) shopIndex - index of the chosen shop
 7) focusPoint - a point for google map to focus on (focuses on picked out shop)
 8) points - all shops available in the current city
+9) domain - domain of the server
 
 #### Methods
 
@@ -364,6 +368,7 @@ import '../css/callback.css'
 
 1) close - function that gives state changer
 2) input - information , given to the **<Input/>** component inside of **<CallBack/>**
+3) domain - domain of the server
 
 #### Properties
 
@@ -556,7 +561,7 @@ Takes place in **src/components/Item.js**.
 #### Imports
 
 ```
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useContext, useState, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import RedButton from './RedButton'
 import { img, info } from '../context'
@@ -570,17 +575,22 @@ import PropTypes from 'prop-types'
 3) rating - nubmer from **0** to **5** 
 4) link - link to an item *(only its **_id** is passed)*
 5) photo - link to the photo *(only the name of the file)*
+6) style - one of 3 variations
+7) Properties - properties of the certain item
 
 #### Properties
 
 1) roundedPrice - a rounded price of the item *(made for sure)*
 2) lang - current lang
-3) { star, star_active, bin, favorite } -images
+3) { star, star_active, bin, favorite , trippleDots, scales, crossWhite} -images
 4) stars - an array that contains active stars to render them
+5) resolution
+6) domain
 
 #### Methods
 
 1) makeUndraggble - makes the photos undraggble
+2) openItem2SubMenu - opens a litle panel if it's the second style
 
 ### TopItems.js (functional component)
 
