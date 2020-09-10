@@ -1,0 +1,218 @@
+@import "init";
+@import "fadeButton";
+@import "redCheckbox";
+@import "pageChanger";
+
+#store {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px;
+  #bread_crumbs {
+    a {
+      font-size: 0.9rem;
+    }
+  }
+  #filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .redBtn {
+      width: 100%;
+      font-size: 0.9rem;
+      height: 42px;
+    }
+  }
+  #store_catalog {
+    padding: 0 15px;
+    width: 100%;
+    #store_options {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      #store_size {
+        display: flex;
+        img {
+          cursor: pointer;
+          margin: 5px;
+          width: 20px;
+        }
+      }
+      select {
+        cursor: pointer;
+        outline: none;
+      }
+    }
+    hr {
+      margin: 5px 0;
+    }
+    #store_items{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      // flex-direction is controlled by Store.js component
+    }
+  }
+}
+
+.greyBG {
+  #store_heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid $grey;
+    img {
+      width: 20px;
+      margin-right: 10px;
+    }
+    .closeBtn {
+      left: 5px;
+      position: absolute;
+    }
+  }
+  #side_filter {
+    width: 85vw;
+    height: 100vh;
+    background-color: $white;
+    .propertyCheckbox {
+      display: flex;
+      align-items: center;
+      span {
+        margin-left: 5px;
+      }
+    }
+    #brands {
+      .brand {
+        display: flex;
+        align-items: center;
+        span {
+          font-size: 0.9rem;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+  #store_prices {
+    display: flex;
+    flex-direction: column;
+    #store_price_inputs {
+      display: flex;
+      align-items: center;
+      .underlinedInput {
+        flex: 1;
+        input {
+          background-color: transparent;
+          text-align: center;
+          font-size: 0.8rem;
+        }
+      }
+      hr {
+        width: 20px;
+        height: 1px;
+        margin: 0 15px;
+        background-color: $grey;
+      }
+      span {
+        font-size: 0.9rem;
+        margin-left: 15px;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  #store {
+    padding: 10px 45px;
+  }
+}
+
+@media (min-width: 1024px) {
+  #store {
+    padding: 10px 27px;
+    #bread_crumbs {
+      display: flex;
+      align-items: center;
+      a {
+        font-size: 0.9rem;
+      }
+      .arrow {
+        margin: 0 5px;
+        transform: rotate(-90deg);
+        width: 12px;
+      }
+    }
+    #store_shop {
+      margin-top: 15px;
+      display: flex;
+      #side_filter {
+        position: relative;
+        width: 250px;
+        background-color: $white;
+        #sticky_wrapper {
+          top: 0;
+          position: sticky;
+          .propertyCheckbox {
+            display: flex;
+            align-items: center;
+            span {
+              cursor: pointer;
+              margin-left: 5px;
+            }
+          }
+          #brands {
+            .brand {
+              display: flex;
+              align-items: center;
+              span {
+                font-size: 0.9rem;
+                margin-left: 5px;
+              }
+            }
+          }
+          #store_prices {
+            display: flex;
+            flex-direction: column;
+            #store_price_inputs {
+              display: flex;
+              align-items: center;
+              .underlinedInput {
+                flex: 1;
+                input {
+                  background-color: transparent;
+                  text-align: center;
+                  font-size: 0.8rem;
+                }
+              }
+              hr {
+                width: 20px;
+                height: 1px;
+                margin: 0 15px;
+                background-color: $grey;
+              }
+              span {
+                font-size: 0.9rem;
+                margin-left: 15px;
+              }
+            }
+          }
+        }
+      }
+      #store_catalog {
+        flex: 1;
+        h1 {
+          margin-top: 0;
+          margin-bottom: 5px;
+          text-align: center;
+          font-size: 2.5rem;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1440px) {
+  #store {
+    max-width: 1386px;
+    margin: 10px auto;
+  }
+}

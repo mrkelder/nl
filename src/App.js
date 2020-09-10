@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './pages/Main'
+import Store from './pages/Store'
 import Footer from './components/Footer'
-import NotFound from './pages/404'
+import NotFound from './components/404'
 import { info as Info, css as CSS, img as Img } from './context'
 import './css/index.css'
 
+import filter from './img/filter.png'
 import notFound from './img/notFound.jpg'
 import cross from './img/cross.svg'
 import crossWhite from './img/crossWhite.svg'
@@ -40,6 +42,8 @@ import tw from './img/tw.png'
 import visa from './img/visa.png'
 import mc from './img/mc.png'
 import vvmc from './img/vvmc.svg'
+import trippleDots from './img/trippleDots.png'
+import pageNotFoundFace from './img/404.png'
 
 class App extends Component {
   constructor(props) {
@@ -48,6 +52,7 @@ class App extends Component {
     this.state = {
       lang: null,
       hasError: false,
+      domain: 'localhost:8080',  // must be localhost:8080 by default
       resolution: document.getElementsByTagName('body')[0].clientWidth,
       colors: {
         white: '#FFF',
@@ -63,6 +68,8 @@ class App extends Component {
         header: 'header , Arial, Helvetica, sans-serif'
       },
       images: {
+        pageNotFoundFace,
+        trippleDots,
         catalogIcon,
         logo,
         arrow_sign,
@@ -95,7 +102,8 @@ class App extends Component {
         visa,
         mc,
         vvmc,
-        notFound
+        notFound,
+        filter
       }
     };
     this.changeLang = this.changeLang.bind(this);
@@ -103,10 +111,11 @@ class App extends Component {
   }
 
   componentDidMount() {
+
     window.addEventListener('resize', () => {
       this.changeResolution(document.getElementsByTagName('body')[0].clientWidth);
     });
-    
+
     if (localStorage.getItem('lang') === null) {
       localStorage.setItem('lang', 'ua');
     }
@@ -136,12 +145,12 @@ class App extends Component {
   }
 
   componentDidCatch(err) {
-    console.log(err);
+    console.error(err);
     this.setState({ hasError: true });
   }
 
   render() {
-    const { lang, colors, fonts, resolution } = this.state;
+    const { lang, colors, fonts, resolution, domain } = this.state;
     if (this.state.hasError) {
       return <p>Sorry , something went wrong. Examine an error in the console.</p>
     }
@@ -151,7 +160,8 @@ class App extends Component {
           <Info.Provider value={{
             lang,
             changeLang: this.changeLang,
-            resolution
+            resolution,
+            domain
           }}>
             <CSS.Provider value={{
               colors,
@@ -162,7 +172,21 @@ class App extends Component {
                 <main>
                   <Switch>
                     <Route path="/" exact component={Main} />
-                    <Route path="/*" exact component={NotFound} />
+                    <Route path="/shop" exact render={() => <Redirect to="/" />} />
+                    <Route path="/shop/:category" exact render={props =>
+                      <CSS.Consumer>
+                        {cssContext =>
+                          <Info.Consumer>
+                            {infoContext =>
+                              <Img.Consumer>
+                                {imgContext => <Store img={imgContext} info={infoContext} css={cssContext} {...props} />}
+                              </Img.Consumer>}
+                          </Info.Consumer>
+                        }
+                      </CSS.Consumer>
+
+                    } />
+                    <Route path="/*" exact render={() => <NotFound errorMessage={{ ua: 'Вибачте, але ми не змогли знайти таку сторінку', ru: 'Простите , но мы не смогли найти такую страницу' }} />} />
                   </Switch>
                 </main>
                 <Footer />

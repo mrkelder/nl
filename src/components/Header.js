@@ -14,6 +14,7 @@ const Header = () => {
   const infoContext = useContext(info);
   const cssContext = useContext(css);
   const imgContext = useContext(img);
+  const { domain } = infoContext;
 
   const [chosenItem, setChosenItem] = useState(null);
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -28,7 +29,7 @@ const Header = () => {
   const [subItems, setSubItems] = useState([]);
   const [subItemsName, setSubItemsName] = useState('none');
   const [subItemsLeft, setSubItemsLeft] = useState('95vw');
-  const { lang, changeLang , resolution } = infoContext;
+  const { lang, changeLang, resolution } = infoContext;
 
   const { catalogIcon, logo, arrow_sign, arrow_sign_white, helper, search, menu, no_account_logo, no_account_logo_white, bin, house, favorite, scales, geo_sign, geo_sign_white } = imgContext;
   const links = [{ name: { ua: 'На головну', ru: 'На главную' }, img: house, link: '/' }, { name: { ua: 'Порівняння товарів', ru: 'Сравнение товаров' }, img: scales, link: '/' }, { name: { ua: 'Обране', ru: 'Избранное' }, img: favorite, link: '/' }, { name: { ua: 'Кошик', ru: 'Карзина' }, img: bin, link: '/' },];
@@ -39,7 +40,7 @@ const Header = () => {
     // Receives the catalog of the categries
     setCatalogUploaded(false);
     setCatalogHasProblem(false);
-    axios.get('http://localhost:8080/getCatalog')
+    axios.get(`http://${domain}/getCatalog`)
       .then(info => {
         setCatalog(info.data);
       })
@@ -60,7 +61,7 @@ const Header = () => {
       setSubItems(catalog[0].items);
       setSubItemsName(catalog[0].name);
     }
-  }, [catalog , resolution]);
+  }, [catalog, resolution]);
 
   useEffect(() => {
     // Makes fiest element of the catalog picked out (when you first opens it)
@@ -70,7 +71,7 @@ const Header = () => {
     else if (resolution >= 1024 && chosenItem !== null && isCatalogOpen) {
       document.getElementById(chosenItem).style.backgroundColor = light_grey;
     }
-  }, [isCatalogOpen , chosenItem , light_grey , resolution]);
+  }, [isCatalogOpen, chosenItem, light_grey, resolution]);
 
   const openCallBack = () => {
     // Opens call me back window
@@ -200,7 +201,7 @@ const Header = () => {
                         }
                         {catalog.map(i => (
                           <div className="catalog_item" id={`catalog_item_${i._id}`} key={i._id} data-id={i._id} onClick={openSubItems}>
-                            <img src={`http://localhost:8080/${i.img}`} alt="catalog_item" className="itemImg" data-id={i._id} />
+                            <img src={`http://${domain}/${i.img}`} alt="catalog_item" className="itemImg" data-id={i._id} />
                             <span data-id={i._id}>{i.name[lang]}</span>
                             <img src={arrow_sign} alt="arrow_sign" className="arrow" data-id={i._id} />
                           </div>
@@ -211,11 +212,11 @@ const Header = () => {
                         {
                           subItems.map((element, index) => (
                             <div key={index} className="items_wrapper">
-                              <Link onClick={openCatalog} key={`item_${index}`} to={element.link} className="sub_item">
+                              <Link onClick={openCatalog} key={`item_${index}`} to={`/shop${element.link}`} className="sub_item">
                                 <h3>{element.name[lang]}</h3>
                               </Link>
                               {element.companies.map(i => (
-                                <Link onClick={openCatalog} key={i._id} to={i.link}>
+                                <Link onClick={openCatalog} key={i._id} to={`/shop${element.link}?company=${i._id}`}>
                                   <span>{i.name}</span>
                                 </Link>
                               ))}
@@ -276,7 +277,7 @@ const Header = () => {
               }
               {catalog.map(i => (
                 <div className="catalog_item" key={i._id} data-id={i._id} onClick={openSubItems}>
-                  <img src={`http://localhost:8080/${i.img}`} alt="catalog_item" className="itemImg" data-id={i._id} />
+                  <img src={`http://${domain}/${i.img}`} alt="catalog_item" className="itemImg" data-id={i._id} />
                   <span data-id={i._id}>{i.name[lang]}</span>
                   <img src={arrow_sign} alt="arrow_sign" className="arrow" data-id={i._id} />
                 </div>
@@ -293,7 +294,7 @@ const Header = () => {
               <section id="sub_items_block">
                 {
                   subItems.map((element, index) => (
-                    <Link key={`item_${index}`} to={element.link} className="sub_item" onClick={chooseItem}>
+                    <Link key={`item_${index}`} to={`/shop${element.link}`} className="sub_item" onClick={chooseItem}>
                       {element.name[lang]}
                     </Link>
                   ))

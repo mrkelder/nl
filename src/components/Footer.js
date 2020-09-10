@@ -43,8 +43,6 @@ const Footer = () => {
   return (
     <footer>
       <div id="footer_wrapper">
-
-
         <div id="footer_info">
           <div id="social_medias">
             <a href="https://www.facebook.com/" rel="noopener noreferrer" target="_blank">

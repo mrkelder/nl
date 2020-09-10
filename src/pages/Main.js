@@ -13,7 +13,7 @@ const Main = () => {
   const { truck, checked, like } = useContext(img);
   const { red } = useContext(css).colors;
   const { text } = useContext(css).fonts;
-  const { lang , resolution} = useContext(info);
+  const { lang, resolution , domain} = useContext(info);
   const [photosForSlider, setPhotosForSlider] = useState([]);
   const [banners, setBanners] = useState([]);
 
@@ -24,25 +24,25 @@ const Main = () => {
 
   useEffect(() => {
     // Fetching slides for the slider
-    axios.get('http://localhost:8080/getSlides')
+    axios.get(`http://${domain}/getSlides`)
       .then(slides => {
         setPhotosForSlider(slides.data.slides);
       })
       .catch(err => {
         console.error(err.message);
       });
-  }, []);
+  }, [domain]);
 
   useEffect(() => {
     // Fetching banners
-    axios.get('http://localhost:8080/getBanners')
+    axios.get(`http://${domain}/getBanners`)
       .then(banners => {
         setBanners(banners.data);
       })
       .catch(err => {
         console.error(err.message);
       });
-  }, []);
+  }, [domain]);
 
   return (
     <Fragment>
@@ -71,10 +71,10 @@ const Main = () => {
       {banners.length > 0 &&
         <div id="banners">
           <Link to={banners[0].link}>
-            <img className="banner" src={`http://localhost:8080/${banners[0].name}`} alt="banner" />
+            <img className="banner" src={`http://${domain}/${banners[0].name}`} alt="banner" />
           </Link>
           <Link to={banners[1].link}>
-            <img className="banner" src={`http://localhost:8080/${banners[1].name}`} alt="banner" />
+            <img className="banner" src={`http://${domain}/${banners[1].name}`} alt="banner" />
           </Link>
         </div>
       }

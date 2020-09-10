@@ -1,9 +1,10 @@
-import React, { Fragment, useRef, useEffect, useState, useCallback , useContext} from 'react'
+import React, { Fragment, useRef, useEffect, useState, useCallback, useContext } from 'react'
 import Radio from './Radio'
-import { img } from '../context'
+import { img, info } from '../context'
 
 const Slider = props => {
   const { notFound } = useContext(img);
+  const { domain } = useContext(info);
   const { slides, currentPosition, slidingPart, sliderPanelRef, changeCurrentPosition, currentPositionOnScreen, isTouched, isBeingTouched } = props;
   const [sliderHeight, setSliderHeight] = useState(0); // height for the slider
   const [onePiece, setOnePiece] = useState(0); // the width of one slide
@@ -90,8 +91,8 @@ const Slider = props => {
           <Fragment>
             {slides.map((element, index) => (
               <picture key={`slide_${index}`}>
-                <source media="(max-width: 1023px)" srcSet={`http://localhost:8080/${element.mobile}`} />
-                <source srcSet={`http://localhost:8080/${element.pc}`} draggble="false" />
+                <source media="(max-width: 1023px)" srcSet={`http://${domain}/${element.mobile}`} />
+                <source srcSet={`http://${domain}/${element.pc}`} draggble="false" />
                 <img className="img_for_slider" src={notFound} alt="not_found" onLoad={SliderHeight} ref={imgRef} />
               </picture>
             ))}

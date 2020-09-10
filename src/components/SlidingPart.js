@@ -26,20 +26,6 @@ const SlidingPart = (OriginalComponent, addInfo) => {
       this.changeCurrentPosition = this.changeCurrentPosition.bind(this);
     }
 
-    // shouldComponentUpdate() {
-    //   if (this.state.shouldItUpdate && this.props.slides !== undefined) {
-    //     console.log(true)
-    //     this.setState({
-    //       shouldItUpdate: false
-    //     });
-    //     return true;
-    //   }
-    //   else {
-    //     console.log(false)
-    //     return false;
-    //   }
-    // }
-
     changeCurrentPosition(x) {
       this.setState({
         currentPosition: x,

@@ -6,7 +6,7 @@ import { info, css } from '../context'
 import axios from 'axios'
 
 function MapContainer(props) {
-  const { lang, resolution } = useContext(info);
+  const { lang, resolution, domain } = useContext(info);
   const { text } = useContext(css).fonts;
   const [cities, setCities] = useState([]);
   const [cityIndex, setCityIndex] = useState(0);
@@ -61,7 +61,7 @@ function MapContainer(props) {
 
   useEffect(() => {
     // Fetching shops for map
-    axios.get('http://localhost:8080/getShops')
+    axios.get(`http://${domain}/getShops`)
       .then(cities => {
         setCities(cities.data);
         updatePoints(cities.data[0].shops);
@@ -69,7 +69,7 @@ function MapContainer(props) {
       .catch(err => {
         console.error(err.message);
       });
-  }, [updatePoints]);
+  }, [updatePoints , domain]);
 
   return (
     <Fragment>
