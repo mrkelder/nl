@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './pages/Main'
+import ItemPage from './pages/ItemPage'
 import Store from './pages/Store'
 import Footer from './components/Footer'
 import NotFound from './components/404'
@@ -184,8 +185,8 @@ class App extends Component {
                           </Info.Consumer>
                         }
                       </CSS.Consumer>
-
                     } />
+                    <Route exact path="/item/:itemId" render={props => <ItemPage {...props} />} />
                     <Route path="/*" exact render={() => <NotFound errorMessage={{ ua: 'Вибачте, але ми не змогли знайти таку сторінку', ru: 'Простите , но мы не смогли найти такую страницу' }} />} />
                   </Switch>
                 </main>

@@ -238,8 +238,12 @@
   display: flex;
   background-color: white;
 }
-.item3 img {
+.item3 .item3_img {
   width: 50px;
+  height: 80px;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
   margin-right: 15px;
 }
 .item3 .item3SideInfo {
@@ -644,7 +648,7 @@ footer #footer_wrapper .footer_section .footer_section_links * {
 
 @media (min-width: 1024px) {
   footer {
-    padding-top: 35px;
+    padding: 35px;
   }
   footer #footer_wrapper {
     justify-content: space-between;
