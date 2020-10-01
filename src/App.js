@@ -6,8 +6,10 @@ import ItemPage from './pages/ItemPage'
 import Store from './pages/Store'
 import Footer from './components/Footer'
 import NotFound from './components/404'
+import Account from './pages/Account'
 import { info as Info, css as CSS, img as Img } from './context'
 import './css/index.css'
+import axios from 'axios'
 
 import filter from './img/filter.png'
 import notFound from './img/notFound.jpg'
@@ -111,7 +113,7 @@ class App extends Component {
     this.changeResolution = this.changeResolution.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
 
     window.addEventListener('resize', () => {
       this.changeResolution(document.getElementsByTagName('body')[0].clientWidth);
@@ -120,7 +122,16 @@ class App extends Component {
     if (localStorage.getItem('lang') === null) {
       localStorage.setItem('lang', 'ua');
     }
+
+    if (localStorage.getItem('user')) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const { email, pass } = user;
+      const { data } = await axios.post(`http://${this.state.domain}/getUser`, { email, password: pass });
+      this.setState({ allInfoAboutUser: data });
+    }
+
     this.setState({ lang: localStorage.getItem('lang') });
+    this.setState({ user: JSON.parse(localStorage.getItem('user')) })
     document.getElementsByTagName('html')[0].setAttribute('lang', localStorage.getItem('lang'));
   }
 
@@ -151,9 +162,9 @@ class App extends Component {
   }
 
   render() {
-    const { lang, colors, fonts, resolution, domain } = this.state;
+    const { lang, colors, fonts, resolution, domain, user, allInfoAboutUser } = this.state;
     if (this.state.hasError) {
-      return <p>Sorry , something went wrong. Examine an error in the console.</p>
+      return <p>Sorry , something went wrong. Examine an error in the console.</p>;
     }
     else {
       return (
@@ -162,7 +173,9 @@ class App extends Component {
             lang,
             changeLang: this.changeLang,
             resolution,
-            domain
+            domain,
+            user,
+            allInfoAboutUser
           }}>
             <CSS.Provider value={{
               colors,
@@ -173,6 +186,7 @@ class App extends Component {
                 <main>
                   <Switch>
                     <Route path="/" exact component={Main} />
+                    <Route path="/account" exact component={Account} />
                     <Route path="/shop" exact render={() => <Redirect to="/" />} />
                     <Route path="/shop/:category" exact render={props =>
                       <CSS.Consumer>

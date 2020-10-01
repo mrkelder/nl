@@ -25,7 +25,7 @@ const Input = props => {
           type={type === undefined ? 'text' : type}
           placeholder={placeholder === undefined ? '' : placeholder}
           style={color === undefined ? {} : { borderBottomColor: color }}
-          onChange={e => { input(e.target.value); }}
+          onChange={input !== undefined ? e => { input(e.target.value); } : () => {}}
         />
         {isSearch &&
           <div className="search_panel" style={color === undefined ? {} : { borderBottomColor: color }}>

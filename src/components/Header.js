@@ -174,7 +174,9 @@ const Header = () => {
                   </div>
                   <div id="user_h">
                     <img src={no_account_logo_white} alt="user_logo" className="arrow" />
-                    <span className="noselect">{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
+                    <Link to="/account" >
+                      <span className="noselect">{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -311,7 +313,9 @@ const Header = () => {
             <section id="sec1">
               <div id="user">
                 <img src={no_account_logo} alt="user_logo" />
-                <span>{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
+                <Link to="/account" onClick={openMenu}>
+                  <span>{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
+                </Link>
               </div>
               <CloseBtn click={openMenu} />
             </section>

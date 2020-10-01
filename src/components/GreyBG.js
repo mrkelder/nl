@@ -13,7 +13,6 @@ class Grey_bg extends Component {
 
   componentDidMount() {
     const AppDiv = document.getElementsByClassName('App')[0];
-    console.log(AppDiv)
     AppDiv.style.overflow = 'hidden';
     AppDiv.style.height = '100vh';
 
