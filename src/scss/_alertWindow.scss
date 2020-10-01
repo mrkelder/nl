@@ -1,6 +1,7 @@
 @import "init";
 
 .alertWidnow {
+  max-width: 300px;
   padding: 15px;
   position: relative;
   display: flex;
@@ -22,3 +23,9 @@
     position: absolute;
   }
 }
+
+// @media (min-width: 768px) {
+//   .alertWidnow {
+//     width: 35vw;
+//   }
+// }

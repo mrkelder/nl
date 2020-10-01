@@ -1,4 +1,5 @@
 .alertWidnow {
+  max-width: 300px;
   padding: 15px;
   position: relative;
   display: flex;
