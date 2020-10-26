@@ -11,6 +11,7 @@ import { info as Info, css as CSS, img as Img } from './context'
 import './css/index.css'
 import axios from 'axios'
 
+import settings from './img/settings.png'
 import filter from './img/filter.png'
 import notFound from './img/notFound.jpg'
 import cross from './img/cross.svg'
@@ -57,6 +58,8 @@ class App extends Component {
       hasError: false,
       domain: 'localhost:8080',  // must be localhost:8080 by default
       resolution: document.getElementsByTagName('body')[0].clientWidth,
+      user: null,
+      allInfoAboutUser: null,
       colors: {
         white: '#FFF',
         red: '#e60000',
@@ -106,11 +109,15 @@ class App extends Component {
         mc,
         vvmc,
         notFound,
-        filter
+        filter,
+        settings
       }
     };
     this.changeLang = this.changeLang.bind(this);
     this.changeResolution = this.changeResolution.bind(this);
+    this.lookForUserExistence = this.lookForUserExistence.bind(this);
+    this.changeUserObject = this.changeUserObject.bind(this);
+    this.changeAllInfoAboutUser = this.changeAllInfoAboutUser.bind(this);
   }
 
   async componentDidMount() {
@@ -131,7 +138,7 @@ class App extends Component {
     }
 
     this.setState({ lang: localStorage.getItem('lang') });
-    this.setState({ user: JSON.parse(localStorage.getItem('user')) })
+    this.setState({ user: JSON.parse(localStorage.getItem('user')) });
     document.getElementsByTagName('html')[0].setAttribute('lang', localStorage.getItem('lang'));
   }
 
@@ -139,6 +146,23 @@ class App extends Component {
     this.setState({
       resolution: document.getElementsByTagName('body')[0].clientWidth
     });
+  }
+
+  changeUserObject() {
+    this.setState({ user: JSON.parse(localStorage.getItem('user')) });
+  }
+
+  changeAllInfoAboutUser(info){
+    this.setState({ allInfoAboutUser: info });
+  }
+
+  async lookForUserExistence() {
+    if (localStorage.getItem('user')) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const { email, pass } = user;
+      const { data } = await axios.post(`http://${this.state.domain}/getUser`, { email, password: pass });
+      this.setState({ allInfoAboutUser: data });
+    }
   }
 
   changeLang() {
@@ -175,7 +199,10 @@ class App extends Component {
             resolution,
             domain,
             user,
-            allInfoAboutUser
+            allInfoAboutUser,
+            lookForUserExistence: this.lookForUserExistence,
+            changeUserObject: this.changeUserObject,
+            changeAllInfoAboutUser: this.changeAllInfoAboutUser
           }}>
             <CSS.Provider value={{
               colors,

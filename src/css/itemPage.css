@@ -262,4 +262,34 @@
   text-decoration: underline;
 }
 
+#portal #commentMenu {
+  width: 85vw;
+  padding: 15px;
+  position: relative;
+  padding: 15px;
+  background-color: white;
+}
+#portal #commentMenu .crossBtn {
+  right: 10px;
+  top: 10px;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+}
+#portal #commentMenu .underlinedInput {
+  margin: 25px 0;
+  margin-bottom: 5px;
+}
+#portal #commentMenu .star_panel {
+  margin: 15px 0 10px;
+}
+#portal #commentMenu .star_panel img {
+  width: 20px;
+  height: 20px;
+}
+#portal #commentMenu .redBtn {
+  font-size: 0.9rem;
+  width: 100%;
+}
+
 /*# sourceMappingURL=itemPage.css.map */

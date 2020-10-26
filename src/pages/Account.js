@@ -2,15 +2,17 @@ import React, { Fragment, useContext, useEffect, useState } from 'react'
 import RedBtn from '../components/RedButton'
 import Input from '../components/Input'
 import AlertWindow from '../components/AlertWinodw'
+import BoughtItems from '../components/BougthItems'
+import LatelySeen from '../components/LatelySeen'
 
 import axios from 'axios'
-import { info, css } from '../context'
+import { info, css, img } from '../context'
 import '../css/account.css'
 
 const UserUnauthorised = ({ showRegistration, setUserLoggedIn }) => {
   // eslint-disable-next-line
   const emailRegEx = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-  const { lang, domain } = useContext(info);
+  const { lang, domain, changeUserObject, lookForUserExistence } = useContext(info);
   const { red, grey } = useContext(css).colors;
 
   const [isCodeAccepted, setAcceptCode] = useState(false);
@@ -29,6 +31,7 @@ const UserUnauthorised = ({ showRegistration, setUserLoggedIn }) => {
   const [isAddPasswordCorrect, setAddPasswordCorrect] = useState(true);
 
   function checkCorrect() {
+    // Validation of form (both authorisation and registration)
     let nameC = true;
     let emailC = true;
     let passwordC = true;
@@ -41,11 +44,13 @@ const UserUnauthorised = ({ showRegistration, setUserLoggedIn }) => {
       setEmailCorrect(false);
       emailC = false;
     }
-    if ([...password].length < 5) {
+    if ([...password].length < 6) {
+      setAlertMessage('Пароль должен состоять не меньше чем из 6 символов');
+      openAlert();
       setPasswordCorrect(false);
       passwordC = false;
     }
-    if (password !== confirmPassword) {
+    if (password !== confirmPassword || confirmPassword === '') {
       setAddPasswordCorrect(false);
       addPasswordC = false;
     }
@@ -92,6 +97,8 @@ const UserUnauthorised = ({ showRegistration, setUserLoggedIn }) => {
           break;
         case 'Okay':
           localStorage.setItem('user', JSON.stringify({ email, pass: password }));
+          changeUserObject();
+          await lookForUserExistence();
           setUserLoggedIn(true);
           break;
         default:
@@ -119,6 +126,8 @@ const UserUnauthorised = ({ showRegistration, setUserLoggedIn }) => {
           break;
         case 'Accepted':
           localStorage.setItem('user', JSON.stringify({ email, pass: password }));
+          changeUserObject();
+          lookForUserExistence();
           setUserLoggedIn(true);
           break;
         case 'Codes are not equal':
@@ -137,7 +146,6 @@ const UserUnauthorised = ({ showRegistration, setUserLoggedIn }) => {
   }
 
   async function registrate() {
-    // TODO: Notice the user about his potential mistakes with registration
     const { nameC, emailC, passwordC, addPasswordC } = checkCorrect();
     if (nameC && emailC && passwordC && addPasswordC) {
       if (password === confirmPassword) {
@@ -226,7 +234,85 @@ const UserUnauthorised = ({ showRegistration, setUserLoggedIn }) => {
 }
 
 const UserAuthorised = () => {
-  return <Fragment></Fragment>
+  // If user is logged in
+  const [isUserProperties, setIsUserProperties] = useState(false);
+  const [phoneNumberProp, setPhoneNumberProp] = useState('');
+  const [isAlertShown, setAlertShown] = useState(false);
+  const { user, allInfoAboutUser, domain, lang } = useContext(info);
+  const { no_account_logo, settings } = useContext(img);
+  let photo, name, email, phone;
+  if (allInfoAboutUser !== null) {
+    photo = allInfoAboutUser.photo;
+    name = allInfoAboutUser.name;
+    email = allInfoAboutUser.email;
+    phone = allInfoAboutUser.phone;
+  }
+
+  function closeAlert() {
+    setAlertShown(!isAlertShown);
+  }
+
+  function showUserProperties() {
+    setIsUserProperties(!isUserProperties);
+    setPhoneNumberProp('');
+  }
+
+  function changePhoneNumber(value) {
+    setPhoneNumberProp(value);
+  }
+
+  async function sendRequest() {
+    // Sends new phone and the avatar
+    const condition = /^\+?(\d{2,3})?\s?\(?\d{2,3}\)?[ -]?\d{2,3}[ -]?\d{2,3}[ -]?\d{2,3}$/i;
+    if (condition.test(phoneNumberProp) || [...phoneNumberProp].length === 0) {
+      const formData = new FormData();
+      const file = document.getElementById('file').files[0];
+      formData.append('file', file);
+      formData.append('phone', phoneNumberProp);
+      formData.append('email', user.email);
+      formData.append('password', user.pass);
+      await axios.post(`http://${domain}/changeUserParams`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+    }
+    else {
+      closeAlert();
+    }
+  }
+
+  return <Fragment>
+    {user !== null && allInfoAboutUser !== null && !isUserProperties &&
+      <div className="authorised_account">
+        <div className="account_heading">
+          <div className="a_h_heading">
+            <h1>{name}</h1>
+            <img src={settings} onClick={showUserProperties} alt="settings" title="Настройки" />
+          </div>
+          <div className="account_info">
+            <div className="account_photo" style={{ backgroundImage: `url('${photo === 'default' ? no_account_logo : `http://${domain}/${photo}`}')` }} />
+            <div className="account_info_text">
+              <p>Email: {email}</p>
+              <p>Телефон: {phone === null ? (lang === 'ua' ? 'Не вказан' : 'Не указан') : phone}</p>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <h3>{lang === 'ua' ? 'Нещодавно переглянуті' : 'Недавно просмотренные'}</h3>
+        {allInfoAboutUser.latelySeen.length > 0 ? <LatelySeen /> : <p>{lang === 'ua' ? 'Нічого не знайдено' : 'Ничего не найдено'}</p>}
+        <h3>{lang === 'ua' ? 'Куплені вами' : 'Купленные вами'}</h3>
+        {allInfoAboutUser.bought.length > 0 ? <BoughtItems /> : <p>{lang === 'ua' ? 'Нічого не знайдено' : 'Ничего не найдено'}</p>}
+      </div>
+    }
+    {isUserProperties &&
+      <div id="user_properties">
+        <AlertWindow text={lang === 'ua' ? 'Телефон введен невірно' : 'Телефон был введен неверно'} closeItself={closeAlert} isMessageShown={isAlertShown} />
+        <p id="get_back_to_user" onClick={showUserProperties}>Назад</p>
+        <p>{lang === 'ua' ? 'Оберiть аватарку' : 'Выберите аватарку'}</p>
+        <input name="file" id="file" type="file" />
+        <p>{lang === 'ua' ? 'Змінити телефон' : 'Изменить телефон'}</p>
+        <Input value={phoneNumberProp} input={changePhoneNumber} placeholder="+380 XX XX XXX" />
+        <RedBtn click={sendRequest} text={lang === 'ua' ? 'Підтвердити' : 'Подтвердить'} />
+      </div>
+    }
+  </Fragment>;
 }
 
 const Account = () => {
@@ -235,7 +321,6 @@ const Account = () => {
 
   useEffect(() => {
     // Looking for the user in localStorage
-
     async function doesSuchUserExist() {
       const { data } = await axios.post(`http://${domain}/authorisation`, { email: user.email, password: user.pass });
       return data;

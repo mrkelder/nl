@@ -267,3 +267,35 @@
     }
   }
 }
+
+#portal {
+  #commentMenu {
+    width: 85vw;
+    padding: 15px;
+    position: relative;
+    padding: 15px;
+    background-color: $white;
+    .crossBtn {
+      right: 10px;
+      top: 10px;
+      position: absolute;
+      width: 25px;
+      height: 25px;
+    }
+    .underlinedInput {
+      margin: 25px 0;
+      margin-bottom: 5px;
+    }
+    .star_panel {
+      margin: 15px 0 10px;
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    .redBtn{
+      font-size: .9rem;
+      width: 100%;
+    }
+  }
+}

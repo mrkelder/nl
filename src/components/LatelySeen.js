@@ -1,20 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react'
 import SlidingPart from './SlidingPart'
 import Item from './Item'
-import axios from 'axios'
 import PropTypes from 'prop-types'
 import { info } from '../context'
 
-const TopItems = ({ slidingPart, sliderPanelRef, currentPosition, updateHOC }) => {
+const LatelySeen = ({ slidingPart, sliderPanelRef, currentPosition, updateHOC }) => {
   const [items, setItems] = useState([{ themes: [{ rating: 0 }] }]);
-  const { resolution, domain } = useContext(info);
+  const { resolution, domain, allInfoAboutUser } = useContext(info);
 
   useEffect(() => {
-    axios.get(`http://${domain}/getTopItems`).then(info => {
-      setItems(info.data);
+    if (allInfoAboutUser !== null && typeof allInfoAboutUser === 'object' && allInfoAboutUser.latelySeen.length > 0) {
+      setItems(allInfoAboutUser.latelySeen);
       updateHOC();
-    });
-  }, [updateHOC, domain]);
+    }
+  }, [updateHOC, domain, allInfoAboutUser]);
 
   return (
     <div className="topItems" ref={sliderPanelRef}>
@@ -37,11 +36,11 @@ const TopItems = ({ slidingPart, sliderPanelRef, currentPosition, updateHOC }) =
   )
 }
 
-TopItems.propTypes = {
+LatelySeen.propTypes = {
   slidingPart: PropTypes.object,
   sliderPanelRef: PropTypes.object,
   currentPosition: PropTypes.number,
   updateHOC: PropTypes.func
 };
 
-export default SlidingPart(TopItems, {})
+export default SlidingPart(LatelySeen, {})

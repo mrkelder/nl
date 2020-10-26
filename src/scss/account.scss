@@ -1,4 +1,4 @@
-@import 'alertWindow';
+@import "alertWindow";
 
 .accountPage {
   .form {
@@ -19,6 +19,67 @@
     p {
       text-decoration: underline;
       cursor: pointer;
+    }
+  }
+  #user_properties {
+    max-width: 484px;
+    margin: auto;
+    padding: 15px;
+    #get_back_to_user {
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .redBtn {
+      margin: 10px 0;
+      width: 100%;
+    }
+  }
+  .authorised_account {
+    margin: auto;
+    max-width: 474px;
+    padding: 10px 5px 0;
+    .account_heading {
+      display: flex;
+      flex-direction: column;
+      .a_h_heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h1 {
+          font-size: 1.85rem;
+          margin: 0;
+        }
+        img {
+          cursor: pointer;
+          width: 25px;
+          height: 25px;
+        }
+      }
+      .account_info {
+        margin-top: 5px;
+        display: flex;
+        .account_photo {
+          margin-right: 15px;
+          width: 75px;
+          height: 75px;
+          @include bg;
+          border-radius: 50%;
+        }
+        .account_info_text {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1;
+          p {
+            margin: 4px 0;
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+    hr {
+      margin: 10px 0;
     }
   }
 }

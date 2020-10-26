@@ -1,7 +1,9 @@
 import React, { createRef, Fragment, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import RedButton from '../components/RedButton'
+import GreyBG from '../components/GreyBG'
+import Input from '../components/Input'
 
 import plus from '../img/plus.png'
 import minus from '../img/minus.png'
@@ -114,8 +116,8 @@ const ItemFadeButton = ({ text, children, checked, id, globalSetter }) => {
 };
 
 function ItemPage({ match: { params: { itemId } } }) {
-  const { star, star_active, favorite, scales } = useContext(img);
-  const { lang, domain } = useContext(info);
+  const { star, star_active, favorite, scales, cross } = useContext(img);
+  const { lang, domain, user, allInfoAboutUser } = useContext(info);
   const { red, grey } = useContext(css).colors;
   const [currentTheme, setCurrentTheme] = useState(0); // index of the current color theme
   const [currentPhoto, setCurrentPhoto] = useState('');
@@ -123,6 +125,23 @@ function ItemPage({ match: { params: { itemId } } }) {
   const [cities, setCities] = useState([]); // all available cities
   const [areAllPropertiesOpened, setAllPropertiesOpened] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
+  const [isCommentMenuOpen, setCommentMenuOpen] = useState(false); // Is comment menu opened
+  const [quantityOfPickedStars, setQuantityOfStarts] = useState(5); // Amount of stars for the comment
+  const [commentText, setCommentText] = useState('');
+  const [commentAdv, setCommentAdv] = useState('');
+  const [commentDisadv, setCommentDisadv] = useState('');
+
+  const history = useHistory();
+
+  useEffect(() => {
+    // Sends this item to user's database as a lately seen product
+    if (user && item) {
+      async function sendInfo() {
+        await axios.post(`http://${domain}/getLatelySeenProduct`, { productId: item._id, email: user.email, password: user.pass });
+      }
+      sendInfo();
+    }
+  }, [domain, user, item]);
 
   useEffect(() => {
     async function fetchData() {
@@ -140,6 +159,17 @@ function ItemPage({ match: { params: { itemId } } }) {
     }
     fetchData();
   }, [domain, itemId]);
+
+  function openCommentMenu() {
+    // Opens comment menu
+    setCommentMenuOpen(!isCommentMenuOpen);
+  }
+
+  function pickCommentRating({ target }) {
+    // Choosing rating for user's comment
+    const amountOfStars = Number(target.getAttribute('data-star'));
+    setQuantityOfStarts(amountOfStars);
+  }
 
   function changeMainPhoto({ target }) {
     // Changes main photo when a user clicks the photo list
@@ -163,10 +193,62 @@ function ItemPage({ match: { params: { itemId } } }) {
     setCurrentPhoto(item.themes[index].main_photo);
   }
 
+  function changeComment(text) {
+    setCommentText(text);
+  }
+
+  function changeAdv(text) {
+    setCommentAdv(text);
+  }
+
+  function changeDisadv(text) {
+    setCommentDisadv(text);
+  }
+
+  async function sendComment() {
+    if (allInfoAboutUser !== null && user !== null) {
+      if ([...commentText].length > 0 && [...commentAdv].length > 0 && [...commentDisadv].length > 0) {
+        const { data } = await axios.post(`http://${domain}/sendComment`, { allInfoAboutUser, text: commentText, adv: commentAdv, disadv: commentDisadv, rating: quantityOfPickedStars, productId: item._id, date: new Date().toISOString() , theme: currentTheme});
+        if (data === 'Okay') {
+          const newItem = item;
+          newItem.reviews.unshift({ name: allInfoAboutUser.name, text: commentText, likes: 0, dislikes: 0, advantages: commentAdv, disadvantages: commentDisadv, rating: quantityOfPickedStars, productId: item._id, date: new Date().toISOString() });
+          setItem(newItem);
+          setCommentAdv('');
+          setCommentDisadv('');
+          setCommentText('');
+          setQuantityOfStarts(5);
+          openCommentMenu();
+        }
+      }
+      else {
+        openCommentMenu();
+      }
+    }
+    else {
+      history.push('/account');
+    }
+  }
+
   return (
     <div id="itemPage">
       { item !== null &&
         <Fragment>
+          {isCommentMenuOpen &&
+            <GreyBG style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div id="commentMenu">
+                <img src={cross} alt="cross" onClick={openCommentMenu} className="crossBtn" />
+                <Input text={lang === 'ua' ? 'Коментар' : 'Комментарий'} value={commentText} input={changeComment} />
+                <Input text={lang === 'ua' ? 'Переваги' : 'Достоинтсва'} value={commentAdv} input={changeAdv} />
+                <Input text={lang === 'ua' ? 'Недоліки' : 'Недостатки'} value={commentDisadv} input={changeDisadv} />
+                <div className="star_panel">
+                  {
+                    [1, 2, 3, 4, 5].map(i => <img key={`star_${i}`} onClick={pickCommentRating} src={quantityOfPickedStars >= i ? star_active : star} alt="star" data-star={i} />)
+                  }
+                </div>
+                <RedButton text={lang === 'ua' ? 'Надіслати' : 'Отправить'} click={sendComment} />
+              </div>
+            </GreyBG>
+          }
           <Link to={`/shop/${item.link}`}>
             <span id="backToTheCatalog">{'< Назад в каталог'}</span>
           </Link>
@@ -236,7 +318,7 @@ function ItemPage({ match: { params: { itemId } } }) {
               }
             </ItemFadeButton>
             <ItemFadeButton text={lang === 'ua' ? `Відгуки та питання ${item.reviews.length}` : `Отзывы и вопросы ${item.reviews.length}`} id="reviews">
-              <RedButton text={lang === 'ua' ? 'Залишити відгук' : 'Оставить отзыв'} />
+              <RedButton click={openCommentMenu} text={lang === 'ua' ? 'Залишити відгук' : 'Оставить отзыв'} />
               <div className="comments">
                 {item.reviews.length > 0 ?
                   <Fragment>

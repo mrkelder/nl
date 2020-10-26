@@ -46,7 +46,7 @@ const Main = () => {
 
   return (
     <Fragment>
-      <ActualSlider slides={photosForSlider} />
+      <ActualSlider />
       <div id="info_about_us">
         <div className="info_about_us_block">
           <img src={like} alt="info" />
