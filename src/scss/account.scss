@@ -37,8 +37,7 @@
   }
   .authorised_account {
     margin: auto;
-    max-width: 474px;
-    padding: 10px 5px 0;
+    padding: 10px 25px 0;
     .account_heading {
       display: flex;
       flex-direction: column;
@@ -80,6 +79,15 @@
     }
     hr {
       margin: 10px 0;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .accountPage {
+    .authorised_account {
+      margin: 0 auto;
+      max-width: 1386px;
     }
   }
 }

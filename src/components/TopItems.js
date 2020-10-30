@@ -1,47 +1,64 @@
 import React, { useState, useEffect, useContext } from 'react'
-import SlidingPart from './SlidingPart'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
 import Item from './Item'
 import axios from 'axios'
-import PropTypes from 'prop-types'
 import { info } from '../context'
 
-const TopItems = ({ slidingPart, sliderPanelRef, currentPosition, updateHOC }) => {
-  const [items, setItems] = useState([{ themes: [{ rating: 0 }] }]);
+const SlidingPartOfTopItems = ({ allowedAmountOfItems, items, resolution }) => <Swiper
+  className="topItems"
+  slidesPerView={allowedAmountOfItems}
+>
+  {items.length > 0 &&
+    items.map((item, index) =>
+      <SwiperSlide className="swiperSlide">
+        <Item
+          key={`${item._id}_${index}`}
+          name={item.name}
+          price={item.themes[0].price}
+          rating={item.themes[0].rating}
+          link={item._id}
+          style={resolution < 1024 ? 1 : 2}
+          photo={item.themes[0].main_photo}
+        />
+      </SwiperSlide>
+    )
+  }
+</Swiper>;
+
+const TopItems = ({ propItems }) => {
+  const [items, setItems] = useState([]);
+  const [allowedAmountOfItems, setAllowedAmountOfItems] = useState(1);
   const { resolution, domain } = useContext(info);
 
   useEffect(() => {
-    axios.get(`http://${domain}/getTopItems`).then(info => {
-      setItems(info.data);
-      updateHOC();
-    });
-  }, [updateHOC, domain]);
+    switch (true) {
+      case resolution === 320: setAllowedAmountOfItems(1); break;
+      case resolution >= 700 && resolution < 996: setAllowedAmountOfItems(2); break;
+      case resolution >= 996 && resolution < 1024: setAllowedAmountOfItems(3); break;
+      case resolution >= 1024 && resolution < 1200: setAllowedAmountOfItems(4); break;
+      case resolution >= 1200 && resolution < 1440: setAllowedAmountOfItems(5); break;
+      case resolution >= 1440 && resolution < 2000: setAllowedAmountOfItems(6); break;
+      case resolution >= 2000: setAllowedAmountOfItems(7); break;
+      default: setAllowedAmountOfItems(1); break;
+    }
+  }, [resolution]);
+
+  useEffect(() => {
+    if (!propItems) {
+      axios.get(`http://${domain}/getTopItems`).then(info => {
+        setItems(info.data);
+      });
+    }
+    else{
+      setItems(propItems);
+    }
+  }, [domain , propItems]);
 
   return (
-    <div className="topItems" ref={sliderPanelRef}>
-      <div className="topItemsSlidingPart" ref={slidingPart} style={{ transform: `translate3D(${currentPosition}px , 0 , 0)` }}>
-        {
-          items.map((item, index) =>
-            <Item
-              key={`${item._id}_${index}`}
-              name={item.name}
-              price={item.themes[0].price}
-              rating={item.themes[0].rating}
-              link={item._id}
-              style={resolution < 1024 ? 1 : 2}
-              photo={item.themes[0].main_photo}
-            />
-          )
-        }
-      </div>
-    </div>
+    <SlidingPartOfTopItems allowedAmountOfItems={allowedAmountOfItems} items={items} resolution={resolution} />
   )
 }
 
-TopItems.propTypes = {
-  slidingPart: PropTypes.object,
-  sliderPanelRef: PropTypes.object,
-  currentPosition: PropTypes.number,
-  updateHOC: PropTypes.func
-};
 
-export default SlidingPart(TopItems, {})
+export default TopItems

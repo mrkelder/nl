@@ -292,4 +292,72 @@
   width: 100%;
 }
 
+@media (min-width: 1024px) {
+  #itemPage #bread_crumbs {
+    display: flex;
+  }
+  #itemPage #bread_crumbs span {
+    font-size: 0.9rem;
+  }
+  #itemPage #bread_crumbs a {
+    margin: 0 5px 0 0;
+    align-items: center;
+    display: flex;
+  }
+  #itemPage #bread_crumbs a img {
+    margin: 0 0 0 5px;
+    width: 15px;
+    transform: rotate(-90deg);
+  }
+  #itemPage h1 {
+    margin: 5px 0;
+  }
+  #itemPage #info_section {
+    justify-content: space-between;
+    margin-top: 25px;
+    display: flex;
+    min-height: 450px;
+    width: 100%;
+  }
+  #itemPage #info_section #photos {
+    padding: 15px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    margin-right: 10px;
+  }
+  #itemPage #info_section #photos #main_photo {
+    max-height: 350px;
+  }
+  #itemPage #info_section #photos #photo_list {
+    width: 250px;
+    height: 75px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding: 15px;
+  }
+  #itemPage #info_section #photos #photo_list #photo_moving_part {
+    display: inline-flex;
+  }
+  #itemPage #info_section #photos #photo_list #photo_moving_part .photo {
+    margin: 0 5px;
+    width: 55px;
+    height: 55px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: contain;
+  }
+  #itemPage #info_section #info_sec {
+    margin-left: 10px;
+  }
+  #itemPage #info_section #photos,
+#itemPage #info_section #info_sec {
+    flex: 1;
+    box-shadow: 0px 0px 3px 1px #00000040;
+  }
+}
+
 /*# sourceMappingURL=itemPage.css.map */

@@ -1,18 +1,23 @@
 @import "item";
 .topItems {
   margin: 5px 0;
-  position: relative;
-  overflow: hidden;
   cursor: pointer;
   .topItemsSlidingPart {
     display: inline-flex;
   }
+  .item1 {
+    max-width: 310px;
+  }
+  .swiperSlide {
+    display: flex;
+    justify-content: center;
+  }
 }
 
-@media (min-width: 1440px){
-  .topItems{
+@media (min-width: 1440px) {
+  .topItems {
+    display: flex;
     max-width: 1386px;
     margin: 5px auto;
   }
 }
-
