@@ -3,12 +3,13 @@ import { img } from '../context'
 import PropTypes from 'prop-types'
 
 const Input = props => {
-  const { type, text, placeholder, color, input, value, isSearch, submit, id } = props;
+  const { type, text, placeholder, color, input, value, isSearch, submit, id , addForCleaning} = props;
 
   const imgContext = useContext(img);
   const { search, crossRed } = imgContext;
 
   const cleanSearch = () => {
+    addForCleaning();
     input('');
   };
 
@@ -54,7 +55,8 @@ Input.propTypes = {
     PropTypes.number.isRequired
   ]),
   isSearch: PropTypes.bool,
-  submit: PropTypes.func
+  submit: PropTypes.func,
+  addForCleaning: PropTypes.func
 };
 
 export default Input

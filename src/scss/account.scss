@@ -25,6 +25,10 @@
     max-width: 484px;
     margin: auto;
     padding: 15px;
+    span{
+      color: $red;
+      cursor: pointer;
+    }
     #get_back_to_user {
       cursor: pointer;
       font-weight: bold;

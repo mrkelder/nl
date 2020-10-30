@@ -11,9 +11,8 @@ const SlidingPartOfTopItems = ({ allowedAmountOfItems, items, resolution }) => <
 >
   {items.length > 0 &&
     items.map((item, index) =>
-      <SwiperSlide className="swiperSlide">
+      <SwiperSlide key={`${item._id}_${index}`} className="swiperSlide">
         <Item
-          key={`${item._id}_${index}`}
           name={item.name}
           price={item.themes[0].price}
           rating={item.themes[0].rating}
@@ -50,10 +49,10 @@ const TopItems = ({ propItems }) => {
         setItems(info.data);
       });
     }
-    else{
+    else {
       setItems(propItems);
     }
-  }, [domain , propItems]);
+  }, [domain, propItems]);
 
   return (
     <SlidingPartOfTopItems allowedAmountOfItems={allowedAmountOfItems} items={items} resolution={resolution} />

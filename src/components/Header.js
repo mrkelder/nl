@@ -14,19 +14,21 @@ const Header = () => {
   const infoContext = useContext(info);
   const cssContext = useContext(css);
   const imgContext = useContext(img);
-  const { domain } = infoContext;
+  const { domain, allInfoAboutUser } = infoContext;
 
   const [chosenItem, setChosenItem] = useState(null);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isCatalogOpen, setCatalogOpen] = useState(false);
   const [isLangOpen, setLangOpen] = useState(false);
   const [isCallBackOpen, setCallBackOpen] = useState(false);
-  const [isSearchOpen, setSearchOpen] = useState(false);
+  const [isSearchOpen, setSearchOpen] = useState(true);
   const [isCatalogUploaded, setCatalogUploaded] = useState(false);
   const [catalogHasProblem, setCatalogHasProblem] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [catalog, setCatalog] = useState([]);
   const [subItems, setSubItems] = useState([]);
+  const [receivedSearchItems, setReceivedSearchItems] = useState([]);
+  const [searching, setSearching] = useState(false);
   const [subItemsName, setSubItemsName] = useState('none');
   const [subItemsLeft, setSubItemsLeft] = useState('95vw');
   const { lang, changeLang, resolution } = infoContext;
@@ -87,9 +89,12 @@ const Header = () => {
     setCatalogOpen(!isCatalogOpen);
   };
 
-  const changeSearchText = e => {
+  const changeSearchText = async e => {
     // Changes search's value
     setSearchText(e);
+    const { data } = await axios.get(`http://${domain}/searchItem`, { params: { text: e } });
+    setReceivedSearchItems(data);
+    if ([...e].length > 0) setSearching(true);
   };
 
   const openSubItems = e => {
@@ -126,6 +131,7 @@ const Header = () => {
     else {
       setSearchOpen(true);
     }
+    setSearching(!searching);
   };
 
   const SearchIcon = props => <img src={search} alt="search" className="search_icon" onClick={props.click} />;
@@ -253,7 +259,22 @@ const Header = () => {
               input={changeSearchText}
               color="transparent"
               isSearch
+              addForCleaning={() => { setSearching(false) }}
             />
+          </div>
+          <div id="foundItems">
+            {
+              receivedSearchItems.map(({ _id, name, themes }) =>
+                <Link to={`/item/${_id}`} key={`item_${_id}`}>
+                  <div className="searchingItem">
+                    <div style={{ backgroundImage: `url('http://${domain}/${themes[0].main_photo}')` }} />
+                    <p>{name}</p>
+                  </div>
+                </Link>)
+            }
+            {receivedSearchItems.length === 0 && searching &&
+              <h3 id="nothing_found">Ничего не найдено</h3>
+            }
           </div>
         </GreyBG>
       }
@@ -312,7 +333,7 @@ const Header = () => {
           <nav id="menu">
             <section id="sec1">
               <div id="user">
-                <img src={no_account_logo} alt="user_logo" />
+                <img src={allInfoAboutUser.photo !== 'default' ? `http://${domain}/${allInfoAboutUser.photo}` : no_account_logo} alt="user_logo" />
                 <Link to="/account" onClick={openMenu}>
                   <span>{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
                 </Link>

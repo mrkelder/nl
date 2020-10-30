@@ -59,6 +59,7 @@ header {
       display: flex;
       align-items: center;
       img {
+        border-radius: 50%;
         width: 35px;
         height: 35px;
       }
@@ -246,6 +247,30 @@ header {
   }
 }
 
+#foundItems {
+  background-color: $white;
+  .searchingItem {
+    padding: 5px 0;
+    border: 1px solid $grey;
+    border-right: none;
+    border-left: 0;
+    display: flex;
+    p {
+      margin: 0;
+    }
+    div {
+      width: 75px;
+      height: 70px;
+      background-repeat: no-repeat;
+      background-position: 50%;
+      background-size: contain;
+    }
+  }
+  #nothing_found{
+    margin: 0;
+  }
+}
+
 @media (min-width: 425px) {
   header {
     padding: 0 27px;
@@ -427,7 +452,7 @@ header {
             }
             #catalog_items {
               display: grid;
-              grid-template-columns: repeat(3 , 1fr);
+              grid-template-columns: repeat(3, 1fr);
               grid-gap: 5px;
               max-height: 38vh;
               overflow-y: auto;
@@ -439,12 +464,12 @@ header {
               .items_wrapper {
                 display: flex;
                 flex-direction: column;
-                h3{
+                h3 {
                   font-size: 1rem;
                   margin: 0 0 5px 0;
                 }
-                span{
-                  font-size: .9rem;
+                span {
+                  font-size: 0.9rem;
                 }
               }
             }
@@ -492,7 +517,7 @@ header {
         }
       }
     }
-    #catalog{
+    #catalog {
       z-index: 150;
     }
   }

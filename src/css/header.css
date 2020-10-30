@@ -62,6 +62,7 @@ header #menu_icon {
   align-items: center;
 }
 #menu #sec1 #user img {
+  border-radius: 50%;
   width: 35px;
   height: 35px;
 }
@@ -241,6 +242,30 @@ header #menu_icon {
   width: 27px;
   height: 27px;
   margin: 0 8px;
+}
+
+#foundItems {
+  background-color: white;
+}
+#foundItems .searchingItem {
+  padding: 5px 0;
+  border: 1px solid #4a4d4e;
+  border-right: none;
+  border-left: 0;
+  display: flex;
+}
+#foundItems .searchingItem p {
+  margin: 0;
+}
+#foundItems .searchingItem div {
+  width: 75px;
+  height: 70px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: contain;
+}
+#foundItems #nothing_found {
+  margin: 0;
 }
 
 @media (min-width: 425px) {

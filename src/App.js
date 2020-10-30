@@ -48,6 +48,7 @@ import mc from './img/mc.png'
 import vvmc from './img/vvmc.svg'
 import trippleDots from './img/trippleDots.png'
 import pageNotFoundFace from './img/404.png'
+import loading from './img/loading.gif'
 
 class App extends Component {
   constructor(props) {
@@ -58,8 +59,8 @@ class App extends Component {
       hasError: false,
       domain: 'localhost:8080',  // must be localhost:8080 by default
       resolution: document.getElementsByTagName('body')[0].clientWidth,
-      user: null,
-      allInfoAboutUser: null,
+      user: {},
+      allInfoAboutUser: {},
       colors: {
         white: '#FFF',
         red: '#e60000',
@@ -79,6 +80,7 @@ class App extends Component {
         catalogIcon,
         logo,
         arrow_sign,
+        loading,
         arrow_sign_white,
         helper,
         search,
@@ -121,7 +123,6 @@ class App extends Component {
   }
 
   async componentDidMount() {
-
     window.addEventListener('resize', () => {
       this.changeResolution(document.getElementsByTagName('body')[0].clientWidth);
     });
@@ -152,7 +153,7 @@ class App extends Component {
     this.setState({ user: JSON.parse(localStorage.getItem('user')) });
   }
 
-  changeAllInfoAboutUser(info){
+  changeAllInfoAboutUser(info) {
     this.setState({ allInfoAboutUser: info });
   }
 

@@ -53,7 +53,7 @@ const Main = () => {
         }}
       >
         {photosForSlider.length > 0 &&
-          photosForSlider.map(i => <SwiperSlide>
+          photosForSlider.map((i , index) => <SwiperSlide key={`slide_${index}`}>
             {resolution < 1024 ?
               <div className="slide" style={{ backgroundImage: `url('http://${domain}/${i.mobile}')` }} /> :
               <div className="slide" style={{ backgroundImage: `url('http://${domain}/${i.pc}')` }} />
@@ -61,7 +61,6 @@ const Main = () => {
           </SwiperSlide>)
         }
       </Swiper>
-      {/* <ActualSlider /> */}
       <div id="info_about_us">
         <div className="info_about_us_block">
           <img src={like} alt="info" />
@@ -93,7 +92,7 @@ const Main = () => {
           </Link>
         </div>
       }
-      {/* {resolution >= 1024 && <Map />} */}
+      {resolution >= 1024 && <Map />}
     </Fragment>
   )
 }

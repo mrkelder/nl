@@ -47,6 +47,10 @@
   margin: auto;
   padding: 15px;
 }
+.accountPage #user_properties span {
+  color: #e60000;
+  cursor: pointer;
+}
 .accountPage #user_properties #get_back_to_user {
   cursor: pointer;
   font-weight: bold;

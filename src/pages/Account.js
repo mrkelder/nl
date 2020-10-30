@@ -238,7 +238,7 @@ const UserAuthorised = () => {
   const [isUserProperties, setIsUserProperties] = useState(false);
   const [phoneNumberProp, setPhoneNumberProp] = useState('');
   const [isAlertShown, setAlertShown] = useState(false);
-  const { user, allInfoAboutUser, domain, lang } = useContext(info);
+  const { user, allInfoAboutUser, domain, lang, changeAllInfoAboutUser, changeUserObject } = useContext(info);
   const { no_account_logo, settings } = useContext(img);
   let photo, name, email, phone;
   if (allInfoAboutUser !== null) {
@@ -261,6 +261,12 @@ const UserAuthorised = () => {
     setPhoneNumberProp(value);
   }
 
+  function logOut() {
+    localStorage.removeItem('user');
+    changeUserObject();
+    changeAllInfoAboutUser({});
+  }
+
   async function sendRequest() {
     // Sends new phone and the avatar
     const condition = /^\+?(\d{2,3})?\s?\(?\d{2,3}\)?[ -]?\d{2,3}[ -]?\d{2,3}[ -]?\d{2,3}$/i;
@@ -279,7 +285,7 @@ const UserAuthorised = () => {
   }
 
   return <Fragment>
-    {user !== null && allInfoAboutUser !== null && !isUserProperties &&
+    {user !== null && allInfoAboutUser && allInfoAboutUser.bought && allInfoAboutUser.latelySeen && !isUserProperties &&
       <div className="authorised_account">
         <div className="account_heading">
           <div className="a_h_heading">
@@ -310,6 +316,7 @@ const UserAuthorised = () => {
         <p>{lang === 'ua' ? 'Змінити телефон' : 'Изменить телефон'}</p>
         <Input value={phoneNumberProp} input={changePhoneNumber} placeholder="+380 XX XX XXX" />
         <RedBtn click={sendRequest} text={lang === 'ua' ? 'Підтвердити' : 'Подтвердить'} />
+        <span onClick={logOut}>{lang === 'ua' ? 'Вийти з аккаунта' : 'Выйти из аккаунта'}</span>
       </div>
     }
   </Fragment>;
@@ -317,27 +324,46 @@ const UserAuthorised = () => {
 
 const Account = () => {
   const { user, domain } = useContext(info);
+  const { loading } = useContext(img);
   const [isUserLoggedIn, setUserLoggedIn] = useState(false);
+  const [decision, setDecision] = useState(false);
 
   useEffect(() => {
     // Looking for the user in localStorage
     async function doesSuchUserExist() {
       const { data } = await axios.post(`http://${domain}/authorisation`, { email: user.email, password: user.pass });
+      setDecision(true);
       return data;
     }
 
     if (user) {
-      doesSuchUserExist().then(info => {
-        if (info === 'Okay') setUserLoggedIn(true);
-        else setUserLoggedIn(false);
-      });
+      if (user.email && user.pass) {
+        doesSuchUserExist().then(info => {
+          if (info === 'Okay') setUserLoggedIn(true);
+          else setUserLoggedIn(false);
+          setDecision(true);
+        });
+      }
+      else {
+        setUserLoggedIn(false);
+        setDecision(true);
+      }
     }
     else {
       setUserLoggedIn(false);
+      setDecision(true);
     }
   }, [user, domain]);
 
-  return <div className="accountPage"> {isUserLoggedIn ? <UserAuthorised /> : <UserUnauthorised setUserLoggedIn={setUserLoggedIn} showRegistration={true} />} </div>;
+  return (
+    <Fragment>
+      { decision ?
+        <div className="accountPage"> {isUserLoggedIn ? <UserAuthorised /> : <UserUnauthorised setUserLoggedIn={setUserLoggedIn} showRegistration={false} />} </div>
+        :
+        <img className="loading_img" src={loading} alt="loading" />
+      }
+    </Fragment>
+  );
 }
 
 export default Account
