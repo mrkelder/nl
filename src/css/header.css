@@ -62,6 +62,7 @@ header #menu_icon {
   align-items: center;
 }
 #menu #sec1 #user img {
+  border-radius: 50%;
   width: 35px;
   height: 35px;
 }
@@ -241,6 +242,30 @@ header #menu_icon {
   width: 27px;
   height: 27px;
   margin: 0 8px;
+}
+
+#foundItems {
+  background-color: white;
+}
+#foundItems .searchingItem {
+  padding: 5px 0;
+  border: 1px solid #4a4d4e;
+  border-right: none;
+  border-left: 0;
+  display: flex;
+}
+#foundItems .searchingItem p {
+  margin: 0;
+}
+#foundItems .searchingItem div {
+  width: 75px;
+  height: 70px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: contain;
+}
+#foundItems #nothing_found {
+  margin: 0;
 }
 
 @media (min-width: 425px) {
@@ -478,8 +503,42 @@ header #sec2_h #sec2_h_wrapper .search_clean {
   header #sec2_h #sec2_h_wrapper .catalog {
     margin-left: 25px;
   }
-  header #sec2_h #sec2_h_wrapper .underlinedInput {
+  header #sec2_h #sec2_h_wrapper #searchInpAndResult {
+    position: relative;
+    flex: 1;
+  }
+  header #sec2_h #sec2_h_wrapper #searchInpAndResult .underlinedInput {
     margin: 0 45px;
+  }
+  header #sec2_h #sec2_h_wrapper #searchInpAndResult #foundItems {
+    box-sizing: border-box;
+    border: 1px solid #4a4d4e;
+    border-bottom: none;
+    left: 44px;
+    top: 28px;
+    position: absolute;
+    width: 90%;
+    background-color: white;
+    z-index: 35;
+  }
+  header #sec2_h #sec2_h_wrapper #searchInpAndResult #foundItems .searchingItem {
+    padding: 5px 0;
+    border-top: 1px solid #4a4d4e;
+    display: flex;
+  }
+  header #sec2_h #sec2_h_wrapper #searchInpAndResult #foundItems .searchingItem p {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  header #sec2_h #sec2_h_wrapper #searchInpAndResult #foundItems .searchingItem div {
+    width: 50px;
+    height: 45px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: contain;
+  }
+  header #sec2_h #sec2_h_wrapper #searchInpAndResult #foundItems #nothing_found {
+    margin: 0;
   }
   header #sec2_h #sec2_h_wrapper .menu_icon {
     margin: 0 25px;

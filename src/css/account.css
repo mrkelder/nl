@@ -1,0 +1,119 @@
+.alertWidnow {
+  max-width: 300px;
+  padding: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 65vw;
+  min-height: 15vh;
+  max-height: 90vh;
+  background-color: white;
+  overflow-y: auto;
+}
+.alertWidnow p {
+  word-break: break-word;
+}
+.alertWidnow img {
+  width: 25px;
+  height: 25px;
+  top: 5px;
+  right: 5px;
+  position: absolute;
+}
+
+.accountPage .form {
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.accountPage .form .underlinedInput {
+  max-width: 408px;
+  width: 100%;
+  height: 50px;
+}
+.accountPage .form .redBtn {
+  width: 100%;
+  height: 50px;
+  max-width: 408px;
+}
+.accountPage .form p {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.accountPage #user_properties {
+  max-width: 484px;
+  margin: auto;
+  padding: 15px;
+}
+.accountPage #user_properties span {
+  color: #e60000;
+  cursor: pointer;
+}
+.accountPage #user_properties #get_back_to_user {
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.accountPage #user_properties .redBtn {
+  margin: 10px 0;
+  width: 100%;
+}
+.accountPage .authorised_account {
+  margin: auto;
+  padding: 10px 25px 0;
+}
+.accountPage .authorised_account .account_heading {
+  display: flex;
+  flex-direction: column;
+}
+.accountPage .authorised_account .account_heading .a_h_heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.accountPage .authorised_account .account_heading .a_h_heading h1 {
+  font-size: 1.85rem;
+  margin: 0;
+}
+.accountPage .authorised_account .account_heading .a_h_heading img {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+.accountPage .authorised_account .account_heading .account_info {
+  margin-top: 5px;
+  display: flex;
+}
+.accountPage .authorised_account .account_heading .account_info .account_photo {
+  margin-right: 15px;
+  width: 75px;
+  height: 75px;
+  background-position: 50%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+}
+.accountPage .authorised_account .account_heading .account_info .account_info_text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+.accountPage .authorised_account .account_heading .account_info .account_info_text p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+}
+.accountPage .authorised_account hr {
+  margin: 10px 0;
+}
+
+@media (min-width: 1024px) {
+  .accountPage .authorised_account {
+    margin: 0 auto;
+    max-width: 1386px;
+  }
+}
+
+/*# sourceMappingURL=account.css.map */
