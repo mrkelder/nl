@@ -35,7 +35,7 @@ class Grey_bg extends Component {
 
 Grey_bg.propTypes = {
   style: PropTypes.object,
-  children: PropTypes.element,
+  children: PropTypes.any,
   click: PropTypes.func
 }
 

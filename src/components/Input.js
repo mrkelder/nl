@@ -3,13 +3,13 @@ import { img } from '../context'
 import PropTypes from 'prop-types'
 
 const Input = props => {
-  const { type, text, placeholder, color, input, value, isSearch, submit, id , addForCleaning} = props;
+  const { type, text, placeholder, color, input, value, isSearch, submit, id, addForCleaning } = props;
 
   const imgContext = useContext(img);
   const { search, crossRed } = imgContext;
 
   const cleanSearch = () => {
-    addForCleaning();
+    if (addForCleaning) addForCleaning();
     input('');
   };
 
@@ -26,7 +26,7 @@ const Input = props => {
           type={type === undefined ? 'text' : type}
           placeholder={placeholder === undefined ? '' : placeholder}
           style={color === undefined ? {} : { borderBottomColor: color }}
-          onChange={input !== undefined ? e => { input(e.target.value); } : () => {}}
+          onChange={input !== undefined ? e => { input(e.target.value); } : () => { }}
         />
         {isSearch &&
           <div className="search_panel" style={color === undefined ? {} : { borderBottomColor: color }}>

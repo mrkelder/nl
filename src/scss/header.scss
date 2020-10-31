@@ -266,7 +266,7 @@ header {
       background-size: contain;
     }
   }
-  #nothing_found{
+  #nothing_found {
     margin: 0;
   }
 }
@@ -509,8 +509,42 @@ header {
         .catalog {
           margin-left: 25px;
         }
-        .underlinedInput {
-          margin: 0 45px;
+        #searchInpAndResult {
+          position: relative;
+          flex: 1;
+          .underlinedInput {
+            margin: 0 45px;
+          }
+          #foundItems {
+            box-sizing: border-box;
+            border: 1px solid $grey;
+            border-bottom: none;
+            left: 44px;
+            top: 28px;
+            position: absolute;
+            width: 90%;
+            background-color: $white;
+            z-index: 35;
+            .searchingItem {
+              padding: 5px 0;
+              border-top: 1px solid $grey;
+              display: flex;
+              p {
+                font-size: 0.9rem;
+                margin: 0;
+              }
+              div {
+                width: 50px;
+                height: 45px;
+                background-repeat: no-repeat;
+                background-position: 50%;
+                background-size: contain;
+              }
+            }
+            #nothing_found {
+              margin: 0;
+            }
+          }
         }
         .menu_icon {
           margin: 0 25px;

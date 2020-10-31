@@ -21,7 +21,7 @@ const Header = () => {
   const [isCatalogOpen, setCatalogOpen] = useState(false);
   const [isLangOpen, setLangOpen] = useState(false);
   const [isCallBackOpen, setCallBackOpen] = useState(false);
-  const [isSearchOpen, setSearchOpen] = useState(true);
+  const [isSearchOpen, setSearchOpen] = useState(false);
   const [isCatalogUploaded, setCatalogUploaded] = useState(false);
   const [catalogHasProblem, setCatalogHasProblem] = useState(false);
   const [searchText, setSearchText] = useState('');
@@ -87,6 +87,13 @@ const Header = () => {
 
   const openCatalog = () => {
     setCatalogOpen(!isCatalogOpen);
+  };
+
+  const clickSearchedLink = () => {
+    setSearchOpen(false);
+    setSearching(false);
+    setSearchText('');
+    setReceivedSearchItems([]);
   };
 
   const changeSearchText = async e => {
@@ -235,12 +242,28 @@ const Header = () => {
                     </div>
                   }
                 </div>
-                <Input
-                  placeholder={lang === 'ua' ? 'Введіть свій запит' : 'Введите свой запрос'}
-                  value={searchText}
-                  input={changeSearchText}
-                  isSearch
-                />
+                <div id="searchInpAndResult">
+                  <Input
+                    placeholder={lang === 'ua' ? 'Введіть свій запит' : 'Введите свой запрос'}
+                    value={searchText}
+                    input={changeSearchText}
+                    addForCleaning={() => { setSearching(false) }}
+                    isSearch
+                  />
+                  {receivedSearchItems.length > 0 &&
+                    <div id="foundItems">
+                      {
+                        receivedSearchItems.map(({ _id, name, themes }) =>
+                          <Link to={`/item/${_id}`} key={`item_${_id}`} onClick={clickSearchedLink}>
+                            <div className="searchingItem">
+                              <div style={{ backgroundImage: `url('http://${domain}/${themes[0].main_photo}')` }} />
+                              <p>{name}</p>
+                            </div>
+                          </Link>)
+                      }
+                    </div>
+                  }
+                </div>
                 <MenuIcon img={scales} />
                 <MenuIcon img={favorite} />
                 <MenuIcon img={bin} />
@@ -265,7 +288,7 @@ const Header = () => {
           <div id="foundItems">
             {
               receivedSearchItems.map(({ _id, name, themes }) =>
-                <Link to={`/item/${_id}`} key={`item_${_id}`}>
+                <Link to={`/item/${_id}`} key={`item_${_id}`} onClick={clickSearchedLink}>
                   <div className="searchingItem">
                     <div style={{ backgroundImage: `url('http://${domain}/${themes[0].main_photo}')` }} />
                     <p>{name}</p>
