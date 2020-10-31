@@ -293,6 +293,10 @@
 }
 
 @media (min-width: 1024px) {
+  #itemPage {
+    margin: 0 auto;
+    max-width: 1386px;
+  }
   #itemPage #bread_crumbs {
     display: flex;
   }
@@ -335,15 +339,10 @@
   #itemPage #info_section #photos #photo_list {
     width: 250px;
     height: 75px;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    padding: 15px;
+    overflow: hidden;
   }
-  #itemPage #info_section #photos #photo_list #photo_moving_part {
-    display: inline-flex;
-  }
-  #itemPage #info_section #photos #photo_list #photo_moving_part .photo {
-    margin: 0 5px;
+  #itemPage #info_section #photos #photo_list .photo {
+    cursor: pointer;
     width: 55px;
     height: 55px;
     background-repeat: no-repeat;
@@ -351,12 +350,143 @@
     background-size: contain;
   }
   #itemPage #info_section #info_sec {
+    width: 477px;
+    height: 456px;
+    box-sizing: border-box;
+    padding: 15px;
     margin-left: 10px;
+  }
+  #itemPage #info_section #info_sec h2 {
+    font-family: "text", Arial, Helvetica, sans-serif;
+  }
+  #itemPage #info_section #info_sec .redBtn {
+    margin: 10px 0;
+    width: 200px;
+    height: 40px;
+  }
+  #itemPage #info_section #info_sec .item_property {
+    padding: 8px;
+  }
+  #itemPage #info_section #info_sec .item_property span {
+    font-size: 0.8rem;
+  }
+  #itemPage #info_section #info_sec #panel * {
+    cursor: pointer;
   }
   #itemPage #info_section #photos,
 #itemPage #info_section #info_sec {
     flex: 1;
     box-shadow: 0px 0px 3px 1px #00000040;
+  }
+  #itemPage #main_info_about .item_property {
+    max-width: 800px;
+  }
+  #itemPage #main_info_about .redBtn {
+    width: 250px;
+  }
+  #itemPage #main_info_about .comments {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+  }
+  #itemPage #main_info_about .comments .review {
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
+    display: flex;
+    border: 1px solid #d8d8d8;
+  }
+  #itemPage #main_info_about .comments .review .r_heading {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #d8d8d8;
+  }
+  #itemPage #main_info_about .comments .review .r_heading .author {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #itemPage #main_info_about .comments .review .r_heading .author * {
+    margin: 0;
+  }
+  #itemPage #main_info_about .comments .review .r_heading .author .a_name {
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
+  #itemPage #main_info_about .comments .review .r_heading .author .a_date {
+    font-size: 0.7rem;
+  }
+  #itemPage #main_info_about .comments .review .r_heading .comment_info {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+  }
+  #itemPage #main_info_about .comments .review .r_heading .comment_info img {
+    width: 17px;
+    height: 17px;
+    margin-right: 4px;
+  }
+  #itemPage #main_info_about .comments .review .r_heading .comment_info p {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+  #itemPage #main_info_about .comments .review .r_comment {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    border-bottom: 1px solid #d8d8d8;
+  }
+  #itemPage #main_info_about .comments .review .r_comment p {
+    margin: 0;
+    font-size: 0.8rem;
+    word-break: break-word;
+  }
+  #itemPage #main_info_about .comments .review .r_comment h3 {
+    margin: 5px 0;
+    font-size: 0.85rem;
+  }
+  #itemPage #main_info_about .comments .review .r_judging {
+    display: flex;
+    justify-content: space-between;
+  }
+  #itemPage #main_info_about .comments .review .r_judging button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    border-radius: 14px;
+    flex: 1;
+    margin: 10px 5px;
+    background-color: #f4f4f4;
+    transition: border 0.2s;
+    border: none;
+    border: 1px solid transparent;
+  }
+  #itemPage #main_info_about .comments .review .r_judging button:hover {
+    border: 1px solid black;
+    transition: border 0.3s;
+  }
+  #itemPage #main_info_about .comments .review .r_judging button:last-child img {
+    transform: rotate(180deg);
+  }
+  #itemPage #main_info_about .comments .review .r_judging button img {
+    width: 20px;
+    height: 20px;
+  }
+  #itemPage #main_info_about .comments .review .r_judging button span {
+    margin-left: 5px;
+    font-size: 0.7rem;
+  }
+  #itemPage #main_info_about .comments #showAllComments {
+    text-align: center;
+    font-size: 0.9rem;
+    margin: 0;
+    margin-top: 10px;
+    text-decoration: underline;
   }
 }
 

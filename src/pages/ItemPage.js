@@ -5,6 +5,9 @@ import RedButton from '../components/RedButton'
 import GreyBG from '../components/GreyBG'
 import Input from '../components/Input'
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+
 import plus from '../img/plus.png'
 import minus from '../img/minus.png'
 import like from '../img/like.svg'
@@ -277,11 +280,11 @@ function ItemPage({ match: { params: { itemId } } }) {
               <div id="panel">
                 <div id="favorite">
                   <img src={favorite} alt="favorite" />
-                  <span>{lang === 'ua' ? 'Порівняти' : 'Сравнить'}</span>
+                  <span>{lang === 'ua' ? 'У обране' : 'В избранное'}</span>
                 </div>
                 <div id="compare">
                   <img src={scales} alt="compare" />
-                  <span>{lang === 'ua' ? 'У обране' : 'В избранное'}</span>
+                  <span>{lang === 'ua' ? 'Порівняти' : 'Сравнить'}</span>
                 </div>
               </div>
               <h3 id="colors_picker">{lang === 'ua' ? 'Колір' : 'Цвет'}</h3>
@@ -360,7 +363,7 @@ function ItemPage({ match: { params: { itemId } } }) {
                   <span id="backToTheCatalog">Назад в каталог</span>
                   <img src={arrow_sign} alt="arrow" />
                 </Link>
-                <span>{item.name}</span>
+                <span>{[...item.name].length > 60 ? `${[...item.name].slice(0, 60).join('')}...` : item.name}</span>
               </div>
               <h1>{item.name}</h1>
               <div id="itemStars">
@@ -374,16 +377,93 @@ function ItemPage({ match: { params: { itemId } } }) {
               <section id="info_section">
                 <div id="photos">
                   <img src={`http://${domain}/${currentPhoto}`} alt="main_photo" id="main_photo" />
-                  <div id="photo_list">
-                    <div id="photo_moving_part">
-                      {
-                        item.themes[currentTheme].photos.map((photo, index) => <div onClick={changeMainPhoto} data-photo={photo} className="photo" key={`${photo}_${index}`} style={{ backgroundImage: `url('http://${domain}/${photo}')` }} />)
-                      }
-                    </div>
-                  </div>
+                  <Swiper
+                    id="photo_list"
+                    slidesPerView={3}>
+                    {
+                      item.themes[currentTheme].photos.map((photo, index) =>
+                        <SwiperSlide key={`${photo}_${index}`}>
+                          <div onClick={changeMainPhoto} data-photo={photo} className="photo" style={{ backgroundImage: `url('http://${domain}/${photo}')` }} />
+                        </SwiperSlide>)
+                    }
+                  </Swiper>
                 </div>
                 <div id="info_sec">
-
+                  <h2>{item.themes[currentTheme].price} грн</h2>
+                  <RedButton text={lang === 'ua' ? 'Купити' : 'Купить'} />
+                  <div id="panel">
+                    <div id="favorite">
+                      <img src={favorite} alt="favorite" />
+                      <span>{lang === 'ua' ? 'У обране' : 'В избранное'}</span>
+                    </div>
+                    <div id="compare">
+                      <img src={scales} alt="compare" />
+                      <span>{lang === 'ua' ? 'Порівняти' : 'Сравнить'}</span>
+                    </div>
+                  </div>
+                  <hr />
+                  <h3 id="main_features">{lang === 'ua' ? 'Ключові особливості' : 'Ключевые особенности'}</h3>
+                  {
+                    item.properties.slice(0, 3).map((property, index) => <Option {...property} key={`option_${index}`} />)
+                  }
+                  <hr />
+                  <h3 id="availble_shops_title">{lang === 'ua' ? 'Магазини де можна забрати товар' : 'Магазины , где можно забрать товар'}</h3>
+                  {
+                    item.available_shops.length > 0 ?
+                      <Fragment>
+                        {
+                          // eslint-disable-next-line
+                          item.available_shops.slice(0, 1).map((shopId, index) => {
+                            for (let city of cities) {
+                              for (let shop of city.shops) {
+                                if (shop._id === shopId) return <p className="available_shops" key={`${shopId}_${index}`} >{shop.name} - <b>{city.name[lang]}</b></p>;
+                                else return null;
+                              }
+                            }
+                          })
+                        }
+                      </Fragment>
+                      :
+                      <p className="available_shops">{lang === 'ua' ? 'Вибачте, але такого товару немає на складі' : 'Простите , но такого товара нет на складе'}</p>
+                  }
+                  <div id="colors">
+                    {
+                      item.themes.map(({ color }, index) => <Color item={item} red={red} grey={grey} pickedColorTheme={currentTheme} click={changeTheme} key={`color_${index}`} color={color} />)
+                    }
+                  </div>
+                </div>
+              </section>
+              <section id="main_info_about">
+                <div id="listOfProperties">
+                  <h2>Характеристики</h2>
+                  {
+                    item.properties.map((property, index) => <Option {...property} key={`option_${index}`} />)
+                  }
+                  <h2>{lang === 'ua' ? `Відгуки та питання ${item.reviews.length}` : `Отзывы и вопросы ${item.reviews.length}`}</h2>
+                  <RedButton click={openCommentMenu} text={lang === 'ua' ? 'Залишити відгук' : 'Оставить отзыв'} />
+                  <div className="comments">
+                    {item.reviews.length > 0 ?
+                      <Fragment>
+                        {showAllComments ?
+                          <Fragment>
+                            {
+                              item.reviews.map((review, index) => <Review {...review} key={`review_${index}`} />)
+                            }
+                            <p id="showAllComments" onClick={() => { setShowAllComments(false) }}>{lang === 'ua' ? 'Приховати частину коментарів' : 'Скрыть часть комментариев'}</p>
+                          </Fragment>
+                          :
+                          <Fragment>
+                            {
+                              item.reviews.slice(0, 3).map((review, index) => <Review {...review} key={`review_${index}`} />)
+                            }
+                            <p id="showAllComments" onClick={() => { setShowAllComments(true) }}>{lang === 'ua' ? 'Показати всі коментарі' : 'Показать все комментарии'}</p>
+                          </Fragment>
+                        }
+                      </Fragment>
+                      :
+                      <h3 id="no_comments">{lang === 'ua' ? 'Коментарів поки що немає. Станете першим?' : 'Отзывов пока нет. Станьте первым!'}</h3>
+                    }
+                  </div>
                 </div>
               </section>
             </Fragment>
