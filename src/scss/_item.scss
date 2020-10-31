@@ -179,8 +179,12 @@
   min-width: 280px;
   display: flex;
   background-color: $white;
-  img {
+  .item3_img {
     width: 50px;
+    height: 80px;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
     margin-right: 15px;
   }
   .item3SideInfo {

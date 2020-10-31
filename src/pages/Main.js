@@ -1,8 +1,10 @@
 import React, { Fragment, useEffect, useState, useContext } from 'react'
-import SlidingPartHOC from '../components/SlidingPart'
-import Slider from '../components/Slider'
 import TopItems from '../components/TopItems'
 import Map from '../components/Map'
+
+import SwiperCore, { Autoplay } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
 
 import { img, info, css } from '../context'
 import axios from 'axios'
@@ -13,14 +15,11 @@ const Main = () => {
   const { truck, checked, like } = useContext(img);
   const { red } = useContext(css).colors;
   const { text } = useContext(css).fonts;
-  const { lang, resolution , domain} = useContext(info);
+  const { lang, resolution, domain } = useContext(info);
   const [photosForSlider, setPhotosForSlider] = useState([]);
   const [banners, setBanners] = useState([]);
 
-  const ActualSlider = SlidingPartHOC(Slider, {
-    slides: photosForSlider,
-    isSlider: true
-  });
+  SwiperCore.use([Autoplay]);
 
   useEffect(() => {
     // Fetching slides for the slider
@@ -46,7 +45,22 @@ const Main = () => {
 
   return (
     <Fragment>
-      <ActualSlider slides={photosForSlider} />
+      <Swiper
+        id="mainSlider"
+        slidesPerView={1}
+        autoplay={{
+          disableOnInteraction: false
+        }}
+      >
+        {photosForSlider.length > 0 &&
+          photosForSlider.map((i , index) => <SwiperSlide key={`slide_${index}`}>
+            {resolution < 1024 ?
+              <div className="slide" style={{ backgroundImage: `url('http://${domain}/${i.mobile}')` }} /> :
+              <div className="slide" style={{ backgroundImage: `url('http://${domain}/${i.pc}')` }} />
+            }
+          </SwiperSlide>)
+        }
+      </Swiper>
       <div id="info_about_us">
         <div className="info_about_us_block">
           <img src={like} alt="info" />

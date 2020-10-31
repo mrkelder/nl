@@ -6,7 +6,6 @@ const SlidingPart = (OriginalComponent, addInfo) => {
   return class extends Component {
     constructor(props) {
       super(props);
-
       this.SlidingPartRef = React.createRef();
       this.SliderPanelRef = React.createRef();
 

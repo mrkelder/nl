@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './pages/Main'
+import ItemPage from './pages/ItemPage'
 import Store from './pages/Store'
 import Footer from './components/Footer'
 import NotFound from './components/404'
+import Account from './pages/Account'
 import { info as Info, css as CSS, img as Img } from './context'
 import './css/index.css'
+import axios from 'axios'
 
+import settings from './img/settings.png'
 import filter from './img/filter.png'
 import notFound from './img/notFound.jpg'
 import cross from './img/cross.svg'
@@ -44,6 +48,7 @@ import mc from './img/mc.png'
 import vvmc from './img/vvmc.svg'
 import trippleDots from './img/trippleDots.png'
 import pageNotFoundFace from './img/404.png'
+import loading from './img/loading.gif'
 
 class App extends Component {
   constructor(props) {
@@ -54,6 +59,8 @@ class App extends Component {
       hasError: false,
       domain: 'localhost:8080',  // must be localhost:8080 by default
       resolution: document.getElementsByTagName('body')[0].clientWidth,
+      user: {},
+      allInfoAboutUser: {},
       colors: {
         white: '#FFF',
         red: '#e60000',
@@ -73,6 +80,7 @@ class App extends Component {
         catalogIcon,
         logo,
         arrow_sign,
+        loading,
         arrow_sign_white,
         helper,
         search,
@@ -103,15 +111,18 @@ class App extends Component {
         mc,
         vvmc,
         notFound,
-        filter
+        filter,
+        settings
       }
     };
     this.changeLang = this.changeLang.bind(this);
     this.changeResolution = this.changeResolution.bind(this);
+    this.lookForUserExistence = this.lookForUserExistence.bind(this);
+    this.changeUserObject = this.changeUserObject.bind(this);
+    this.changeAllInfoAboutUser = this.changeAllInfoAboutUser.bind(this);
   }
 
-  componentDidMount() {
-
+  async componentDidMount() {
     window.addEventListener('resize', () => {
       this.changeResolution(document.getElementsByTagName('body')[0].clientWidth);
     });
@@ -119,7 +130,16 @@ class App extends Component {
     if (localStorage.getItem('lang') === null) {
       localStorage.setItem('lang', 'ua');
     }
+
+    if (localStorage.getItem('user')) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const { email, pass } = user;
+      const { data } = await axios.post(`http://${this.state.domain}/getUser`, { email, password: pass });
+      this.setState({ allInfoAboutUser: data });
+    }
+
     this.setState({ lang: localStorage.getItem('lang') });
+    this.setState({ user: JSON.parse(localStorage.getItem('user')) });
     document.getElementsByTagName('html')[0].setAttribute('lang', localStorage.getItem('lang'));
   }
 
@@ -127,6 +147,23 @@ class App extends Component {
     this.setState({
       resolution: document.getElementsByTagName('body')[0].clientWidth
     });
+  }
+
+  changeUserObject() {
+    this.setState({ user: JSON.parse(localStorage.getItem('user')) });
+  }
+
+  changeAllInfoAboutUser(info) {
+    this.setState({ allInfoAboutUser: info });
+  }
+
+  async lookForUserExistence() {
+    if (localStorage.getItem('user')) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const { email, pass } = user;
+      const { data } = await axios.post(`http://${this.state.domain}/getUser`, { email, password: pass });
+      this.setState({ allInfoAboutUser: data });
+    }
   }
 
   changeLang() {
@@ -150,9 +187,9 @@ class App extends Component {
   }
 
   render() {
-    const { lang, colors, fonts, resolution, domain } = this.state;
+    const { lang, colors, fonts, resolution, domain, user, allInfoAboutUser } = this.state;
     if (this.state.hasError) {
-      return <p>Sorry , something went wrong. Examine an error in the console.</p>
+      return <p>Sorry , something went wrong. Examine an error in the console.</p>;
     }
     else {
       return (
@@ -161,7 +198,12 @@ class App extends Component {
             lang,
             changeLang: this.changeLang,
             resolution,
-            domain
+            domain,
+            user,
+            allInfoAboutUser,
+            lookForUserExistence: this.lookForUserExistence,
+            changeUserObject: this.changeUserObject,
+            changeAllInfoAboutUser: this.changeAllInfoAboutUser
           }}>
             <CSS.Provider value={{
               colors,
@@ -172,6 +214,7 @@ class App extends Component {
                 <main>
                   <Switch>
                     <Route path="/" exact component={Main} />
+                    <Route path="/account" exact component={Account} />
                     <Route path="/shop" exact render={() => <Redirect to="/" />} />
                     <Route path="/shop/:category" exact render={props =>
                       <CSS.Consumer>
@@ -184,8 +227,8 @@ class App extends Component {
                           </Info.Consumer>
                         }
                       </CSS.Consumer>
-
                     } />
+                    <Route exact path="/item/:itemId" render={props => <ItemPage {...props} />} />
                     <Route path="/*" exact render={() => <NotFound errorMessage={{ ua: 'Вибачте, але ми не змогли знайти таку сторінку', ru: 'Простите , но мы не смогли найти такую страницу' }} />} />
                   </Switch>
                 </main>

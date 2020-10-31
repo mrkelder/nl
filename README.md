@@ -189,9 +189,11 @@ Takes place in **src/App.js**.
 
 ```
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import Header from './components/Header'
 import Main from './pages/Main'
+import ItemPage from './pages/ItemPage'
+import Store from './pages/Store'
 import Footer from './components/Footer'
 import NotFound from './components/404'
 import { info as Info, css as CSS, img as Img } from './context'

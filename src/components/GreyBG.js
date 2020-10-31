@@ -13,7 +13,6 @@ class Grey_bg extends Component {
 
   componentDidMount() {
     const AppDiv = document.getElementsByClassName('App')[0];
-    console.log(AppDiv)
     AppDiv.style.overflow = 'hidden';
     AppDiv.style.height = '100vh';
 
@@ -36,7 +35,7 @@ class Grey_bg extends Component {
 
 Grey_bg.propTypes = {
   style: PropTypes.object,
-  children: PropTypes.element,
+  children: PropTypes.any,
   click: PropTypes.func
 }
 

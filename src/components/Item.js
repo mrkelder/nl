@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 const Item = ({ name, price, rating, link, photo, style, properties }) => {
 
   const roundedPrice = Math.round(rating);
-  const { resolution, lang , domain} = useContext(info);
+  const { resolution, lang, domain } = useContext(info);
 
   const { star, star_active, bin, favorite, trippleDots, scales, crossWhite } = useContext(img);
   const [stars, setStars] = useState([]);
@@ -27,7 +27,13 @@ const Item = ({ name, price, rating, link, photo, style, properties }) => {
   else return (
     <div className={`item${style}`}>
       {!(resolution >= 1024 && style === 3) &&
-        <img src={`http://${domain}/${photo}`} alt="item_photo" onMouseDown={makeUndraggble} className="noselect" />
+        <Fragment>
+          {style !== 3 ?
+            <img src={`http://${domain}/${photo}`} alt="item_photo" onMouseDown={makeUndraggble} className="noselect" />
+            :
+            <div className="noselect item3_img" style={{ backgroundImage: `url('http://${domain}/${photo}')` }} onMouseDown={makeUndraggble} />
+          }
+        </Fragment>
       }
       {style === 3 && resolution < 1024 &&
         <div className="item3SideInfo">
@@ -115,7 +121,9 @@ const Item = ({ name, price, rating, link, photo, style, properties }) => {
           </div>
           <div className="item3Panel">
             <span className="price">{price} грн</span>
-            <RedButton text={lang === 'ua' ? 'Детальніше' : 'Подробнее'} />
+            <Link to={`/item/${link}`}>
+              <RedButton text={lang === 'ua' ? 'Детальніше' : 'Подробнее'} />
+            </Link>
             <div className="item3MenuButtons">
               <div className="item3MenuButton">
                 <img src={favorite} alt="favorite" />

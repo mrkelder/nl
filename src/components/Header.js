@@ -14,7 +14,7 @@ const Header = () => {
   const infoContext = useContext(info);
   const cssContext = useContext(css);
   const imgContext = useContext(img);
-  const { domain } = infoContext;
+  const { domain, allInfoAboutUser } = infoContext;
 
   const [chosenItem, setChosenItem] = useState(null);
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -27,6 +27,8 @@ const Header = () => {
   const [searchText, setSearchText] = useState('');
   const [catalog, setCatalog] = useState([]);
   const [subItems, setSubItems] = useState([]);
+  const [receivedSearchItems, setReceivedSearchItems] = useState([]);
+  const [searching, setSearching] = useState(false);
   const [subItemsName, setSubItemsName] = useState('none');
   const [subItemsLeft, setSubItemsLeft] = useState('95vw');
   const { lang, changeLang, resolution } = infoContext;
@@ -87,9 +89,19 @@ const Header = () => {
     setCatalogOpen(!isCatalogOpen);
   };
 
-  const changeSearchText = e => {
+  const clickSearchedLink = () => {
+    setSearchOpen(false);
+    setSearching(false);
+    setSearchText('');
+    setReceivedSearchItems([]);
+  };
+
+  const changeSearchText = async e => {
     // Changes search's value
     setSearchText(e);
+    const { data } = await axios.get(`http://${domain}/searchItem`, { params: { text: e } });
+    setReceivedSearchItems(data);
+    if ([...e].length > 0) setSearching(true);
   };
 
   const openSubItems = e => {
@@ -126,6 +138,7 @@ const Header = () => {
     else {
       setSearchOpen(true);
     }
+    setSearching(!searching);
   };
 
   const SearchIcon = props => <img src={search} alt="search" className="search_icon" onClick={props.click} />;
@@ -174,7 +187,9 @@ const Header = () => {
                   </div>
                   <div id="user_h">
                     <img src={no_account_logo_white} alt="user_logo" className="arrow" />
-                    <span className="noselect">{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
+                    <Link to="/account" >
+                      <span className="noselect">{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -227,12 +242,28 @@ const Header = () => {
                     </div>
                   }
                 </div>
-                <Input
-                  placeholder={lang === 'ua' ? 'Введіть свій запит' : 'Введите свой запрос'}
-                  value={searchText}
-                  input={changeSearchText}
-                  isSearch
-                />
+                <div id="searchInpAndResult">
+                  <Input
+                    placeholder={lang === 'ua' ? 'Введіть свій запит' : 'Введите свой запрос'}
+                    value={searchText}
+                    input={changeSearchText}
+                    addForCleaning={() => { setSearching(false) }}
+                    isSearch
+                  />
+                  {receivedSearchItems.length > 0 &&
+                    <div id="foundItems">
+                      {
+                        receivedSearchItems.map(({ _id, name, themes }) =>
+                          <Link to={`/item/${_id}`} key={`item_${_id}`} onClick={clickSearchedLink}>
+                            <div className="searchingItem">
+                              <div style={{ backgroundImage: `url('http://${domain}/${themes[0].main_photo}')` }} />
+                              <p>{name}</p>
+                            </div>
+                          </Link>)
+                      }
+                    </div>
+                  }
+                </div>
                 <MenuIcon img={scales} />
                 <MenuIcon img={favorite} />
                 <MenuIcon img={bin} />
@@ -251,7 +282,22 @@ const Header = () => {
               input={changeSearchText}
               color="transparent"
               isSearch
+              addForCleaning={() => { setSearching(false) }}
             />
+          </div>
+          <div id="foundItems">
+            {
+              receivedSearchItems.map(({ _id, name, themes }) =>
+                <Link to={`/item/${_id}`} key={`item_${_id}`} onClick={clickSearchedLink}>
+                  <div className="searchingItem">
+                    <div style={{ backgroundImage: `url('http://${domain}/${themes[0].main_photo}')` }} />
+                    <p>{name}</p>
+                  </div>
+                </Link>)
+            }
+            {receivedSearchItems.length === 0 && searching &&
+              <h3 id="nothing_found">Ничего не найдено</h3>
+            }
           </div>
         </GreyBG>
       }
@@ -310,8 +356,10 @@ const Header = () => {
           <nav id="menu">
             <section id="sec1">
               <div id="user">
-                <img src={no_account_logo} alt="user_logo" />
-                <span>{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
+                <img src={allInfoAboutUser.photo !== 'default' ? `http://${domain}/${allInfoAboutUser.photo}` : no_account_logo} alt="user_logo" />
+                <Link to="/account" onClick={openMenu}>
+                  <span>{lang === 'ua' ? 'Мій обліковий запис' : 'Моя учетная запись'}</span>
+                </Link>
               </div>
               <CloseBtn click={openMenu} />
             </section>

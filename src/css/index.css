@@ -119,6 +119,11 @@ button {
   width: 15px;
 }
 
+.loading_img {
+  margin: 0 auto;
+  width: 35px;
+}
+
 .redBtn {
   display: flex;
   justify-content: center;
@@ -129,7 +134,12 @@ button {
   font-family: "text", Arial, Helvetica, sans-serif;
   font-size: 1rem;
   color: white;
+  transition: 0.2s;
   padding: 10px;
+}
+.redBtn:hover {
+  background-color: #ff0000;
+  transition: background-color 0.3s;
 }
 
 .divider {
