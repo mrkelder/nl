@@ -127,12 +127,12 @@ const Item = ({ name, price, rating, link, photo, style, properties }) => {
             <div className="item3MenuButtons">
               <div className="item3MenuButton">
                 <img src={favorite} alt="favorite" />
-                <span>{lang === 'ua' ? 'Детальніше' : 'Подробнее'}</span>
+                <span>{lang === 'ua' ? 'У обране' : 'В избранное'}</span>
               </div>
               <hr />
               <div className="item3MenuButton">
                 <img src={scales} alt="scales" />
-                <span>{lang === 'ua' ? 'Детальніше' : 'Подробнее'}</span>
+                <span>{lang === 'ua' ? 'Порівняти' : 'Сравнить'}</span>
               </div>
             </div>
           </div>
