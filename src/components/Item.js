@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 const Item = ({ name, price, rating, link, photo, style, properties }) => {
 
   const roundedPrice = Math.round(rating);
-  const { resolution, lang, domain } = useContext(info);
+  const { resolution, lang, domain, addItemToBin } = useContext(info);
 
   const { star, star_active, bin, favorite, trippleDots, scales, crossWhite } = useContext(img);
   const [stars, setStars] = useState([]);

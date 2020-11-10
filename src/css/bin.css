@@ -1,0 +1,51 @@
+#binPage {
+  padding-top: 10px;
+}
+#binPage #backToTheCatalog {
+  font-size: 0.9rem;
+  margin: 10px;
+}
+#binPage #noItemsMessage {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#binPage #noItemsMessage #noItems {
+  margin: 5px 0 10px;
+  text-align: center;
+}
+#binPage #noItemsMessage #notFoundImage {
+  width: 30vw;
+}
+#binPage #itemsExist .binItem {
+  height: 75px;
+  display: flex;
+  padding: 5px 0;
+  box-shadow: 0 0 3px 0px #929292;
+  margin: 10px 15px;
+}
+#binPage #itemsExist .binItem .photo {
+  width: 75px;
+  height: 100%;
+  background-position: 50%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+#binPage #itemsExist .binItem .info {
+  flex: 1;
+}
+#binPage #itemsExist .binItem .info a {
+  font-size: 0.9rem;
+}
+#binPage #itemsExist .binItem .info .price {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #e60000;
+}
+#binPage #itemsExist .binItem img {
+  margin: 0 10px;
+  width: 25px;
+  height: 25px;
+}
+
+/*# sourceMappingURL=bin.css.map */

@@ -1,0 +1,53 @@
+@import "init";
+
+#binPage {
+  padding-top: 10px;
+  #backToTheCatalog {
+    font-size: 0.9rem;
+    margin: 10px;
+  }
+  #noItemsMessage {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    #noItems {
+      margin: 5px 0 10px;
+      text-align: center;
+    }
+    #notFoundImage {
+      width: 30vw;
+    }
+  }
+  #itemsExist {
+    .binItem {
+      height: 75px;
+      display: flex;
+      padding: 5px 0;
+      box-shadow: 0 0 3px 0px #929292;
+      margin: 10px 15px;
+      .photo {
+        width: 75px;
+        height: 100%;
+        background-position: 50%;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+      .info {
+        flex: 1;
+        a {
+          font-size: 0.9rem;
+        }
+        .price {
+          margin-top: 5px;
+          font-size: 0.8rem;
+          color: $red;
+        }
+      }
+      img {
+        margin: 0 10px;
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+}
