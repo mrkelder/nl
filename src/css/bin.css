@@ -43,6 +43,7 @@
   color: #e60000;
 }
 #binPage #itemsExist .binItem img {
+  cursor: pointer;
   margin: 0 10px;
   width: 25px;
   height: 25px;

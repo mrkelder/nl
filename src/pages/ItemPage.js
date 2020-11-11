@@ -198,7 +198,12 @@ function ItemPage({ match: { params: { itemId } } }) {
   }
 
   function buyItem() {
-    addItemToBin(item);
+    if (user && allInfoAboutUser) {
+      addItemToBin(item);
+    }
+    else{
+      history.push('/account');
+    }
   }
 
   function changeComment(text) {
@@ -281,8 +286,8 @@ function ItemPage({ match: { params: { itemId } } }) {
                 </div>
               </div>
               <p id="price">{item.themes[currentTheme].price} грн</p>
-              {bin.findIndex(binItem => binItem._id === item._id) === -1  ?
-                <RedButton click={buyItem} text={lang === 'ua' ? 'Купити' : 'Купить'} /> 
+              {bin.findIndex(binItem => binItem._id === item._id) === -1 ?
+                <RedButton click={buyItem} text={lang === 'ua' ? 'Купити' : 'Купить'} />
                 :
                 <RedButton click={buyItem} customStyle={2} text={lang === 'ua' ? 'Додано в кошик' : 'Добавлено в корзину'} />
               }
@@ -399,7 +404,11 @@ function ItemPage({ match: { params: { itemId } } }) {
                 </div>
                 <div id="info_sec">
                   <h2>{item.themes[currentTheme].price} грн</h2>
-                  <RedButton click={buyItem} text={lang === 'ua' ? 'Купити' : 'Купить'} />
+                  {bin.findIndex(binItem => binItem._id === item._id) === -1 ?
+                    <RedButton click={buyItem} text={lang === 'ua' ? 'Купити' : 'Купить'} />
+                    :
+                    <RedButton click={buyItem} customStyle={2} text={lang === 'ua' ? 'Додано в кошик' : 'Добавлено в корзину'} />
+                  }
                   <div id="panel">
                     <div id="favorite">
                       <img src={favorite} alt="favorite" />
