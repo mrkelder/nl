@@ -124,6 +124,7 @@ class App extends Component {
     this.changeAllInfoAboutUser = this.changeAllInfoAboutUser.bind(this);
     this.addItemToBin = this.addItemToBin.bind(this);
     this.removeItemFromBin = this.removeItemFromBin.bind(this);
+    this.cleanBin = this.cleanBin.bind(this);
   }
 
   async componentDidMount() {
@@ -179,6 +180,13 @@ class App extends Component {
     this.setState({ allInfoAboutUser: info });
   }
 
+  async cleanBin() {
+    this.setState({
+      bin: []
+    });
+    await axios.post(`http://${this.state.domain}/cleanBin`);
+  }
+
   async lookForUserExistence() {
     if (localStorage.getItem('user')) {
       const user = JSON.parse(localStorage.getItem('user'));
@@ -223,7 +231,7 @@ class App extends Component {
             domain,
             user,
             allInfoAboutUser,
-            payPalLink: 'https://www.paypal.com/sdk/js?client-id=Aag1-0V8S2yhNI1fQ1WT6kgCw65XiNYZTeo_wGnynba03RNdCjRv9RpPz6mO5qU3DWUjtWn2wcIHVVDk',
+            payPalClientId: 'Aag1-0V8S2yhNI1fQ1WT6kgCw65XiNYZTeo_wGnynba03RNdCjRv9RpPz6mO5qU3DWUjtWn2wcIHVVDk',
             lookForUserExistence: this.lookForUserExistence,
             changeUserObject: this.changeUserObject,
             changeAllInfoAboutUser: this.changeAllInfoAboutUser,
