@@ -199,9 +199,9 @@ function ItemPage({ match: { params: { itemId } } }) {
 
   function buyItem() {
     if (user && allInfoAboutUser) {
-      addItemToBin(item);
+      addItemToBin(item, currentTheme);
     }
-    else{
+    else {
       history.push('/account');
     }
   }

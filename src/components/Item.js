@@ -24,7 +24,7 @@ const Item = ({ name, price, rating, link, photo, style, properties, item }) => 
   };
 
   function addItemToBinFunc() {
-    addItemToBin(item);
+    addItemToBin(item, 0);
   }
 
   if (roundedPrice < 0 || roundedPrice > 5) throw new Error('Rating does not fit the requirements')
