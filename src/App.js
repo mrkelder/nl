@@ -151,7 +151,6 @@ class App extends Component {
   }
 
   addItemToBin(item) {
-    console.log(item)
     this.setState(({ bin }) => {
       if (bin.findIndex(element => element._id === item._id) === -1) {
         axios.post(`http://${this.state.domain}/getBinItem`, { productId: item._id, email: this.state.user.email, password: this.state.user.pass });

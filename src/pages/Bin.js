@@ -28,7 +28,7 @@ const Item = ({ id, name, photo, price }) => {
 }
 
 function Bin() {
-  const { bin, lang, resolution, user, allInfoAboutUser } = useContext(info);
+  const { bin, lang, resolution, user, allInfoAboutUser, removeItemFromBin } = useContext(info);
   const { pageNotFoundFace } = useContext(img);
   const history = useHistory();
   const [dataAboutUser, setDataAboutUser] = useState('');
@@ -38,7 +38,6 @@ function Bin() {
   const [paid, setPaid] = useState(false);
   const [error, setError] = useState(false);
   const [resultReady, setResultReady] = useState(false);
-
   useEffect(() => {
     if (!(user && allInfoAboutUser)) {
       history.push('/account');
@@ -51,7 +50,7 @@ function Bin() {
       bin.forEach(i => totalPrice += i.themes[0].price);
       setAmount(totalPrice * 2);
       setCheckout(true);
-      window.scroll({ top: 0 }); 
+      window.scroll({ top: 0 });
     }
   }
 
@@ -66,6 +65,7 @@ function Bin() {
   function successFunc(details, data) {
     setPaid(true);
     setResultReady(true);
+    bin.forEach(({ _id }) => removeItemFromBin(_id));
   }
 
   function errorFunc() {
