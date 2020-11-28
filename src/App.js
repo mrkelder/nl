@@ -50,6 +50,7 @@ import vvmc from './img/vvmc.svg'
 import trippleDots from './img/trippleDots.png'
 import pageNotFoundFace from './img/404.png'
 import loading from './img/loading.gif'
+import binChecked from './img/binChecked.png'
 
 class App extends Component {
   constructor(props) {
@@ -77,6 +78,7 @@ class App extends Component {
         header: 'header , Arial, Helvetica, sans-serif'
       },
       images: {
+        binChecked,
         pageNotFoundFace,
         trippleDots,
         catalogIcon,
@@ -149,6 +151,7 @@ class App extends Component {
   }
 
   addItemToBin(item) {
+    console.log(item)
     this.setState(({ bin }) => {
       if (bin.findIndex(element => element._id === item._id) === -1) {
         axios.post(`http://${this.state.domain}/getBinItem`, { productId: item._id, email: this.state.user.email, password: this.state.user.pass });

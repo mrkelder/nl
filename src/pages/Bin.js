@@ -5,9 +5,9 @@ import { PayPalButton } from "react-paypal-button-v2";
 
 import { Link, useHistory } from 'react-router-dom'
 import { info, img } from '../context'
-import '../css/bin.css'
 import success from '../img/success.png'
 import fail from '../img/fail.png'
+import '../css/bin.css'
 
 const Item = ({ id, name, photo, price }) => {
   const { domain, removeItemFromBin } = useContext(info);
@@ -51,6 +51,7 @@ function Bin() {
       bin.forEach(i => totalPrice += i.themes[0].price);
       setAmount(totalPrice * 2);
       setCheckout(true);
+      window.scroll({ top: 0 }); 
     }
   }
 
@@ -76,14 +77,14 @@ function Bin() {
     <Fragment>
       { paid &&
         <div id="payment_result">
-          <img src={success} alt="success"/>
+          <img src={success} alt="success" />
           <span>{lang === 'ua' ? "Ваше замовлення прийнято" : 'Ваш заказ принят'}</span>
           <Link to="/">{lang === 'ua' ? "Повернутися на головну" : 'Вернуться на главную'}</Link>
         </div>
       }
       { error &&
         <div id="payment_result">
-          <img src={fail} alt="success"/>
+          <img src={fail} alt="success" />
           <span>{lang === 'ua' ? "Вибачте, сталася помилка. Якщо ваші кошти були загублені, зв'яжіться з підтримкою" : 'Простите, произошла ошибка. Если ваши средства были утеряны, свяжитесь с поддержкой'}</span>
           <Link to="/">{lang === 'ua' ? "Повернутися на головну" : 'Вернуться на главную'}</Link>
         </div>
