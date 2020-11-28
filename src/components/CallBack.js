@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import { info, css } from '../context'
@@ -8,17 +8,19 @@ import Input from './Input'
 import RedButton from './RedButton'
 import '../css/callback.css'
 
-const CallBack = props => {
-  const infoContext = useContext(info);
-  const cssContext = useContext(css);
+const CallBack = ({ close, input }) => {
+  const { lang, domain, user, allInfoAboutUser } = useContext(info);
+  const { text_light_grey, red } = useContext(css).colors;
 
-  const { close, input } = props;
-  const { lang  , domain} = infoContext;
-
-  const { text_light_grey, red } = cssContext.colors;
   const [inputColor, setInputColor] = useState(text_light_grey);
   const [inputText, setInputText] = useState('');
   const condition = /^\+?(\d{2,3})?\s?\(?\d{2,3}\)?[ -]?\d{2,3}[ -]?\d{2,3}[ -]?\d{2,3}$/i;
+
+  useEffect(() => {
+    if (user && allInfoAboutUser) {
+      setInputText(allInfoAboutUser.phone);
+    }
+  }, [user, allInfoAboutUser]);
 
   const closeWindow = () => {
     close(false);
