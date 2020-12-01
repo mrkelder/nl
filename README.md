@@ -1,6 +1,6 @@
 # Online Shop "New London"
 
-## Version 0.4.0
+## Version 0.5.0
 
 This is my second project when I'm writing online shop. First I tried to write it in a plain front-end , but
 a bit later everything crashed accidentally. So now I'm rewriting the project again in order to practice React
