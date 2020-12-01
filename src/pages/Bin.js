@@ -1,7 +1,8 @@
 import React, { useEffect, useContext, Fragment, useState } from 'react'
 import RedButton from '../components/RedButton'
 import Input from '../components/Input'
-import { PayPalButton } from "react-paypal-button-v2";
+import { PayPalButton } from "react-paypal-button-v2"
+import axios from 'axios'
 
 import { Link, useHistory } from 'react-router-dom'
 import { info, img } from '../context'
@@ -28,7 +29,7 @@ const Item = ({ id, name, photo, price }) => {
 }
 
 function Bin() {
-  const { bin, lang, resolution, user, allInfoAboutUser, removeItemFromBin } = useContext(info);
+  const { bin, lang, resolution, user, allInfoAboutUser, removeItemFromBin, domain } = useContext(info);
   const { pageNotFoundFace } = useContext(img);
   const history = useHistory();
   const [dataAboutUser, setDataAboutUser] = useState('');
@@ -62,7 +63,9 @@ function Bin() {
     setPostOffice(e);
   }
 
-  function successFunc(details, data) {
+  async function successFunc(details, data) {
+    const { email, pass } = user;
+    await axios.post(`http://${domain}/getBoughtProduct`, { email, password: pass, bin });
     setPaid(true);
     setResultReady(true);
     bin.forEach(({ _id }) => removeItemFromBin(_id));
@@ -120,7 +123,7 @@ function Bin() {
               {bin.length > 0 ?
                 <div id="itemsExist">
                   {
-                    bin.map(({ _id, name, themes ,themeIndex}) => <Item id={_id} key={_id} name={name} photo={themes[themeIndex].main_photo} price={themes[themeIndex].price} />)
+                    bin.map(({ _id, name, themes, themeIndex }) => <Item id={_id} key={_id} name={name} photo={themes[themeIndex].main_photo} price={themes[themeIndex].price} />)
                   }
                   <RedButton text={lang === 'ua' ? 'Оформити замовлення' : 'Оформить заказ'} click={makeOrder} />
                 </div>

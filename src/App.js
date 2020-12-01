@@ -150,7 +150,7 @@ class App extends Component {
     document.getElementsByTagName('html')[0].setAttribute('lang', localStorage.getItem('lang'));
   }
 
-  addItemToBin(item , themeIndex) {
+  addItemToBin(item, themeIndex) {
     this.setState(({ bin }) => {
       if (bin.findIndex(element => element._id === item._id) === -1) {
         axios.post(`http://${this.state.domain}/getBinItem`, { productId: item._id, email: this.state.user.email, password: this.state.user.pass, themeIndex });
