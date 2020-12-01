@@ -65,7 +65,7 @@ function Bin() {
 
   async function successFunc(details, data) {
     const { email, pass } = user;
-    await axios.post(`http://${domain}/getBoughtProduct`, { email, password: pass, bin });
+    await axios.post(`http://${domain}/getBoughtProduct`, { email, password: pass, bin, name: dataAboutUser, address: postOffice });
     setPaid(true);
     setResultReady(true);
     bin.forEach(({ _id }) => removeItemFromBin(_id));
