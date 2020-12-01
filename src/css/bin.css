@@ -1,0 +1,103 @@
+#binPage {
+  max-width: 550px;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+#binPage #backToTheCatalog {
+  font-size: 0.9rem;
+  margin: 10px;
+}
+#binPage h1 {
+  margin: 15px 10px;
+}
+#binPage #noItemsMessage {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#binPage #noItemsMessage #noItems {
+  margin: 5px 0 10px;
+  text-align: center;
+}
+#binPage #noItemsMessage #notFoundImage {
+  width: 30vw;
+}
+#binPage #itemsExist {
+  display: flex;
+  flex-direction: column;
+}
+#binPage #itemsExist .redBtn {
+  margin: 10px;
+  box-sizing: border-box;
+}
+#binPage #itemsExist .binItem {
+  height: 75px;
+  display: flex;
+  padding: 5px 0;
+  box-shadow: 0 0 3px 0px #929292;
+  margin: 10px 15px;
+}
+#binPage #itemsExist .binItem .photo {
+  width: 75px;
+  height: 100%;
+  background-position: 50%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+#binPage #itemsExist .binItem .info {
+  flex: 1;
+}
+#binPage #itemsExist .binItem .info a {
+  font-size: 0.9rem;
+}
+#binPage #itemsExist .binItem .info .price {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #e60000;
+}
+#binPage #itemsExist .binItem img {
+  cursor: pointer;
+  margin: 0 10px;
+  width: 25px;
+  height: 25px;
+}
+
+#paymentPage {
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 10px 10px 0;
+}
+#paymentPage h1 {
+  margin-bottom: 10px;
+}
+#paymentPage .underlinedInput {
+  margin: 25px 0;
+}
+#paymentPage .underlinedInput input {
+  font-size: 0.9rem;
+}
+#paymentPage .checkInput h5 {
+  font-family: "header", Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+#payment_result {
+  margin: 50px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#payment_result img {
+  width: 75px;
+}
+#payment_result span {
+  text-align: center;
+  margin-top: 5px;
+}
+#payment_result a {
+  margin-top: 5px;
+  text-decoration: underline;
+}
+
+/*# sourceMappingURL=bin.css.map */

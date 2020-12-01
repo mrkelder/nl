@@ -30,7 +30,7 @@ function FadeButton({ text, isOpened, children }) {
 FadeButton.propTypes = {
   text: PropTypes.string,
   isOpened: PropTypes.bool,
-  children: PropTypes.array
+  children: PropTypes.any
 }
 
 export default FadeButton

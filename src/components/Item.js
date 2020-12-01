@@ -4,12 +4,12 @@ import RedButton from './RedButton'
 import { img, info } from '../context'
 import PropTypes from 'prop-types'
 
-const Item = ({ name, price, rating, link, photo, style, properties }) => {
-
+const Item = ({ name, price, rating, link, photo, style, properties, item }) => {
   const roundedPrice = Math.round(rating);
-  const { resolution, lang, domain } = useContext(info);
+  const { resolution, lang, domain, addItemToBin } = useContext(info);
+  const itemBin = useContext(info).bin;
 
-  const { star, star_active, bin, favorite, trippleDots, scales, crossWhite } = useContext(img);
+  const { star, star_active, bin, favorite, trippleDots, scales, crossWhite, binChecked } = useContext(img);
   const [stars, setStars] = useState([]);
   const [isItem2MenuOpen, setItem2MenuOpen] = useState(false);
 
@@ -22,6 +22,10 @@ const Item = ({ name, price, rating, link, photo, style, properties }) => {
   const openItem2SubMenu = () => {
     setItem2MenuOpen(!isItem2MenuOpen);
   };
+
+  function addItemToBinFunc() {
+    addItemToBin(item, 0);
+  }
 
   if (roundedPrice < 0 || roundedPrice > 5) throw new Error('Rating does not fit the requirements')
   else return (
@@ -72,7 +76,7 @@ const Item = ({ name, price, rating, link, photo, style, properties }) => {
                 <RedButton text={lang === 'ua' ? 'Детальніше' : 'Подробнее'} />
               </Link>
               <img src={favorite} alt="favorite" />
-              <img src={bin} alt="bin" />
+              <img src={itemBin.findIndex(i => i._id === item._id) === -1 ? bin : binChecked} alt="bin" onClick={addItemToBinFunc} />
             </div>
           }
         </Fragment>
@@ -88,7 +92,11 @@ const Item = ({ name, price, rating, link, photo, style, properties }) => {
           <Link to={`/item/${link}`}>
             <RedButton text={lang === 'ua' ? 'Детальніше' : 'Подробнее'} />
           </Link>
-          <RedButton text="В корзину" />
+          {itemBin.findIndex(i => i._id === item._id) === -1 ?
+            <RedButton text={lang === 'ua' ? 'У кошик' : 'В корзину'} click={addItemToBinFunc} />
+            :
+            <RedButton text={lang === 'ua' ? 'Додано в кошик' : 'Добавлено в корзину'} click={addItemToBinFunc} />
+          }
           <div className="item2_menu_bar">
             <button style={{ backgroundImage: `url('${favorite}')` }} />
             <button style={{ backgroundImage: `url('${scales}')` }} />
@@ -127,12 +135,12 @@ const Item = ({ name, price, rating, link, photo, style, properties }) => {
             <div className="item3MenuButtons">
               <div className="item3MenuButton">
                 <img src={favorite} alt="favorite" />
-                <span>{lang === 'ua' ? 'Детальніше' : 'Подробнее'}</span>
+                <span>{lang === 'ua' ? 'У обране' : 'В избранное'}</span>
               </div>
               <hr />
               <div className="item3MenuButton">
                 <img src={scales} alt="scales" />
-                <span>{lang === 'ua' ? 'Детальніше' : 'Подробнее'}</span>
+                <span>{lang === 'ua' ? 'Порівняти' : 'Сравнить'}</span>
               </div>
             </div>
           </div>

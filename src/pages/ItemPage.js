@@ -120,7 +120,7 @@ const ItemFadeButton = ({ text, children, checked, id, globalSetter }) => {
 
 function ItemPage({ match: { params: { itemId } } }) {
   const { star, star_active, favorite, scales, cross, arrow_sign } = useContext(img);
-  const { lang, domain, user, allInfoAboutUser, resolution } = useContext(info);
+  const { lang, domain, user, allInfoAboutUser, resolution, addItemToBin, bin } = useContext(info);
   const { red, grey } = useContext(css).colors;
   const [currentTheme, setCurrentTheme] = useState(0); // index of the current color theme
   const [currentPhoto, setCurrentPhoto] = useState('');
@@ -159,6 +159,7 @@ function ItemPage({ match: { params: { itemId } } }) {
       const { data } = await axios.get(`http://${domain}/getItem`, { params: { id: itemId } });
       setItem(data);
       setCurrentPhoto(data.themes[0].main_photo);
+      window.scroll({ top: 0 });
     }
     fetchData();
   }, [domain, itemId]);
@@ -194,6 +195,15 @@ function ItemPage({ match: { params: { itemId } } }) {
     const index = item.themes.findIndex(i => i.color === color);
     setCurrentTheme(index);
     setCurrentPhoto(item.themes[index].main_photo);
+  }
+
+  function buyItem() {
+    if (user && allInfoAboutUser) {
+      addItemToBin(item, currentTheme);
+    }
+    else {
+      history.push('/account');
+    }
   }
 
   function changeComment(text) {
@@ -276,7 +286,11 @@ function ItemPage({ match: { params: { itemId } } }) {
                 </div>
               </div>
               <p id="price">{item.themes[currentTheme].price} грн</p>
-              <RedButton text={lang === 'ua' ? 'Купити' : 'Купить'} />
+              {bin.findIndex(binItem => binItem._id === item._id) === -1 ?
+                <RedButton click={buyItem} text={lang === 'ua' ? 'Купити' : 'Купить'} />
+                :
+                <RedButton click={buyItem} customStyle={2} text={lang === 'ua' ? 'Додано в кошик' : 'Добавлено в корзину'} />
+              }
               <div id="panel">
                 <div id="favorite">
                   <img src={favorite} alt="favorite" />
@@ -390,7 +404,11 @@ function ItemPage({ match: { params: { itemId } } }) {
                 </div>
                 <div id="info_sec">
                   <h2>{item.themes[currentTheme].price} грн</h2>
-                  <RedButton text={lang === 'ua' ? 'Купити' : 'Купить'} />
+                  {bin.findIndex(binItem => binItem._id === item._id) === -1 ?
+                    <RedButton click={buyItem} text={lang === 'ua' ? 'Купити' : 'Купить'} />
+                    :
+                    <RedButton click={buyItem} customStyle={2} text={lang === 'ua' ? 'Додано в кошик' : 'Добавлено в корзину'} />
+                  }
                   <div id="panel">
                     <div id="favorite">
                       <img src={favorite} alt="favorite" />
