@@ -377,7 +377,7 @@ class Store extends Component {
                 <hr />
                 <div id="store_items" style={this.state.storeItemSize === 1 || this.state.storeItemSize === 3 ? { flexDirection: 'column' } : { flexDirection: 'row', justifyContent: 'center' }}>
                   {
-                    this.state.readyItems.map(i => <Item key={i._id} style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
+                    this.state.readyItems.map(i => <Item item={i} key={i._id} style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
                   }
                 </div>
               </div>
@@ -454,7 +454,7 @@ class Store extends Component {
                   <hr />
                   <div id="store_items" style={this.state.storeItemSize === 3 ? { flexDirection: 'column' } : { flexDirection: 'row' }}>
                     {
-                      this.state.readyItems.map(i => <Item key={i._id} properties={i.properties} style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
+                      this.state.readyItems.map(i => <Item item={i} key={i._id} properties={i.properties} style={this.state.storeItemSize} name={i.name} price={i.themes[0].price} link={i._id} photo={i.themes[0].main_photo} rating={i.themes[0].rating} />)
                     }
                   </div>
                 </div>

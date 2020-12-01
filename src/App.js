@@ -7,6 +7,7 @@ import Store from './pages/Store'
 import Footer from './components/Footer'
 import NotFound from './components/404'
 import Account from './pages/Account'
+import Bin from './pages/Bin'
 import { info as Info, css as CSS, img as Img } from './context'
 import './css/index.css'
 import axios from 'axios'
@@ -49,6 +50,7 @@ import vvmc from './img/vvmc.svg'
 import trippleDots from './img/trippleDots.png'
 import pageNotFoundFace from './img/404.png'
 import loading from './img/loading.gif'
+import binChecked from './img/binChecked.png'
 
 class App extends Component {
   constructor(props) {
@@ -61,6 +63,7 @@ class App extends Component {
       resolution: document.getElementsByTagName('body')[0].clientWidth,
       user: {},
       allInfoAboutUser: {},
+      bin: [],
       colors: {
         white: '#FFF',
         red: '#e60000',
@@ -75,6 +78,7 @@ class App extends Component {
         header: 'header , Arial, Helvetica, sans-serif'
       },
       images: {
+        binChecked,
         pageNotFoundFace,
         trippleDots,
         catalogIcon,
@@ -120,6 +124,9 @@ class App extends Component {
     this.lookForUserExistence = this.lookForUserExistence.bind(this);
     this.changeUserObject = this.changeUserObject.bind(this);
     this.changeAllInfoAboutUser = this.changeAllInfoAboutUser.bind(this);
+    this.addItemToBin = this.addItemToBin.bind(this);
+    this.removeItemFromBin = this.removeItemFromBin.bind(this);
+    this.cleanBin = this.cleanBin.bind(this);
   }
 
   async componentDidMount() {
@@ -135,12 +142,31 @@ class App extends Component {
       const user = JSON.parse(localStorage.getItem('user'));
       const { email, pass } = user;
       const { data } = await axios.post(`http://${this.state.domain}/getUser`, { email, password: pass });
-      this.setState({ allInfoAboutUser: data });
+      this.setState({ allInfoAboutUser: data, bin: data.bin });
     }
 
     this.setState({ lang: localStorage.getItem('lang') });
     this.setState({ user: JSON.parse(localStorage.getItem('user')) });
     document.getElementsByTagName('html')[0].setAttribute('lang', localStorage.getItem('lang'));
+  }
+
+  addItemToBin(item, themeIndex) {
+    this.setState(({ bin }) => {
+      if (bin.findIndex(element => element._id === item._id) === -1) {
+        axios.post(`http://${this.state.domain}/getBinItem`, { productId: item._id, email: this.state.user.email, password: this.state.user.pass, themeIndex });
+        item.themeIndex = themeIndex;
+        bin.push(item);
+        return { bin };
+      }
+    });
+  }
+
+  removeItemFromBin(id) {
+    this.setState(({ bin }) => {
+      axios.post(`http://${this.state.domain}/removeBinItem`, { productId: id, email: this.state.user.email, password: this.state.user.pass });
+      const newBin = bin.filter(i => i._id !== id);
+      return { bin: newBin };
+    })
   }
 
   changeResolution() {
@@ -155,6 +181,13 @@ class App extends Component {
 
   changeAllInfoAboutUser(info) {
     this.setState({ allInfoAboutUser: info });
+  }
+
+  async cleanBin() {
+    this.setState({
+      bin: []
+    });
+    await axios.post(`http://${this.state.domain}/cleanBin`);
   }
 
   async lookForUserExistence() {
@@ -187,7 +220,7 @@ class App extends Component {
   }
 
   render() {
-    const { lang, colors, fonts, resolution, domain, user, allInfoAboutUser } = this.state;
+    const { lang, colors, fonts, resolution, domain, user, allInfoAboutUser, bin } = this.state;
     if (this.state.hasError) {
       return <p>Sorry , something went wrong. Examine an error in the console.</p>;
     }
@@ -201,9 +234,13 @@ class App extends Component {
             domain,
             user,
             allInfoAboutUser,
+            payPalClientId: 'Aag1-0V8S2yhNI1fQ1WT6kgCw65XiNYZTeo_wGnynba03RNdCjRv9RpPz6mO5qU3DWUjtWn2wcIHVVDk',
             lookForUserExistence: this.lookForUserExistence,
             changeUserObject: this.changeUserObject,
-            changeAllInfoAboutUser: this.changeAllInfoAboutUser
+            changeAllInfoAboutUser: this.changeAllInfoAboutUser,
+            addItemToBin: this.addItemToBin,
+            bin,
+            removeItemFromBin: this.removeItemFromBin
           }}>
             <CSS.Provider value={{
               colors,
@@ -228,6 +265,7 @@ class App extends Component {
                         }
                       </CSS.Consumer>
                     } />
+                    <Route path="/bin" component={Bin} />
                     <Route exact path="/item/:itemId" render={props => <ItemPage {...props} />} />
                     <Route path="/*" exact render={() => <NotFound errorMessage={{ ua: 'Вибачте, але ми не змогли знайти таку сторінку', ru: 'Простите , но мы не смогли найти такую страницу' }} />} />
                   </Switch>

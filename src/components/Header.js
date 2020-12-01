@@ -34,7 +34,7 @@ const Header = () => {
   const { lang, changeLang, resolution } = infoContext;
 
   const { catalogIcon, logo, arrow_sign, arrow_sign_white, helper, search, menu, no_account_logo, no_account_logo_white, bin, house, favorite, scales, geo_sign, geo_sign_white } = imgContext;
-  const links = [{ name: { ua: 'На головну', ru: 'На главную' }, img: house, link: '/' }, { name: { ua: 'Порівняння товарів', ru: 'Сравнение товаров' }, img: scales, link: '/' }, { name: { ua: 'Обране', ru: 'Избранное' }, img: favorite, link: '/' }, { name: { ua: 'Кошик', ru: 'Карзина' }, img: bin, link: '/' },];
+  const links = [{ name: { ua: 'На головну', ru: 'На главную' }, img: house, link: '/' }, { name: { ua: 'Порівняння товарів', ru: 'Сравнение товаров' }, img: scales, link: '/' }, { name: { ua: 'Обране', ru: 'Избранное' }, img: favorite, link: '/' }, { name: { ua: 'Кошик', ru: 'Корзина' }, img: bin, link: '/bin' },];
   const grey_links = [{ name: { ua: 'Доставка та оплата', ru: 'Доставка и оплата' }, link: '/' }, { name: { ua: 'Гарантія', ru: 'Гарантия' }, link: '/' }, { name: { ua: 'Акції', ru: 'Акции' }, link: '/' }, { name: { ua: 'Магазини', ru: 'Магазины' }, link: '/' }];
   const { white, light_grey } = cssContext.colors;
 
@@ -266,7 +266,9 @@ const Header = () => {
                 </div>
                 <MenuIcon img={scales} />
                 <MenuIcon img={favorite} />
-                <MenuIcon img={bin} />
+                <Link to="/bin">
+                  <MenuIcon img={bin} />
+                </Link>
               </div>
             </section>
           </Fragment>

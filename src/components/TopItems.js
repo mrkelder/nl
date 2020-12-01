@@ -13,6 +13,7 @@ const SlidingPartOfTopItems = ({ allowedAmountOfItems, items, resolution }) => <
     items.map((item, index) =>
       <SwiperSlide key={`${item._id}_${index}`} className="swiperSlide">
         <Item
+          item={item}
           name={item.name}
           price={item.themes[0].price}
           rating={item.themes[0].rating}
