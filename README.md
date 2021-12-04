@@ -1,4 +1,8 @@
-# Online Shop "New London"
+# Online Shop "New London" (Deprecated)
+
+![Deprecated](https://img.shields.io/badge/status-deprecated-red)
+
+Look for a [newer version](https://github.com/mrkelder/online-digital-shop)
 
 ## Version 0.5.0
 
